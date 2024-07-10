@@ -1,0 +1,32 @@
+<header>
+    <div class="navbar">
+        <div class="logo-container">
+            <div class="logo">
+                <img class="logo-img" src="assets/img/itsquarehub_logo.png" alt="Logo" />
+                <div class="logo-text"><a routerLink="/">ITSquarehub</a></div>
+            </div>
+        </div>
+        <ul class="links">
+            <li *ngFor="let item of navbarData">
+                <a class="navlink" [routerLink]="item.routeLink" routerLinkActive="selectedlink">
+                    {{ item.label }}
+                </a>
+            </li>
+        </ul>
+        <a routerLink="/login" class="action_button">Login</a>
+        <div class="toogle_btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+    <div class="dropdown_menu">
+        <li *ngFor="let item of navbarData">
+            <a class="navlink" [routerLink]="item.routeLink" routerLinkActive="selectedlink">
+                {{ item.label }}
+            </a>
+        </li>
+        <li><a routerLink="/login" class="action_button">Login</a></li>
+    </div>
+</header>
+
+
+

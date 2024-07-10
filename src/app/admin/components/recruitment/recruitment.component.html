@@ -1,0 +1,264 @@
+<h1>Recruitment</h1>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div style="height: 50px"></div>
+
+<mat-stepper [linear]="isLinear" #stepper style="width: 100%">
+    <!-- FIRST STEP: Personal Information -->
+    <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Personal Information</ng-template>
+
+            <!-- Row 1 - Name and Email -->
+            <div class="form-row">
+                <mat-form-field>
+                    <mat-label>Full Name</mat-label>
+                    <input matInput placeholder="ex. Juan D. Cruz" type="text" formControlName="firstCtrl" required />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Email Address</mat-label>
+                    <input matInput placeholder="ex. juancruz@gmail.com" type="email" formControlName="firstCtrl"
+                        required />
+                </mat-form-field>
+            </div>
+
+            <!-- Row 2 - Contact Number and CV Upload -->
+            <div class="form-row">
+                <mat-form-field>
+                    <mat-label>Contact Number</mat-label>
+                    <input matInput placeholder="ex. 9876543201" type="tel" formControlName="firstCtrl" required />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required />
+                </mat-form-field>
+            </div>
+
+            <div>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+
+    <!-- SECOND STEP: Application Details -->
+    <mat-step [stepControl]="secondFormGroup" label="Application Details">
+        <form [formGroup]="secondFormGroup">
+            <div class="form-row">
+                <mat-form-field>
+                    <mat-label>Job Role Number</mat-label>
+                    <input matInput formControlName="secondCtrl" placeholder="ex. JR-00001" required />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Job Role</mat-label>
+                    <input matInput formControlName="secondCtrl" placeholder="ex. HR Assistant" required />
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field><mat-label>Sourcing Tools</mat-label>
+                    <mat-select><mat-option value="one">JobStreet</mat-option>
+                        <mat-option value="two">Referral</mat-option>
+                        <mat-option value="three">LinkedIn</mat-option>
+                        <mat-option value="four">Indeed</mat-option>
+                        <mat-option value="five">Facebook</mat-option>
+                        <mat-option value="six">Jora</mat-option>
+                        <mat-option value="seven">Email</mat-option>
+                        <mat-option value="eight">OJT</mat-option>
+                        <mat-option value="nine">Others</mat-option></mat-select>
+                </mat-form-field>
+
+                <mat-form-field><mat-label>HR In-Charge</mat-label>
+                    <mat-select><mat-option value="one">Sherlyn</mat-option>
+                        <mat-option value="two">Khel</mat-option>
+                        <mat-option value="three">Jam</mat-option>
+                        <mat-option value="four">Others</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field>
+                    <mat-label>Job Offer</mat-label>
+                    <input matInput [matDatepicker]="Jobpicker" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="Jobpicker"></mat-datepicker-toggle>
+                    <mat-datepicker #Jobpicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Contract</mat-label>
+                    <input matInput [matDatepicker]="Contractpicker" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="Contractpicker"></mat-datepicker-toggle>
+                    <mat-datepicker #Contractpicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+
+    <!-- third row -->
+    <mat-step [stepControl]="thirdFormGroup" label="Agreed Figures">
+        <form [formGroup]="thirdFormGroup">
+            <div class="form-row">
+                <mat-form-field floatLabel="always">
+                    <mat-label>Asking Gross Salary</mat-label>
+                    <input matInput type="number" class="example-right-align" placeholder="0" />
+                    <span matTextPrefix>₱&nbsp;</span>
+                    <span matTextSuffix>.00</span>
+                </mat-form-field>
+
+                <mat-form-field><mat-label>Negotiable?</mat-label>
+                    <mat-select><mat-option value="one">Yes</mat-option>
+                        <mat-option value="two">No</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field floatLabel="always">
+                    <mat-label>Minimum Negotiated Salary</mat-label>
+                    <input matInput type="number" class="example-right-align" placeholder="0" />
+                    <span matTextPrefix>₱&nbsp;</span>
+                    <span matTextSuffix>.00</span>
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always">
+                    <mat-label>Maximum Negotiated Salary</mat-label>
+                    <input matInput type="number" class="example-right-align" placeholder="0" />
+                    <span matTextPrefix>₱&nbsp;</span>
+                    <span matTextSuffix>.00</span>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field floatLabel="always">
+                    <mat-label>Final Basic Salary</mat-label>
+                    <input matInput type="number" class="example-right-align" placeholder="0" />
+                    <span matTextPrefix>₱&nbsp;</span>
+                    <span matTextSuffix>.00</span>
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always">
+                    <mat-label>Allowances</mat-label>
+                    <input matInput type="number" class="example-right-align" placeholder="0" />
+                    <span matTextPrefix>₱&nbsp;</span>
+                    <span matTextSuffix>.00</span>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field>
+                    <mat-label>Honorarium</mat-label>
+                    <input matInput formControlName="thirdCtrl" placeholder="ex. N/A" required />
+                </mat-form-field>
+            </div>
+            <!-- end of 3rd step -->
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+
+    <mat-step [stepControl]="fourthFormGroup" label="Candidate Status">
+        <form [formGroup]="fourthFormGroup">
+            <!-- start of 4th step -->
+            <div class="form-row">
+                <mat-form-field><mat-label>Availability</mat-label>
+                    <mat-select><mat-option value="one">1 Week Notice</mat-option>
+                        <mat-option value="two">2 Week Notice</mat-option>
+                        <mat-option value="three">3 Week Notice</mat-option>
+                        <mat-option value="four">4 Week Notice or more</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Date Applied</mat-label>
+                    <input matInput [matDatepicker]="Applypicker" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="Applypicker"></mat-datepicker-toggle>
+                    <mat-datepicker #Applypicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field>
+                    <mat-label>Initial Interview Schedule</mat-label>
+                    <input matInput [matDatepicker]="Initialpicker" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="Initialpicker"></mat-datepicker-toggle>
+                    <mat-datepicker #Initialpicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Technical Interview Schedule</mat-label>
+                    <input matInput [matDatepicker]="Technicalpicker" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="Technicalpicker"></mat-datepicker-toggle>
+                    <mat-datepicker #Technicalpicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field>
+                    <mat-label> Client/ Final Interview Schedule</mat-label>
+                    <input matInput [matDatepicker]="Finalpicker" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="Finalpicker"></mat-datepicker-toggle>
+                    <mat-datepicker #Finalpicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Background Verification</mat-label>
+                    <input matInput [matDatepicker]="Backgroundpicker" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="Backgroundpicker"></mat-datepicker-toggle>
+                    <mat-datepicker #Backgroundpicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field><mat-label>Status</mat-label>
+                    <mat-select><mat-option value="one">Initial Interview</mat-option>
+                        <mat-option value="two">Technical Interview</mat-option>
+                        <mat-option value="three">Client Interview</mat-option>
+                        <mat-option value="four">No Show</mat-option>
+                        <mat-option value="five">Not Shortlisted</mat-option>
+                        <mat-option value="six">Retracted application</mat-option>
+                        <mat-option value="seven">Waiting for suitable client</mat-option>
+                        <mat-option value="eight">Blacklisted</mat-option>
+                        <mat-option value="nine">Sales Advice</mat-option>
+                        <mat-option value="ten">Congratulatory Email</mat-option>
+                        <mat-option value="eleven">Job Offer</mat-option>
+                        <mat-option value="twelve">Contract Preparation</mat-option>
+                        <mat-option value="thurteen">Onboarded</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Remarks</mat-label>
+                    <input matInput formControlName="fourthCtrl" placeholder="ex. Onboarded" required />
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperSubmit>Submit</button>
+            </div>
+        </form>
+    </mat-step>
+
+    <!-- <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step> -->
+</mat-stepper>

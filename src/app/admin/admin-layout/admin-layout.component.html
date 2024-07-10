@@ -1,0 +1,6 @@
+<app-admin-nav (onToggleSideNav)="onToggleSideNav($event)"></app-admin-nav>
+<div class="content" [class.collapsed]="isSideNavCollapsed">
+    <div class="body" [ngClass]="getBodyClass()">
+        <router-outlet></router-outlet>
+    </div>
+</div>

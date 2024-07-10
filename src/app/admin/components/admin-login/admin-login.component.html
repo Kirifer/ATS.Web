@@ -1,0 +1,53 @@
+<!-- <div class="login-container">
+    <div class="design-side">
+        <img src="assets/img/itsquarehub_logo.png" alt="" width="100">
+        <h2>IT Squarehub</h2>
+        <p class="tagline">Building Quality Service Without Compromise</p>
+        <p class="description">Embrace quality-driven strategies to transform your operation and achieve unparalleled success.</p>
+    </div>
+
+    <div class="login-side">
+        <h2>Hey there, Admin!</h2>
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="username">Admin Username</label>
+                <input type="text" id="username" name="username" class="form-control" [(ngModel)]="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" [(ngModel)]="password" required>
+            </div>
+            <a href="#">→ Forget Your Password? ←</a>
+            <button type="submit" class="btn btn-primary">Log In</button>
+        </form>
+    </div>
+</div> -->
+
+<div class="body">
+<div class="main-container">
+    <div class="container" id="container">
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-right">
+                    <img class="toggle-logo" src="assets/img/itsquarehub_logo.png" alt="" width="100">
+                    <div class="text-container">
+                        <h2 class="toggle-header">IT Squarehub</h2>
+                        <p class="toggle-subtext">Applicant Tracking System</p>
+                    </div>
+                    <p class="tagline">Building Quality Service Without Compromise</p>
+                    <p class="description">Embrace quality-driven strategies to transform your operation and achieve unparalleled success.</p>
+                </div>
+            </div>
+        </div>
+        <div class="form-container sign-in">
+            <form (ngSubmit)="onSubmit()">
+                <h1 class="form-header">Hey there, Admin!</h1>
+                <input placeholder="Username" type="text" id="username" name="username" class="form-control" [(ngModel)]="username" required>
+                <input placeholder="Password" type="password" id="password" name="password" class="form-control" [(ngModel)]="password" required>
+                <!-- <a href="#">→ Forget Your Password? ←</a> -->
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

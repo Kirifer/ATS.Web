@@ -1,0 +1,35 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-row {
+    display: flex;
+    /* Arrange elements side-by-side */
+    flex-wrap: wrap;
+    /* Allow elements to wrap on smaller screens */
+    margin: -10px;
+    /* Apply negative margin to elements to compensate
+                      for default margins and create spacing */
+}
+
+.form-row>* {
+    padding: 10px;
+    /* Add some padding to elements within the row */
+    flex: 1 0 50%;
+    /* Set width to 50% (adjust as needed) */
+}
+
+.example-right-align {
+    text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+}
+
+input.example-right-align {
+    -moz-appearance: textfield;
+}
