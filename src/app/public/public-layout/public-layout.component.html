@@ -1,0 +1,14 @@
+<div class="main-container">
+    <div class="content">
+        <div class="body" [ngClass]="{'body': !isAdminLogin, 'disabled-body': isAdminLogin}">
+            <div class="row" *ngIf="!isAdminLogin">
+                <app-public-nav></app-public-nav>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isAdminLogin">
+        <app-public-footer></app-public-footer>
+    </div>
+</div>
+

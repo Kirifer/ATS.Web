@@ -1,0 +1,39 @@
+
+<section class="home">
+    <div class="left-home-content">
+        <h1>Find your job today!</h1>
+        <h3>Building Quality Service Without Compromise</h3>
+        <p>Discover a new era of outsourcing that focuses on excellence. Join the ITS Family.</p>
+        <div class="btn-box">
+            <a routerLink="/recruitment">Apply Now!</a>
+        </div>
+    </div>
+    <div class="right-home-content">
+        <img src="/assets/img/Header_graphic.png" alt="Graphic Icon">
+    </div>
+</section>
+
+<section class="job-listing">
+    <h1 class="job-listing-header">Join Our Team</h1>
+    <div class="job-listing-container">
+        <div *ngFor="let job of jobs" class="job-listing-box">
+            <mat-card class="job-listing-card" appearance="outlined">
+                <mat-card-header class="job-listing-card-header">
+                    <mat-card-title class="job-listing-card-title">{{
+                        job.title
+                        }}</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content class="job-listing-card-content">
+                    <p>{{ job.description }}</p>
+                </mat-card-content>
+
+                <mat-card-footer class="job-listing-card-footer">
+                    <button mat-raised-button class="job-button" routerLink="/recruitment">
+                        Read More
+                    </button>
+                </mat-card-footer>
+            </mat-card>
+        </div>
+    </div>
+</section>
