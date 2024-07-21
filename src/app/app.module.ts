@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 
 import { AdminModule } from './admin/admin.module'; // Import AdminModule
 import { PublicModule } from './public/public.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +17,8 @@ import { PublicModule } from './public/public.module';
     AppRoutingModule,
     AdminModule,
     PublicModule,
+    HttpClientModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],

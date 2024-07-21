@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 
@@ -27,6 +27,8 @@ import { PublicNavComponent } from './components/public-nav/public-nav.component
 import { PublicLayoutComponent } from './public-layout/public-layout.component';
 import { PublicFooterComponent } from './components/public-footer/public-footer.component';
 import { RecruitmentComponent } from './components/recruitment/recruitment.component';
+import { RouterOutlet } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,10 @@ import { RecruitmentComponent } from './components/recruitment/recruitment.compo
     MatStepperModule,
     MatDatepickerModule,
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AsyncPipe,
+    RouterOutlet,
+    HttpClientModule
 
   ],
   providers: [provideNativeDateAdapter()]

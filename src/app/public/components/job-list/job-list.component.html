@@ -1,38 +1,55 @@
 <section class="job-listing">
     <h1 class="job-listing-header">Join Our Team</h1>
     <div class="job-listing-container">
-        <div *ngFor="let job of jobs" class="job-listing-box">
-            <mat-card class="job-listing-card" appearance="outlined">
-                <mat-card-header class="job-listing-card-header">
-                    <mat-card-title class="job-listing-card-title">{{
-                        job.title
-                        }}</mat-card-title>
-                </mat-card-header>
+        <div *ngIf="jobs$ | async as jobs; else loading">
+            <div *ngFor="let job of jobs" class="job-listing-box">
+                <mat-card class="job-listing-card" appearance="outlined">
+                    <mat-card-header class="job-listing-card-header">
+                        <mat-card-title class="job-listing-card-title">{{ job.jobTitle }}</mat-card-title>
+                    </mat-card-header>
 
-                <mat-card-content class="job-listing-card-content">
-                    <div class="job-details">
-                        <div class="job-location">
-                            <i class="fas fa-location-dot"></i>
-                            <span class="job-location-description">{{ job.location }}</span>
+                    <mat-card-content class="job-listing-card-content">
+                        <div class="job-details">
+                            <div class="job-location">
+                                <i class="fas fa-location-dot"></i>
+                                <span class="job-location-description">{{ job.jobLocation }}</span>
+                            </div>
+                            <div class="job-setting">
+                                <i class="fas fa-briefcase"></i>
+                                <span class="job-setting-description">{{ job.jobSetting }}</span>
+                            </div>
                         </div>
-                        <div class="job-setting">
-                            <i class="fas fa-briefcase"></i>
-                            <span class="job-setting-description">{{ job.setting }}</span>
-                        </div>
-                    </div>
-                </mat-card-content>
+                    </mat-card-content>
 
-                <mat-card-content class="job-listing-card-content">
-                    <p>{{ job.description }}</p>
-                </mat-card-content>
+                    <mat-card-content class="job-listing-card-content">
+                        <p>{{ job.jobDescription }}</p>
+                    </mat-card-content>
 
-                <mat-card-footer class="job-listing-card-footer">
-                    <button mat-raised-button class="job-button" routerLink="/recruitment">
-                        Read More
-                    </button>
-                    <span class="job-posted-time">{{ job.postedTime }}</span>
-                </mat-card-footer>
-            </mat-card>
+                    <mat-card-footer class="job-listing-card-footer">
+                        <button mat-raised-button class="job-button" routerLink="/recruitment">
+                            Read More
+                        </button>
+                        <span class="job-posted-time">{{ job.jobPosted }}</span>
+                    </mat-card-footer>
+                </mat-card>
+            </div>
         </div>
     </div>
 </section>
+
+<ng-template #loading>
+    <p>Loading...</p>
+</ng-template>
+
+<!-- <div *ngIf="jobs$ | async as jobs; else loading">
+    <div *ngFor="let job of jobs">
+        <h2>{{ job.job_title }}</h2>
+        <p>{{ job.job_location }}</p>
+        <p>{{ job.job_setting }}</p>
+        <p>{{ job.job_description }}</p>
+        <p>{{ job.job_posted }}</p>
+    </div>
+</div>
+<ng-template #loading>
+    <p>Loading...</p>
+</ng-template> -->
