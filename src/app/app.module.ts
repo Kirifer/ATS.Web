@@ -7,7 +7,9 @@ import { AppComponent } from './app.component';
 
 import { AdminModule } from './admin/admin.module'; // Import AdminModule
 import { PublicModule } from './public/public.module';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     AdminModule,
     PublicModule,
-    HttpClientModule
+    HttpClientModule,
+    NgApexchartsModule,
+    FormsModule
 
   ],
   providers: [],

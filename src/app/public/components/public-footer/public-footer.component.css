@@ -26,11 +26,13 @@
 }
 
 .footer-navigation {
-    display: flex
+    display: flex;
+    max-width: 40%;
 }
 
 .nav-section {
-    margin-left: 60px
+    /* flex: 1; */
+    margin-left: 60px;
 }
 
 .nav-section h5 {

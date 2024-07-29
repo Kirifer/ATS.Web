@@ -14,6 +14,7 @@ const routes: Routes = [
     path: '',
     component: PublicLayoutComponent,
     children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Redirect root to dashboard
       { path: 'dashboard', component: PublicDashboardComponent },
       { path: 'jobs', component: JobListComponent },
       { path: 'jobs/:id', component: JobDetailsComponent },

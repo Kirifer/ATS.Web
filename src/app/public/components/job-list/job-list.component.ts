@@ -154,7 +154,7 @@ export class JobListComponent implements OnInit {
     this.jobs$ = this.http.get<{ data: Job[] }>('https://localhost:7012/job_list').pipe(
       map(response => response.data),
       tap(data => console.log('Data received from backend:', data)), // Log the received data
-      catchError(error => {
+      catchError(error => { ``
         console.error('Error fetching jobs:', error);
         return throwError(() => new Error('Error fetching jobs'));
       })

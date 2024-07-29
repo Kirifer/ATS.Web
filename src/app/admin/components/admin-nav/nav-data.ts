@@ -10,17 +10,17 @@ export const navbarData = [
         label: 'New Candidate'
     },
     {
-        routeLink: 'statistics',
+        routeLink: 'candidates',
+        icon: 'fas fa-folder-open',
+        label: 'List of Candidates'
+    },    
+    {
+        routeLink: 'jobposting',
         icon: 'fas fa-chart-bar',
         label: 'Job Posting'
     },
     {
-        routeLink: 'coupens',
-        icon: 'fas fa-folder-open',
-        label: 'List of Candidates'
-    },
-    {
-        routeLink: 'settings',
+        routeLink: 'logout',
         icon: 'fas fa-angle-double-left',
         label: 'Log Out'
     },

@@ -94,7 +94,8 @@ header {
     background: linear-gradient(93.51deg, #9B51E0 2.84%, #3081ED 99.18%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    border-bottom: 1.5px solid #9B51E0;
+    /* border-bottom: 1.5px solid #9B51E0; */
+    font-weight: bold;
 }
 
 .navlink:not(:last-child) {

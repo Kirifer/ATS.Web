@@ -34,6 +34,7 @@
     top: 138px;
     filter: blur(90px);
     background-color: #fb37ff;
+    z-index: -1;
 }
 
 .body::after {
@@ -45,4 +46,5 @@
     top: 550px;
     background-color: #18b2de;
     filter: blur(80px);
+    z-index: -1;
 }

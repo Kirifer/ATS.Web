@@ -11,12 +11,12 @@ export const navbarData = [
         routeLink: '/about',
         label: 'About'
     },
-    {
-        routeLink: '/services',
-        label: 'Services'
-    },
-    {
-        routeLink: '/contact',
-        label: 'Contact'
-    }
+    // {
+    //     routeLink: '/services',
+    //     label: 'Services'
+    // },
+    // {
+    //     routeLink: '/contact',
+    //     label: 'Contact'
+    // }
 ];
