@@ -1,4 +1,5 @@
 export interface JobRoles {
+    sequenceNo: number;
     jobName: string;
     clientShortcodes: string;
     minSalary: number;
@@ -13,4 +14,5 @@ export interface JobRoles {
     jobStatus: string;
     openDate?: Date;
     closedDate?: Date;
+    aging?: string;
 }

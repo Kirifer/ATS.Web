@@ -6,8 +6,11 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AdminNavComponent } from './components/admin-nav/admin-nav.component';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
-import { RecruitmentComponent } from './components/recruitment/recruitment.component';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { AdminJobRolePostingComponent } from './components/admin-job-role-posting/admin-job-role-posting.component';
+import { AdminJobRoleExistingComponent } from './components/admin-job-role-existing/admin-job-role-existing.component';
+import { AdminJobCandidateCreationComponent } from './components/admin-job-candidate-creation/admin-job-candidate-creation.component';
+import { AdminJobCandidateExistingComponent } from './components/admin-job-candidate-existing/admin-job-candidate-existing.component';
 
 // Angular Material Modules
 import { MatSelectModule } from '@angular/material/select';
@@ -21,18 +24,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { CandidatesComponent } from './components/candidates/candidates.component';
-import { JobpostingComponent } from './components/jobposting/jobposting.component';
+
 
 @NgModule({
   declarations: [
     AdminDashboardComponent,
     AdminNavComponent,
     AdminLayoutComponent,
-    RecruitmentComponent,
     AdminLoginComponent,
-    CandidatesComponent,
-    JobpostingComponent,
+    AdminJobRolePostingComponent,
+    AdminJobRoleExistingComponent,
+    AdminJobCandidateCreationComponent,
+    AdminJobCandidateExistingComponent,
   ],
   imports: [
     CommonModule,

@@ -70,13 +70,13 @@
     flex-direction: column;
 }
 
-.job-location, .job-setting {
+.job-location, .job-setting, .job-roleLevel{
     display: flex;
     align-items: center;
     margin-top: 10px;
 }
 
-.job-setting-description, .job-location-description{
+.job-setting-description, .job-location-description, .job-roleLevel-description{
     margin-left: 10px;
 }
 

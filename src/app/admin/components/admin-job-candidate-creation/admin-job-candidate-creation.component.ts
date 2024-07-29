@@ -1,16 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { signal } from '@angular/core';
-
 @Component({
-  selector: 'app-recruitment',
-  templateUrl: './recruitment.component.html',
-  styleUrl: './recruitment.component.css',
+  selector: 'app-admin-job-candidate-creation',
+  templateUrl: './admin-job-candidate-creation.component.html',
+  styleUrl: './admin-job-candidate-creation.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecruitmentComponent {
+export class AdminJobCandidateCreationComponent {
   readonly panelOpenState = signal(false);
 
   hide = signal(true);

@@ -138,7 +138,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError, map, tap } from 'rxjs';
-import { Job } from '../../../models/job';
+// import { Job } from '../../../models/job';
+import { JobRoles } from '../../../models/job-roles';
 
 @Component({
   selector: 'app-job-list',
@@ -146,12 +147,12 @@ import { Job } from '../../../models/job';
   styleUrls: ['./job-list.component.css']
 })
 export class JobListComponent implements OnInit {
-  jobs$!: Observable<Job[]>;
+  jobs$!: Observable<JobRoles[]>;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.jobs$ = this.http.get<{ data: Job[] }>('https://localhost:7012/job_list').pipe(
+    this.jobs$ = this.http.get<{ data: JobRoles[] }>('https://localhost:7012/candidates').pipe(
       map(response => response.data),
       tap(data => console.log('Data received from backend:', data)), // Log the received data
       catchError(error => { ``

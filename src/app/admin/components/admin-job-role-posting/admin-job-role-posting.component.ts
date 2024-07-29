@@ -4,13 +4,12 @@ import { catchError, Observable, tap, throwError, map } from 'rxjs';
 import { JobRoles } from '../../../models/job-roles';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-
 @Component({
-  selector: 'app-jobposting',
-  templateUrl: './jobposting.component.html',
-  styleUrl: './jobposting.component.css',
+  selector: 'app-admin-job-role-posting',
+  templateUrl: './admin-job-role-posting.component.html',
+  styleUrl: './admin-job-role-posting.component.css'
 })
-export class JobpostingComponent implements OnInit{
+export class AdminJobRolePostingComponent implements OnInit {
   // jobroles$!: Observable<JobRoles[]>;
   jobroles: JobRoles[] = [];
   jobForm: FormGroup;
@@ -18,6 +17,7 @@ export class JobpostingComponent implements OnInit{
   constructor(public fb: FormBuilder, private http: HttpClient) {
     this.jobForm = this.fb.group({
       jobName: ['', Validators.required],
+      sequenceNo: [{ value: '', disabled: true }, Validators.required],
       clientShortcodes: ['', Validators.required],
       hiringManager: ['', Validators.required],
       salesManager: ['', Validators.required],
@@ -29,7 +29,8 @@ export class JobpostingComponent implements OnInit{
       jobLocation: ['', Validators.required],
       shiftSched: ['', Validators.required],
       jobStatus: ['', Validators.required],
-      closedDate: ['', Validators.required]
+      closedDate: ['', Validators.required],
+      aging: [{ value: '', disabled: true }, Validators.required] // Disable input in the form
     });
   }
 
@@ -51,6 +52,7 @@ export class JobpostingComponent implements OnInit{
           next: (response) => {
             console.log('Job submitted:', response);
             this.jobForm.reset();
+            this.setDefaultDropdownValues();
           },
           error: (error) => {
             console.error('Error creating job:', error);
@@ -59,6 +61,18 @@ export class JobpostingComponent implements OnInit{
     } else {
       console.log('Form is invalid');
     }
+  }
+
+  setDefaultDropdownValues(): void {
+    this.jobForm.patchValue({
+      jobStatus: '',
+      hiringManager: '',
+      salesManager: '',
+      hiringType: '',
+      roleLevel: '',
+      jobLocation: '',
+      shiftSched: ''
+    });
   }
 
   // onUpdate(id: string) {
