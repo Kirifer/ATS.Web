@@ -6,6 +6,7 @@ import { JobListComponent } from './components/job-list/job-list.component';
 import { JobDetailsComponent } from './components/job-details/job-details.component';
 import { ApplyJobComponent } from './components/apply-job/apply-job.component';
 import { RecruitmentComponent } from './components/recruitment/recruitment.component';
+import { PublicAboutComponent } from './components/public-about/public-about.component';
 
 import { AdminLoginComponent } from '../admin/components/admin-login/admin-login.component';
 
@@ -20,7 +21,8 @@ const routes: Routes = [
       { path: 'jobs/:id', component: JobDetailsComponent },
       { path: 'apply', component: ApplyJobComponent },
       { path: 'login', component: AdminLoginComponent },
-      { path: 'recruitment', component: RecruitmentComponent}
+      { path: 'recruitment', component: RecruitmentComponent},
+      { path: 'about', component: PublicAboutComponent }
     ],
   },
 ];

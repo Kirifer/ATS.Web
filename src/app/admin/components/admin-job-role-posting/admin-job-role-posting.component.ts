@@ -47,7 +47,7 @@ export class AdminJobRolePostingComponent implements OnInit {
 
   onSubmit(): void {
     if (this.jobForm.valid) {
-      this.http.post('https://localhost:7012/candidates', this.jobForm.value)
+      this.http.post('https://localhost:7012/jobrole', this.jobForm.value)
         .subscribe({
           next: (response) => {
             console.log('Job submitted:', response);

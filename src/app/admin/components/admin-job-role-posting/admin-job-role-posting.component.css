@@ -27,10 +27,10 @@ body {
 
 .container {
     position: relative;
-    max-width: 700px;
+    max-width: 800px;
     width: 100%;
     background: #fff;
-    padding: 25px;
+    padding: 40px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
@@ -55,7 +55,7 @@ body {
     color: #333;
 }
 
-.form :where(.input-box input, .select-box) {
+.form :where(.input-box input, .input-box select, .select-box) {
     position: relative;
     height: 50px;
     width: 100%;
@@ -68,8 +68,28 @@ body {
     padding: 0 15px;
 }
 
-.input-box input:focus {
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+.form :where(.input-box input, .input-box select, .select-box):focus,
+.styled-textarea:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.styled-textarea {
+/*Box model stuff*/
+    width: 100%;
+    height: 150px;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+/*Typography stuff*/
+    font-size: 14px;
+/*Miscellaneous*/
+    resize: vertical;
+    /* Allows the user to resize the textarea vertically */
+    box-sizing: border-box;
+    /* Ensures padding and border are included in the element's total width and height */
 }
 
 .form .column {
@@ -128,17 +148,21 @@ body {
     height: 55px;
     width: 100%;
     color: #fff;
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: 1.1rem;
     margin-top: 30px;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    background: rgb(130, 106, 251);
+    background-color: #844ddc;
+    font-weight: 500;
 }
 
 .form button:hover {
-    background: rgb(88, 56, 250);
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    transform: scale(1.05);
+    background-color: #d2a517;
+    color: white;
 }
 
 /*Responsive*/

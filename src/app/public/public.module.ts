@@ -29,6 +29,7 @@ import { PublicFooterComponent } from './components/public-footer/public-footer.
 import { RecruitmentComponent } from './components/recruitment/recruitment.component';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { PublicAboutComponent } from './components/public-about/public-about.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
     PublicLayoutComponent,
     PublicFooterComponent,
     RecruitmentComponent,
+    PublicAboutComponent,
   ],
   imports: [
     CommonModule,

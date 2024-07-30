@@ -152,7 +152,7 @@ export class JobListComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.jobs$ = this.http.get<{ data: JobRoles[] }>('https://localhost:7012/candidates').pipe(
+    this.jobs$ = this.http.get<{ data: JobRoles[] }>('https://localhost:7012/jobrole').pipe(
       map(response => response.data),
       tap(data => console.log('Data received from backend:', data)), // Log the received data
       catchError(error => { ``

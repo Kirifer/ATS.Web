@@ -1,5 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); */
-
 * {
     margin: 0;
     padding: 0;
@@ -14,62 +12,61 @@
     margin-bottom: 15px;
 }
 
-.formbold-relative {
-    position: relative;
-}
-
-.formbold-opacity-0 {
-    opacity: 0;
-}
-
-.formbold-stroke-current {
-    stroke: #ffffff;
-    z-index: 999;
-}
-
-#supportCheckbox:checked~div span {
-    opacity: 1;
-}
-
-#supportCheckbox:checked~div {
-    background: #6a64f1;
-    border-color: #6a64f1;
-}
-
 .formbold-main-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: wrap;
     padding: 48px;
+    gap: 4rem;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    
+}
+
+.left-section,
+.right-section {
+    padding: 20px;
+    background-color: rgba(9, 0, 45, 0.5);
+    border-radius: 10px;
+    border: 2px solid #fff;
+}
+
+.left-section {
+    flex: 0 0 50%;
+}
+
+.right-section {
+    flex: 0 0 30%;
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .left-section,
+    .right-section {
+        flex: 1 1 50%; /* Each section takes up 50% of the width */
+    }
+}
+
+@media (max-width: 768px) {
+    .left-section,
+    .right-section {
+        flex: 1 1 100%; /* Each section takes up 100% of the width */
+    }
 }
 
 .formbold-form-wrapper {
     margin: 0 auto;
     max-width: 570px;
-    /* max-width: 55%; */
     width: 100%;
-    background: white;
-    padding: 40px;
+    padding: 20px;
 }
 
-.formbold-img {
-    display: block;
-    margin: 0 auto 45px;
-}
-
-.formbold-input-wrapp>div {
-    display: flex;
-    gap: 20px;
-}
-
+.formbold-input-wrapp>div,
 .formbold-input-flex {
     display: flex;
     gap: 20px;
-    margin-bottom: 15px;
-}
-
-.formbold-input-flex>div {
-    width: 50%;
 }
 
 .formbold-form-input {
@@ -91,16 +88,17 @@ select.formbold-form-input,
 .formbold-form-input[type='date']::-webkit-datetime-edit-month-field,
 .formbold-form-input[type='date']::-webkit-datetime-edit-day-field,
 .formbold-form-input[type='date']::-webkit-datetime-edit-year-field {
-    color: rgba(83, 99, 135, 0.5);
+    color: rgba(54, 64, 87, 0.5);
 }
 
 .formbold-form-input:focus {
-    border-color: #6a64f1;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 .formbold-form-label {
-    color: #536387;
+    color: #ffffff;
     font-size: 14px;
     line-height: 24px;
     display: block;
@@ -159,7 +157,7 @@ select.formbold-form-input,
 .formbold-form-file:before {
     content: 'Upload';
     display: inline-block;
-    background: #EEEEEE;
+    background: #844ddc;
     border: 0.5px solid #E7E7E7;
     border-radius: 3px;
     padding: 3px 12px;
@@ -167,11 +165,18 @@ select.formbold-form-input,
     white-space: nowrap;
     -webkit-user-select: none;
     cursor: pointer;
-    color: #637381;
+    color: #ffffff;
     font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 14px;
+    line-height: 24px;
     margin-right: 10px;
+}
+
+.formbold-form-file:hover:before {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    transform: scale(1.05);
+    background-color: #d2a517;
+    color: white;
 }
 
 .formbold-btn {
@@ -195,16 +200,45 @@ select.formbold-form-input,
     color: white;
 }
 
-.formbold-w-45 {
-    width: 45%;
+.job-info-wrapper{
+    margin: 0 auto;
+    max-width: 700px;
+    width: 100%;
+    padding: 20px;
+    color: white;
 }
 
+.job-title {
+    color: #ffffff;
+    margin-top: 30px;
+    text-align: left;
+}
 
-.job-info-wrapper {
-    margin: 0 auto;
+.job-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ffffff;
+    /* Adds a solid line below the job container */
+    padding-bottom: 10px;
+    /* Adds some padding to create space between the content and the border */
+    margin-bottom: 10px;
+    /* Adds some margin to create space below the border */
+}
+
+.job-roleLevel,
+.job-location,
+.job-setting {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+i {
+    padding: 10px;
+}
+
+.job-description {
+    padding: 20px;
     max-width: 800px;
-    width: 100%;
-    background: white;
-    padding: 40px;
-    margin: 0 4rem;
+    margin: auto;
 }

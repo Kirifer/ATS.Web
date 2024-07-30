@@ -15,4 +15,5 @@ export interface JobRoles {
     openDate?: Date;
     closedDate?: Date;
     aging?: string;
+    daysCovered?: number;
 }

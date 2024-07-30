@@ -9,6 +9,10 @@
                     </mat-card-header>
 
                     <mat-card-content class="job-listing-card-content">
+                        <div class="job-roleLevel">
+                            <i class="fa-solid fa-person"></i>
+                            <span class="job-roleLevel-description">{{ job.roleLevel }}</span>
+                        </div>
                         <div class="job-details">
                             <div class="job-location">
                                 <i class="fas fa-location-dot"></i>
@@ -17,10 +21,6 @@
                             <div class="job-setting">
                                 <i class="fa-solid fa-clock"></i>
                                 <span class="job-setting-description">{{ job.shiftSched }}</span>
-                            </div>
-                            <div class="job-roleLevel">
-                                <i class="fa-solid fa-person"></i>
-                                <span class="job-roleLevel-description">{{ job.roleLevel }}</span>
                             </div>
                         </div>
                     </mat-card-content>
