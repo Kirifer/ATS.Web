@@ -58,7 +58,8 @@
                     <li>Excellent project management and organizational skills</li>
                     <li>Experience with design platforms</li>
                     <li>Organizational and time management skills</li>
-                    <li>Excellent written and oral communication skills, including the ability to effectively convey technical information to non-technical colleagues and clients</li>
+                    <li>Excellent written and oral communication skills, including the ability to effectively convey
+                        technical information to non-technical colleagues and clients</li>
                     <li>Critical thinking skills</li>
                     <li>Ability to prioritize and manage multiple simultaneous deadlines</li>
                     <li>Experience as a classroom instructor</li>
@@ -92,20 +93,67 @@
     <div class="right-section">
         <!-- Author: FormBold Team -->
         <!-- Learn More: https://formbold.com -->
-        <div class="formbold-form-wrapper">
+        <!-- <div class="formbold-form-wrapper">
             <img class="header_image" src="/assets/img/Recruitment_header.png">
             <form action="https://formbold.com/s/FORM_ID" method="POST">
                 <div class="formbold-input-wrapp formbold-mb-3">
-                    <label for="firstname" class="formbold-form-label"> Name </label>
 
-                    <div>
-                        <input type="text" name="firstname" id="firstname" placeholder="First name"
-                            class="formbold-form-input" />
-
-                        <input type="text" name="lastname" id="lastname" placeholder="Last name"
+                    <h2 class="formbold-form-heading">Personal Information</h2>
+                    <div class="formbold-mb-3">
+                        <input type="text" name="firstname" id="firstname" placeholder="Full Name"
                             class="formbold-form-input" />
                     </div>
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label for="post" class="formbold-form-label"> Email Address </label>
+                            <input type="text" name="post" id="post" placeholder="ex. juan.delacruz@outlook.com" class="formbold-form-input" />
+                        </div>
+                        <div>
+                            <label for="city" class="formbold-form-label"> Contact Number </label>
+                            <input type="text" name="city" id="city" placeholder="ex. 9123456789"
+                                class="formbold-form-input" />
+                        </div>
+                    </div>
                 </div>
+
+                <h2 class="formbold-form-heading">Figures</h2>
+                <div class="formbold-mb-3">
+
+                    <select class="formbold-form-input" name="occupation" id="occupation">
+                        <option hidden>Is the Salary Negotiable?</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="formbold-input-flex">
+                    <div>
+                        <label class="formbold-form-label">Minimum Negotiated Salary</label>
+                        <input class="formbold-form-input" type="number" placeholder="ex. 15000" required />
+                    </div>
+                    <div>
+                        <label class="formbold-form-label">Maximum Negotiated Salary</label>
+                        <input class="formbold-form-input" type="number" placeholder="ex. 18000" required />
+                    </div>
+                </div>
+
+                <h2 class="formbold-form-heading">Interview Schedule</h2>
+                <div class="formbold-input-flex">
+                    <div>
+                        <label class="formbold-form-label">Availability</label>
+                        <select class="formbold-form-input" name="occupation" id="occupation">
+                            <option>1 week notice</option>
+                            <option>2 weeks notice</option>
+                            <option>3 weeks notice</option>
+                            <option>4 weeks or more notice</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="dob" class="formbold-form-label"> Initial Interview </label>
+                        <input type="date" name="dob" id="dob" class="formbold-form-input" />
+                    </div>
+                </div>
+
 
                 <div class="formbold-mb-3">
                     <label for="age" class="formbold-form-label"> Age </label>
@@ -173,7 +221,7 @@
                     <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file" />
                 </div>
 
-                <!-- <div class="formbold-checkbox-wrapper">
+                <div class="formbold-checkbox-wrapper">
                             <label for="supportCheckbox" class="formbold-checkbox-label">
                                 <div class="formbold-relative">
                                     <input type="checkbox" id="supportCheckbox" class="formbold-input-checkbox" />
@@ -191,11 +239,83 @@
                                 I agree to the defined
                                 <a href="#"> terms, conditions, and policies</a>
                             </label>
-                        </div> -->
+                        </div>
 
                 <button class="formbold-btn">Apply Now</button>
             </form>
+        </div> -->
+
+        <div class="formbold-form-wrapper">
+            <img class="header_image" src="/assets/img/Recruitment_header.png">
+            <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="form">
+                <div class="formbold-input-wrapp formbold-mb-3">
+
+                    <h2 class="formbold-form-heading">Personal Information</h2>
+                    <div class="formbold-mb-3">
+                        <input type="text" name="firstname" id="firstname" placeholder="Full Name"
+                            class="formbold-form-input" formControlName="candidateName" />
+                    </div>
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label for="post" class="formbold-form-label"> Email Address </label>
+                            <input type="text" name="post" id="post" placeholder="ex. juan.delacruz@outlook.com" class="formbold-form-input" formControlName="candidateEmail"/>
+                        </div>
+                        <div>
+                            <label for="city" class="formbold-form-label"> Contact Number </label>
+                            <input type="text" name="city" id="city" placeholder="ex. 9123456789"
+                                class="formbold-form-input" formControlName="candidateContact" />
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="formbold-form-heading">Figures</h2>
+                <div class="formbold-mb-3">
+
+                    <select class="formbold-form-input" formControlName="salaryNegotiable">
+                        <option hidden>Is the Salary Negotiable?</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="formbold-input-flex">
+                    <div>
+                        <label class="formbold-form-label">Minimum Negotiated Salary</label>
+                        <input class="formbold-form-input" type="number" placeholder="ex. 15000" required formControlName="minSalary"/>
+                    </div>
+                    <div>
+                        <label class="formbold-form-label">Expected Gross Salary</label>
+                        <input class="formbold-form-input" type="number" placeholder="ex. 18000" required  formControlName="askingSalary">
+                    </div>
+                </div>
+
+                <h2 class="formbold-form-heading">Interview Schedule</h2>
+                <div class="formbold-input-flex">
+                    <div>
+                        <label class="formbold-form-label">Availability</label>
+                        <select class="formbold-form-input" formControlName="noticeDuration">
+                            <option>1 week notice</option>
+                            <option>2 weeks notice</option>
+                            <option>3 weeks notice</option>
+                            <option>4 weeks or more notice</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="dob" class="formbold-form-label"> Initial Interview </label>
+                        <input type="date" name="dob" id="dob" class="formbold-form-input" formControlName="initialInterviewSchedule" />
+                    </div>
+                </div>
+                <div class="formbold-mb-3">
+                    <label for="upload" class="formbold-form-label">
+                        Upload CV / Resume
+                    </label>
+                    <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file" formControlName="candidateCv" />
+                </div>
+                <button class="formbold-btn">Apply Now</button>
+            </form>
         </div>
+
+        
     </div>
 
 </div>

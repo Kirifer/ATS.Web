@@ -80,6 +80,7 @@
     color: #0f1013;
     outline: none;
     resize: none;
+    margin-bottom: 10px;
 }
 
 .formbold-form-input::placeholder,
@@ -103,6 +104,13 @@ select.formbold-form-input,
     line-height: 24px;
     display: block;
     margin-bottom: 10px;
+}
+
+.formbold-form-heading{
+    color: #ffffff;
+    line-height: 24px;
+    display: block;
+    margin: 15px 0;
 }
 
 .formbold-checkbox-label {
