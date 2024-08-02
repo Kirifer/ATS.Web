@@ -1,3 +1,44 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    position: relative;
+    max-width: 850px;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .job-posting {
     display: flex;
     flex-direction: column;
@@ -24,10 +65,10 @@ body {
 
 .container {
     position: relative;
-    max-width: 700px;
+    max-width: 800px;
     width: 100%;
     background: #fff;
-    padding: 25px;
+    padding: 40px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
@@ -52,7 +93,7 @@ body {
     color: #333;
 }
 
-.form :where(.input-box input, .select-box) {
+.form :where(.input-box input, .input-box select, .select-box) {
     position: relative;
     height: 50px;
     width: 100%;
@@ -65,8 +106,28 @@ body {
     padding: 0 15px;
 }
 
-.input-box input:focus {
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+.form :where(.input-box input, .input-box select, .select-box):focus,
+.styled-textarea:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.styled-textarea {
+/*Box model stuff*/
+    width: 100%;
+    height: 150px;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+/*Typography stuff*/
+    font-size: 14px;
+/*Miscellaneous*/
+    resize: vertical;
+    /* Allows the user to resize the textarea vertically */
+    box-sizing: border-box;
+    /* Ensures padding and border are included in the element's total width and height */
 }
 
 .form .column {
@@ -122,19 +183,18 @@ body {
 }
 
 .form button {
-    text-align: center;
+    height: 55px;
     width: 100%;
-    font-size: 16px;
+    color: #fff;
+    font-size: 1.1rem;
+    margin-top: 30px;
     border-radius: 5px;
-    padding: 14px 25px;
     border: none;
-    font-weight: 500;
-    background-color: #844ddc;
-    color: white;
     cursor: pointer;
-    margin-top: 25px;
+    transition: all 0.2s ease;
+    background-color: #844ddc;
+    font-weight: 500;
 }
-
 
 .form button:hover {
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
@@ -142,53 +202,6 @@ body {
     background-color: #d2a517;
     color: white;
 }
-
-.formbold-form-file {
-    padding: 12px;
-    font-size: 14px;
-    line-height: 24px;
-    color: rgba(83, 99, 135, 0.5);
-    border: none; /* Remove any default borders */
-}
-
-.formbold-form-file::-webkit-file-upload-button {
-    display: none;
-}
-
-.formbold-form-file:before {
-    content: 'Upload';
-    display: inline-block;
-    background: #844ddc;
-    border: 0.5px solid #E7E7E7;
-    border-radius: 3px;
-    padding: 3px 12px;
-    outline: none;
-    white-space: nowrap;
-    -webkit-user-select: none;
-    cursor: pointer;
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 24px;
-    margin-right: 10px;
-    margin-top: 8px;
-}
-
-.formbold-form-file:hover:before {
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
-    transform: scale(1.05);
-    background-color: #d2a517;
-    color: white;
-}
-
-.formbold-form-label {
-    color: #ffffff;
-    font-size: 14px;
-    line-height: 24px;
-    display: block;
-    margin-bottom: 10px;
-}
-
 
 /*Responsive*/
 @media screen and (max-width: 500px) {

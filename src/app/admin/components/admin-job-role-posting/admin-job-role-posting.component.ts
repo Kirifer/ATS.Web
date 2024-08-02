@@ -45,6 +45,19 @@ export class AdminJobRolePostingComponent implements OnInit {
     // );
   }
 
+  logValidationErrors(group: FormGroup = this.jobForm): void {
+    Object.keys(group.controls).forEach((key: string) => {
+      const control = group.get(key);
+      if (control instanceof FormGroup) {
+        this.logValidationErrors(control);
+      } else {
+        if (control && control.invalid) {
+          console.log(`Field ${key} is invalid. Errors:`, control.errors);
+        }
+      }
+    });
+  }
+
   onSubmit(): void {
     if (this.jobForm.valid) {
       this.http.post('https://localhost:7012/jobrole', this.jobForm.value)
@@ -60,6 +73,7 @@ export class AdminJobRolePostingComponent implements OnInit {
         });
     } else {
       console.log('Form is invalid');
+      this.logValidationErrors();
     }
   }
 
@@ -75,25 +89,25 @@ export class AdminJobRolePostingComponent implements OnInit {
     });
   }
 
-  // onUpdate(id: string) {
-  //   if (this.jobForm.valid) {
-  //     this.http.put(`https://localhost:7012/candidates/${id}`, this.jobForm.value).pipe(
-  //       tap(response => console.log('Job updated:', response)),
-  //       catchError(error => {
-  //         console.error('Error updating job:', error);
-  //         return throwError(() => new Error('Error updating job'));
-  //       })
-  //     ).subscribe();
-  //   }
-  // }
+  onUpdate(id: string) {
+    if (this.jobForm.valid) {
+      this.http.put(`https://localhost:7012/candidates/${id}`, this.jobForm.value).pipe(
+        tap(response => console.log('Job updated:', response)),
+        catchError(error => {
+          console.error('Error updating job:', error);
+          return throwError(() => new Error('Error updating job'));
+        })
+      ).subscribe();
+    }
+  }
 
-  // onDelete(id: string) {
-  //   this.http.delete(`https://localhost:7012/candidates/${id}`).pipe(
-  //     tap(response => console.log('Job deleted:', response)),
-  //     catchError(error => {
-  //       console.error('Error deleting job:', error);
-  //       return throwError(() => new Error('Error deleting job'));
-  //     })
-  //   ).subscribe();
-  // }
+  onDelete(id: string) {
+    this.http.delete(`https://localhost:7012/candidates/${id}`).pipe(
+      tap(response => console.log('Job deleted:', response)),
+      catchError(error => {
+        console.error('Error deleting job:', error);
+        return throwError(() => new Error('Error deleting job'));
+      })
+    ).subscribe();
+  }
 }

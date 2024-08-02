@@ -1,45 +1,8 @@
-// import { Component, signal } from '@angular/core';
-// import { ChangeDetectionStrategy } from '@angular/core';
-// import { FormBuilder, Validators } from '@angular/forms';
-
-// @Component({
-//   selector: 'app-admin-job-candidate-creation',
-//   templateUrl: './admin-job-candidate-creation.component.html',
-//   styleUrl: './admin-job-candidate-creation.component.css',
-//   changeDetection: ChangeDetectionStrategy.OnPush,
-// })
-// export class AdminJobCandidateCreationComponent {
-//   readonly panelOpenState = signal(false);
-
-//   hide = signal(true);
-//   clickEvent(event: MouseEvent) {
-//     this.hide.set(!this.hide);
-//     event.stopPropagation();
-//   }
-
-//   firstFormGroup = this._formBuilder.group({
-//     firstCtrl: ['', Validators.required],
-//   });
-//   secondFormGroup = this._formBuilder.group({
-//     secondCtrl: ['', Validators.required],
-//   });
-//   thirdFormGroup = this._formBuilder.group({
-//     thirdCtrl: ['', Validators.required],
-//   });
-//   fourthFormGroup = this._formBuilder.group({
-//     fourthCtrl: ['', Validators.required],
-//   });
-
-//   isLinear = false;
-
-//   constructor(private _formBuilder: FormBuilder) { }
-
-// }
-
 import { Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JobCandidate } from '../../../models/job-candidate';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { catchError, Observable, tap, throwError, map } from 'rxjs';
 
 @Component({
   selector: 'app-admin-job-candidate-creation',
@@ -62,23 +25,23 @@ export class AdminJobCandidateCreationComponent implements OnInit{
       candidateCv: ['', Validators.required],
       candidateEmail: ['', Validators.required],
       candidateContact: ['', Validators.required],
-      askingSalary: ['', Validators.required],
-      salaryNegotiable: ['', Validators.required],
-      minSalary: ['', Validators.required],
-      maxSalary: ['', Validators.required],
-      noticeDuration: ['', Validators.required],
+      askingSalary: [''],
+      salaryNegotiable: [''],
+      minSalary: [''],
+      maxSalary: [''],
+      noticeDuration: [''],
       dateApplied: ['', Validators.required],
       initialInterviewSchedule: ['', Validators.required],
       technicalInterviewSchedule: ['', Validators.required],
       clientFinalInterviewSchedule: ['', Validators.required],
       backgroundVerification: ['', Validators.required],
       applicationStatus: ['', Validators.required],
-      finalSalary: ['', Validators.required],
-      allowance: ['', Validators.required],
-      honorarium: ['', Validators.required],
-      jobOffer: ['', Validators.required],
-      candidateContract: ['', Validators.required],
-      remarks: ['', Validators.required]
+      finalSalary: [''],
+      allowance: [''],
+      honorarium: [''],
+      jobOffer: [''],
+      candidateContract: [''],
+      remarks: ['']
     });
   }
 
@@ -128,4 +91,27 @@ export class AdminJobCandidateCreationComponent implements OnInit{
       noticeDuration: ''
     });
   }
+
+  onUpdate(id: string) {
+    if (this.candidateForm.valid) {
+      this.http.put(`https://localhost:7012/candidates/${id}`, this.candidateForm.value).pipe(
+        tap(response => console.log('Job updated:', response)),
+        catchError(error => {
+          console.error('Error updating job:', error);
+          return throwError(() => new Error('Error updating job'));
+        })
+      ).subscribe();
+    }
+  }
+
+  onDelete(id: string) {
+    this.http.delete(`https://localhost:7012/candidates/${id}`).pipe(
+      tap(response => console.log('Job deleted:', response)),
+      catchError(error => {
+        console.error('Error deleting job:', error);
+        return throwError(() => new Error('Error deleting job'));
+      })
+    ).subscribe();
+  }
 }
+

@@ -1,4 +1,5 @@
 export interface JobRoles {
+    id: any;
     sequenceNo: number;
     jobName: string;
     clientShortcodes: string;

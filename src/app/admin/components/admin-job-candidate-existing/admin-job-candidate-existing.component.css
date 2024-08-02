@@ -1,0 +1,96 @@
+/* Container for the table with elevation */
+.mat-elevation-z8 {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Form field for filtering */
+/* .mat-form-field {
+    width: 100%;
+    margin-bottom: 20px;
+} */
+
+.filter {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Styles for the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Header cell styles */
+.mat-header-cell {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    color: #424242;
+    text-align: left;
+    padding: 8px;
+}
+
+/* Cell styles */
+.mat-cell {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Row styles */
+.mat-row {
+    &:nth-child(odd) {
+        background-color: #fafafa;
+    }
+}
+
+/* Paginator styles */
+
+.paginator {
+    background-color: transparent;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Styles for the paginator elements */
+.mat-paginator-page-size {
+    margin-right: 20px;
+}
+
+.mat-paginator-range-label {
+    margin-right: 20px;
+}
+
+/* Styles for the search form field */
+.search-form-field {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Input field styles */
+input[matInput] {
+    padding-left: 2px;
+    /* Space for the search icon */
+}
+
+/* Icon styles */
+.mat-icon {
+    margin-right: 8px;
+    color: #757575;
+    /* Adjust the color of the search icon */
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline-thickness {
+    color: #3f51b5;
+    /* Color for the outline */
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    border-color: #3f51b5;
+    /* Color for the outline */
+}

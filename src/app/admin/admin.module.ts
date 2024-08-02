@@ -15,7 +15,7 @@ import { AdminJobCandidateExistingComponent } from './components/admin-job-candi
 // Angular Material Modules
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { MatError, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +24,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { AdminJobRoleEditingComponent } from './components/admin-job-role-editing/admin-job-role-editing.component';
+import { AdminJobCandidateEditingComponent } from './components/admin-job-candidate-editing/admin-job-candidate-editing.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,8 @@ import { MatIconModule } from '@angular/material/icon';
     AdminJobRoleExistingComponent,
     AdminJobCandidateCreationComponent,
     AdminJobCandidateExistingComponent,
+    AdminJobRoleEditingComponent,
+    AdminJobCandidateEditingComponent,
   ],
   imports: [
     CommonModule,
@@ -49,10 +55,11 @@ import { MatIconModule } from '@angular/material/icon';
     MatStepperModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatDatepickerModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule
   ],
   providers: [provideNativeDateAdapter()],
 })
