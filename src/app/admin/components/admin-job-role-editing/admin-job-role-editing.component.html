@@ -1,8 +1,13 @@
 <div class="modal">
     <div class="modal-content">
+        <div class="icon-container">
+            <i class="fas fa-briefcase job-icon"></i>
+        </div>
+        <h1 class="job-editing-header">Edit Job Details</h1>
+        <!-- <h3 class="job-editing-subheader">Fill in the details to post a new job opportunity</h3> -->
         <section class="container">
             <span class="close" (click)="onClose()">&times;</span>
-            <header>Edit a Job Listing</header>
+            <!-- <header>Edit a Job Listing</header> -->
             <form [formGroup]="jobForm" (ngSubmit)="onUpdate()" class="form">
                 <h2>Job Details</h2>
                 <div class="column">

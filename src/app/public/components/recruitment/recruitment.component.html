@@ -247,23 +247,23 @@
 
         <div class="formbold-form-wrapper">
             <img class="header_image" src="/assets/img/Recruitment_header.png">
-            <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="form">
+            <form [formGroup]="recruitmentForm" (ngSubmit)="onSubmitHr()" class="form">
                 <div class="formbold-input-wrapp formbold-mb-3">
 
                     <h2 class="formbold-form-heading">Personal Information</h2>
                     <div class="formbold-mb-3">
                         <input type="text" name="firstname" id="firstname" placeholder="Full Name"
-                            class="formbold-form-input" formControlName="candidateName" />
+                            class="formbold-form-input" formControlName="candidateName" required/>
                     </div>
                     <div class="formbold-input-flex">
                         <div>
                             <label for="post" class="formbold-form-label"> Email Address </label>
-                            <input type="text" name="post" id="post" placeholder="ex. juan.delacruz@outlook.com" class="formbold-form-input" formControlName="candidateEmail"/>
+                            <input type="text" name="post" id="post" placeholder="ex. juan.delacruz@outlook.com" class="formbold-form-input" formControlName="candidateEmail" required/>
                         </div>
                         <div>
                             <label for="city" class="formbold-form-label"> Contact Number </label>
                             <input type="text" name="city" id="city" placeholder="ex. 9123456789"
-                                class="formbold-form-input" formControlName="candidateContact" />
+                                class="formbold-form-input" formControlName="candidateContact" required/>
                         </div>
                     </div>
                 </div>
@@ -271,8 +271,8 @@
                 <h2 class="formbold-form-heading">Figures</h2>
                 <div class="formbold-mb-3">
 
-                    <select class="formbold-form-input" formControlName="salaryNegotiable">
-                        <option hidden>Is the Salary Negotiable?</option>
+                    <select class="formbold-form-input" formControlName="salaryNegotiable" required>
+                        <option  value="" disabled selected hidden>Is the Salary Negotiable?</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
@@ -293,7 +293,8 @@
                 <div class="formbold-input-flex">
                     <div>
                         <label class="formbold-form-label">Availability</label>
-                        <select class="formbold-form-input" formControlName="noticeDuration">
+                        <select class="formbold-form-input" formControlName="noticeDuration" required>
+                            <option  value="" disabled selected hidden>Choose Availability</option>
                             <option>1 week notice</option>
                             <option>2 weeks notice</option>
                             <option>3 weeks notice</option>
@@ -302,14 +303,14 @@
                     </div>
                     <div>
                         <label for="dob" class="formbold-form-label"> Initial Interview </label>
-                        <input type="date" name="dob" id="dob" class="formbold-form-input" formControlName="initialInterviewSchedule" />
+                        <input type="date" name="dob" id="dob" class="formbold-form-input" formControlName="initialInterviewSchedule" required/>
                     </div>
                 </div>
                 <div class="formbold-mb-3">
                     <label for="upload" class="formbold-form-label">
                         Upload CV / Resume
                     </label>
-                    <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file" formControlName="candidateCv" />
+                    <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file" formControlName="candidateCv"  required/>
                 </div>
                 <button class="formbold-btn">Apply Now</button>
             </form>

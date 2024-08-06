@@ -59,43 +59,27 @@ import { JobCandidate } from '../../../models/job-candidate';
   styleUrls: ['./recruitment.component.css']
 })
 export class RecruitmentComponent implements OnInit {
-  jobcandidate: JobCandidate[] = [];
-  candidateForm: FormGroup;
+  jobcandidates: JobCandidate[] = [];
+  recruitmentForm: FormGroup;
 
   constructor(public fb: FormBuilder, private http: HttpClient) {
-    this.candidateForm = this.fb.group({
+    this.recruitmentForm = this.fb.group({
       csequenceNo: [{ value: '', disabled: true }, Validators.required],
       candidateName: ['', Validators.required],
-      jobRoleId: [''],
-      jobName: [''],
-      sourceTool: [''],
-      assignedHr: [''],
-      candidateCv: ['', Validators.required],
       candidateEmail: ['', Validators.required],
       candidateContact: ['', Validators.required],
       askingSalary: ['', Validators.required],
       salaryNegotiable: ['', Validators.required],
       minSalary: ['', Validators.required],
-      maxSalary: [''],
       noticeDuration: ['', Validators.required],
-      dateApplied: [''],
       initialInterviewSchedule: ['', Validators.required],
-      technicalInterviewSchedule: [''],
-      clientFinalInterviewSchedule: [''],
-      backgroundVerification: [''],
-      applicationStatus: [''],
-      finalSalary: [''],
-      allowance: [''],
-      honorarium: [''],
-      jobOffer: [''],
-      candidateContract: [''],
-      remarks: ['']
+      candidateCv: ['', Validators.required],
     });
   }
 
   ngOnInit() {}
 
-  logValidationErrors(group: FormGroup = this.candidateForm): void {
+  logValidationErrors(group: FormGroup = this.recruitmentForm): void {
     Object.keys(group.controls).forEach((key: string) => {
       const control = group.get(key);
       if (control instanceof FormGroup) {
@@ -108,13 +92,13 @@ export class RecruitmentComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    if (this.candidateForm.valid) {
-      this.http.post('https://localhost:7012/jobcandidate', this.candidateForm.value)
+  onSubmitHr(): void {
+    if (this.recruitmentForm.valid) {
+      this.http.post('https://localhost:7012/jobcandidate', this.recruitmentForm.value)
         .subscribe({
           next: (response) => {
             console.log('Job candidate submitted:', response);
-            this.candidateForm.reset();
+            this.recruitmentForm.reset();
             this.setDefaultDropdownValues();
           },
           error: (error) => {
@@ -128,8 +112,9 @@ export class RecruitmentComponent implements OnInit {
   }
 
   setDefaultDropdownValues(): void {
-    this.candidateForm.patchValue({
-
+    this.recruitmentForm.patchValue({
+      salaryNegotiable: '',
+      noticeDuration: ''
     });
   }
 }

@@ -53,6 +53,7 @@
 </main> -->
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <!-- <main class="job-posting">
     <h1 class="job-posting-header">Create Job</h1>
     <section class="container">
@@ -170,9 +171,13 @@
 
 
 <main class="job-posting">
+    <div class="icon-container">
+        <i class="fas fa-briefcase job-icon"></i>
+    </div>
     <h1 class="job-posting-header">Create Job</h1>
+    <h3 class="job-posting-subheader">Fill in the details to post a new job opportunity</h3>
     <section class="container">
-        <header>Add a New Job Listing</header>
+        <!-- <header class="create-header">Add a New Job Listing</header> -->
         <form [formGroup]="jobForm" (ngSubmit)="onSubmit()" class="form">
             <h2>Job Details</h2>
             <div class="column">

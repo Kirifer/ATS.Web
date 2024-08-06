@@ -1,6 +1,11 @@
 <main class="candidates_container">
     <section class="candidates_section">
-        <h1 class="candidates_header">List of Candidates</h1>
+        <div class="candidates_header_container">
+            <div class="icon-container">
+                <i class="fas fa-users job-icon"></i>
+            </div>
+            <h1 class="candidates_header">List of Candidates</h1>
+        </div>
     </section>
 </main>
 
@@ -14,33 +19,48 @@
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
         <ng-container matColumnDef="csequenceNo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sequence No</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <mat-icon class="column-icon">format_list_numbered</mat-icon>
+                Sequence No
+            </th>
             <td mat-cell *matCellDef="let element">{{ element.csequenceNo }}</td>
         </ng-container>
 
         <ng-container matColumnDef="candidateName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Candidate Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <mat-icon class="column-icon">person</mat-icon>
+                Candidate Name
+            </th>
             <td mat-cell *matCellDef="let element">{{ element.candidateName }}</td>
         </ng-container>
 
         <ng-container matColumnDef="jobName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Job Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <mat-icon class="column-icon">work</mat-icon>
+                Job Name
+            </th>
             <td mat-cell *matCellDef="let element">{{ element.jobName }}</td>
         </ng-container>
 
         <ng-container matColumnDef="applicationStatus">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <mat-icon class="column-icon">check_circle</mat-icon>
+                Status
+            </th>
             <td mat-cell *matCellDef="let element">{{ element.applicationStatus }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <ng-container matColumnDef="actions" class="actions-column">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-icon class="column-icon">settings</mat-icon>
+                Actions
+            </th>
             <td mat-cell *matCellDef="let element">
                 <button mat-icon-button (click)="editElement(element)">
-                    <mat-icon>edit</mat-icon>
+                    <mat-icon class="edit-btn">edit</mat-icon>
                 </button>
                 <button mat-icon-button (click)="deleteElement(element)">
-                    <mat-icon>delete</mat-icon>
+                    <mat-icon class="delete-btn">delete</mat-icon>
                 </button>
             </td>
         </ng-container>
@@ -48,8 +68,8 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-        <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+        <tr class="mat-row no-data-row" *matNoDataRow>
+            <td class="mat-cell no-data-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
         </tr>
     </table>
 

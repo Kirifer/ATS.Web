@@ -1,6 +1,6 @@
 export interface JobCandidate {
     id: string; // UUID
-    csequenceNo: number; // Job Candidate Number
+    csequenceNo: string; // Job Candidate Number
     candidateName: string; // Name
     jobRoleId: string; // Job Role Number
     jobName: string; // Job Title (PUBLIC)

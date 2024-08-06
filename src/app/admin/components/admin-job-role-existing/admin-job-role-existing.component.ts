@@ -61,6 +61,19 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
   }
 
   deleteElement(element: JobRoles) {
-    console.log('Delete element:', element);
+    if (confirm(`Are you sure you want to delete ${element.jobName}?`)) {
+      this.http.delete(`https://localhost:7012/jobrole/${element.id}`)
+        .pipe(
+          tap(() => {
+            console.log('Element deleted:', element);
+            // Remove the deleted element from the data source
+            this.dataSource.data = this.dataSource.data.filter(e => e !== element);
+          }),
+          catchError(error => {
+            console.error('Error deleting element:', error);
+            return throwError(error);
+          })
+        ).subscribe();
+    }
   }
 }

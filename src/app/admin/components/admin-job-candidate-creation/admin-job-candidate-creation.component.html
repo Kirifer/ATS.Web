@@ -379,9 +379,13 @@
 </main> -->
 
 <main class="job-posting">
+    <div class="icon-container">
+        <i class="fas fa-user-plus job-icon"></i>
+    </div>
     <h1 class="job-posting-header">Recruitment</h1>
+    <h3 class="job-posting-subheader">Fill in the details for candidate recruitment</h3>
     <section class="container">
-        <header>Add a New Candidate</header>
+        <!-- <header>Add a New Candidate</header> -->
         <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="form">
 
             <h2>Personal Information</h2>
