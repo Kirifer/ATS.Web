@@ -1,6 +1,6 @@
 export interface JobRoles {
     id: any;
-    sequenceNo: number;
+    sequenceNo: string;
     jobName: string;
     clientShortcodes: string;
     minSalary: number;

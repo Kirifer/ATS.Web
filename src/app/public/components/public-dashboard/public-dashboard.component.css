@@ -138,8 +138,7 @@
 /* DESIGNING THE MAT CARD */
 .job-listing-card {
     border-radius: 10px;
-    margin: 20px;
-    /* max-width: 500px; */
+    margin: 15px;
     width: 100%;
     color: rgb(255, 250, 250);
     background-color: transparent;
@@ -155,8 +154,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 400px;
     max-width: 400px;
-    margin: 10px;
 }
 
 /* General styling for job listing cards */
@@ -185,13 +184,13 @@
     flex-direction: column;
 }
 
-.job-location, .job-setting {
+.job-location, .job-setting, .job-roleLevel {
     display: flex;
     align-items: center;
     margin-top: 10px;
 }
 
-.job-setting-description, .job-location-description{
+.job-setting-description, .job-location-description, .job-roleLevel-description {
     margin-left: 10px;
 }
 

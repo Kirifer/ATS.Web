@@ -3,123 +3,71 @@
     <div class="left-section">
         <!-- Add your content here -->
         <!-- You can add any content you want in the left section -->
-        <div class="job-info-wrapper">
-            <img class="header_image" src="/assets/img/Recruitment_header.png">
-            <div>
-                <h2 class="job-title">Job Title</h2>
+        <div *ngIf="job; else loading">
+            <div class="job-info-wrapper">
+                <img class="header_image" src="/assets/img/Recruitment_header.png" />
+                <div>
+                    <h2 class="job-title">{{ job.jobName }}</h2>
 
-                <div class="job-container">
-                    <div class="job-roleLevel">
-                        <i class="fa-solid fa-person"></i>
-                        <span class="job-roleLevel-description">Junior Level</span>
-                    </div>
-                    <div class="job-location">
-                        <i class="fas fa-location-dot"></i>
-                        <span class="job-location-description">Office Based</span>
-                    </div>
-                    <div class="job-setting">
-                        <i class="fa-solid fa-clock"></i>
-                        <span class="job-setting-description">Regular Shift (9AM to 6PM)</span>
+                    <div class="job-container">
+                        <div class="job-roleLevel">
+                            <i class="fa-solid fa-person"></i>
+                            <span class="job-roleLevel-description">{{job.roleLevel}} Level</span>
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-location-dot"></i>
+                            <span class="job-location-description">{{job.jobLocation}}</span>
+                        </div>
+                        <div class="job-setting">
+                            <i class="fa-solid fa-clock"></i>
+                            <span class="job-setting-description">{{job.shiftSched}}</span>
+                        </div>
                     </div>
                 </div>
-
             </div>
 
-
             <div class="job-description">
-                <h3>Instructional Designer / Facilitator Job Responsibilities:</h3>
-                <ul>
-                    <li>Assist with Planning and Managing Organization Events</li>
-                    <li>Ensure a safe, respectful, and productive environment</li>
-                    <li>Develop and maintain relationships with all employees</li>
-                    <li>Develops and designs courses and curriculum.</li>
-                    <li>Edits and develops online learning materials.</li>
-                    <li>Creates learning experiences and environments.</li>
-                    <li>Designs learning activities, assignments, and assessments.</li>
-                    <li>Creates computer-based training (CBT) modules and storyboards.</li>
-                    <li>Develops instructor’s manuals, rubrics, and other teaching tools.</li>
-                    <li>Collaborates with subject experts to develop course content.</li>
-                    <li>Manages online learning communities.</li>
-                    <li>Analyzes, updates, and refines existing online content.</li>
-                    <li>Trains instructors, students, and employees in how to use learning technologies.</li>
-                    <li>Facilitates discussion and collaboration via social media.</li>
-                    <li>Keeps current on best practices in instructional design.</li>
-                    <li>Writes scripts for video and audio content.</li>
-                    <li>Develop and deliver engaging and interactive sessions and activities</li>
-                    <li>Facilitate group activities and discussions with participants</li>
-                    <li>Monitor and assess the progress of participants in the program</li>
-                    <li>Provide timely and constructive feedback to participants</li>
-                    <li>Maintain accurate records and progress reports of participants</li>
-                </ul>
-                <h3>Instructional Designer Facilitator Qualifications/Skills:</h3>
-                <ul>
-                    <li>Knowledge of instructional theory, including assessment</li>
-                    <li>Proficiency with learning management systems (LMS)</li>
-                    <li>Excellent project management and organizational skills</li>
-                    <li>Experience with design platforms</li>
-                    <li>Organizational and time management skills</li>
-                    <li>Excellent written and oral communication skills, including the ability to effectively convey
-                        technical information to non-technical colleagues and clients</li>
-                    <li>Critical thinking skills</li>
-                    <li>Ability to prioritize and manage multiple simultaneous deadlines</li>
-                    <li>Experience as a classroom instructor</li>
-                    <li>Previous experience in instructional design</li>
-                    <li>Excellent communication and presentation skills</li>
-                    <li>Strong ability to lead, motivate, and engage participants</li>
-                    <li>Able to work independently and as part of a team</li>
-                    <li>Able to manage multiple tasks and prioritize effectively</li>
-                    <li>Proficient in Microsoft Office and other computer programs</li>
-                    <li>Flexible to work evenings and weekends as needed</li>
-                </ul>
-                <h3>Education, Experience & Licensing Requirements:</h3>
-                <ul>
-                    <li>BS, MS, or higher degree, preferably in instructional design, education, or related field</li>
-                    <li>Teaching or administrator’s license a plus</li>
-                </ul>
-                <h3>ShoreXtra Perks:</h3>
-                <ul>
-                    <li>Free barista-style coffee</li>
-                    <li>Free parking and jeepney services</li>
-                    <li>Highly engaged team</li>
-                    <li>Unlimited potential for growth</li>
-                    <li>Challenging role</li>
-                    <li>Fun and family-oriented working environment</li>
-                </ul>
+                <p>{{job.jobDescription}}</p>
             </div>
         </div>
     </div>
 
+    <ng-template #loading>
+        <p>Loading...</p>
+    </ng-template>
+
     <!-- Right Section -->
     <div class="right-section">
-        <!-- Author: FormBold Team -->
-        <!-- Learn More: https://formbold.com -->
-        <!-- <div class="formbold-form-wrapper">
-            <img class="header_image" src="/assets/img/Recruitment_header.png">
-            <form action="https://formbold.com/s/FORM_ID" method="POST">
+        <div class="formbold-form-wrapper">
+            <img class="header_image" src="/assets/img/Recruitment_header.png" />
+            <form [formGroup]="recruitmentForm" (ngSubmit)="onSubmitHr()" class="form">
                 <div class="formbold-input-wrapp formbold-mb-3">
-
                     <h2 class="formbold-form-heading">Personal Information</h2>
                     <div class="formbold-mb-3">
                         <input type="text" name="firstname" id="firstname" placeholder="Full Name"
-                            class="formbold-form-input" />
+                            class="formbold-form-input" formControlName="candidateName" />
                     </div>
                     <div class="formbold-input-flex">
                         <div>
-                            <label for="post" class="formbold-form-label"> Email Address </label>
-                            <input type="text" name="post" id="post" placeholder="ex. juan.delacruz@outlook.com" class="formbold-form-input" />
+                            <label for="post" class="formbold-form-label">
+                                Email Address
+                            </label>
+                            <input type="text" name="post" id="post" placeholder="ex. juan.delacruz@outlook.com"
+                                class="formbold-form-input" formControlName="candidateEmail" />
                         </div>
                         <div>
-                            <label for="city" class="formbold-form-label"> Contact Number </label>
+                            <label for="city" class="formbold-form-label">
+                                Contact Number
+                            </label>
                             <input type="text" name="city" id="city" placeholder="ex. 9123456789"
-                                class="formbold-form-input" />
+                                class="formbold-form-input" formControlName="candidateContact" />
                         </div>
                     </div>
                 </div>
 
                 <h2 class="formbold-form-heading">Figures</h2>
                 <div class="formbold-mb-3">
-
-                    <select class="formbold-form-input" name="occupation" id="occupation">
+                    <select class="formbold-form-input" formControlName="salaryNegotiable">
                         <option hidden>Is the Salary Negotiable?</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
@@ -129,163 +77,13 @@
                 <div class="formbold-input-flex">
                     <div>
                         <label class="formbold-form-label">Minimum Negotiated Salary</label>
-                        <input class="formbold-form-input" type="number" placeholder="ex. 15000" required />
-                    </div>
-                    <div>
-                        <label class="formbold-form-label">Maximum Negotiated Salary</label>
-                        <input class="formbold-form-input" type="number" placeholder="ex. 18000" required />
-                    </div>
-                </div>
-
-                <h2 class="formbold-form-heading">Interview Schedule</h2>
-                <div class="formbold-input-flex">
-                    <div>
-                        <label class="formbold-form-label">Availability</label>
-                        <select class="formbold-form-input" name="occupation" id="occupation">
-                            <option>1 week notice</option>
-                            <option>2 weeks notice</option>
-                            <option>3 weeks notice</option>
-                            <option>4 weeks or more notice</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="dob" class="formbold-form-label"> Initial Interview </label>
-                        <input type="date" name="dob" id="dob" class="formbold-form-input" />
-                    </div>
-                </div>
-
-
-                <div class="formbold-mb-3">
-                    <label for="age" class="formbold-form-label"> Age </label>
-                    <input type="text" name="age" id="age" placeholder="ex:25" class="formbold-form-input" />
-                </div>
-
-                <div class="formbold-mb-3">
-                    <label for="dob" class="formbold-form-label"> Date of Birth </label>
-                    <input type="date" name="dob" id="dob" class="formbold-form-input" />
-                </div>
-
-                <div class="formbold-mb-3">
-                    <label class="formbold-form-label">Gender</label>
-
-                    <select class="formbold-form-input" name="occupation" id="occupation">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="others">Others</option>
-                    </select>
-                </div>
-
-                <div class="formbold-mb-3">
-                    <label for="email" class="formbold-form-label"> Email </label>
-                    <input type="email" name="email" id="email" placeholder="example@email.com"
-                        class="formbold-form-input" />
-                </div>
-
-                <div class="formbold-mb-3">
-                    <label for="address" class="formbold-form-label"> Address </label>
-
-                    <input type="text" name="address" id="address" placeholder="Address"
-                        class="formbold-form-input formbold-mb-3" />
-                </div>
-
-                <div class="formbold-mb-3 formbold-input-wrapp">
-                    <label for="phone" class="formbold-form-label"> Phone </label>
-
-                    <div>
-                        <input type="text" name="phone" id="phone" placeholder="Phone number"
-                            class="formbold-form-input" />
-                    </div>
-                </div>
-
-                <div class="formbold-mb-3">
-                    <label for="age" class="formbold-form-label"> Applying for Position: </label>
-                    <input type="text" name="age" id="age" class="formbold-form-input" />
-                </div>
-
-                <div class="formbold-input-flex">
-                    <div>
-                        <label for="post" class="formbold-form-label"> Post/Zip code </label>
-                        <input type="text" name="post" id="post" placeholder="ex:2009" class="formbold-form-input" />
-                    </div>
-                    <div>
-                        <label for="city" class="formbold-form-label"> City </label>
-                        <input type="text" name="city" id="city" placeholder="ex: Angeles City"
-                            class="formbold-form-input" />
-                    </div>
-                </div>
-
-                <div class="formbold-mb-3">
-                    <label for="upload" class="formbold-form-label">
-                        Upload CV / Resume
-                    </label>
-                    <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file" />
-                </div>
-
-                <div class="formbold-checkbox-wrapper">
-                            <label for="supportCheckbox" class="formbold-checkbox-label">
-                                <div class="formbold-relative">
-                                    <input type="checkbox" id="supportCheckbox" class="formbold-input-checkbox" />
-                                    <div class="formbold-checkbox-inner">
-                                        <span class="formbold-opacity-0">
-                                            <svg width="11" height="8" viewBox="0 0 11 8" class="formbold-stroke-current"
-                                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M8.81868 0.688604L4.16688 5.4878L2.05598 3.29507C1.70417 2.92271 1.1569 2.96409 0.805082 3.29507C0.453266 3.66742 0.492357 4.24663 0.805082 4.61898L3.30689 7.18407C3.54143 7.43231 3.85416 7.55642 4.16688 7.55642C4.47961 7.55642 4.79233 7.43231 5.02688 7.18407L10.0696 2.05389C10.4214 1.68154 10.4214 1.10233 10.0696 0.729976C9.71776 0.357624 9.17049 0.357625 8.81868 0.688604Z"
-                                                    fill="white" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-                                I agree to the defined
-                                <a href="#"> terms, conditions, and policies</a>
-                            </label>
-                        </div>
-
-                <button class="formbold-btn">Apply Now</button>
-            </form>
-        </div> -->
-
-        <div class="formbold-form-wrapper">
-            <img class="header_image" src="/assets/img/Recruitment_header.png">
-            <form [formGroup]="recruitmentForm" (ngSubmit)="onSubmitHr()" class="form">
-                <div class="formbold-input-wrapp formbold-mb-3">
-
-                    <h2 class="formbold-form-heading">Personal Information</h2>
-                    <div class="formbold-mb-3">
-                        <input type="text" name="firstname" id="firstname" placeholder="Full Name"
-                            class="formbold-form-input" formControlName="candidateName" required/>
-                    </div>
-                    <div class="formbold-input-flex">
-                        <div>
-                            <label for="post" class="formbold-form-label"> Email Address </label>
-                            <input type="text" name="post" id="post" placeholder="ex. juan.delacruz@outlook.com" class="formbold-form-input" formControlName="candidateEmail" required/>
-                        </div>
-                        <div>
-                            <label for="city" class="formbold-form-label"> Contact Number </label>
-                            <input type="text" name="city" id="city" placeholder="ex. 9123456789"
-                                class="formbold-form-input" formControlName="candidateContact" required/>
-                        </div>
-                    </div>
-                </div>
-
-                <h2 class="formbold-form-heading">Figures</h2>
-                <div class="formbold-mb-3">
-
-                    <select class="formbold-form-input" formControlName="salaryNegotiable" required>
-                        <option  value="" disabled selected hidden>Is the Salary Negotiable?</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
-
-                <div class="formbold-input-flex">
-                    <div>
-                        <label class="formbold-form-label">Minimum Negotiated Salary</label>
-                        <input class="formbold-form-input" type="number" placeholder="ex. 15000" required formControlName="minSalary"/>
+                        <input class="formbold-form-input" type="number" placeholder="ex. 15000" required
+                            formControlName="minSalary" />
                     </div>
                     <div>
                         <label class="formbold-form-label">Expected Gross Salary</label>
-                        <input class="formbold-form-input" type="number" placeholder="ex. 18000" required  formControlName="askingSalary">
+                        <input class="formbold-form-input" type="number" placeholder="ex. 18000" required
+                            formControlName="askingSalary" />
                     </div>
                 </div>
 
@@ -293,8 +91,7 @@
                 <div class="formbold-input-flex">
                     <div>
                         <label class="formbold-form-label">Availability</label>
-                        <select class="formbold-form-input" formControlName="noticeDuration" required>
-                            <option  value="" disabled selected hidden>Choose Availability</option>
+                        <select class="formbold-form-input" formControlName="noticeDuration">
                             <option>1 week notice</option>
                             <option>2 weeks notice</option>
                             <option>3 weeks notice</option>
@@ -302,21 +99,22 @@
                         </select>
                     </div>
                     <div>
-                        <label for="dob" class="formbold-form-label"> Initial Interview </label>
-                        <input type="date" name="dob" id="dob" class="formbold-form-input" formControlName="initialInterviewSchedule" required/>
+                        <label for="dob" class="formbold-form-label">
+                            Initial Interview
+                        </label>
+                        <input type="date" name="dob" id="dob" class="formbold-form-input"
+                            formControlName="initialInterviewSchedule" />
                     </div>
                 </div>
                 <div class="formbold-mb-3">
                     <label for="upload" class="formbold-form-label">
                         Upload CV / Resume
                     </label>
-                    <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file" formControlName="candidateCv"  required/>
+                    <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file"
+                        formControlName="candidateCv" />
                 </div>
                 <button class="formbold-btn">Apply Now</button>
             </form>
         </div>
-
-        
     </div>
-
 </div>

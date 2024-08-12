@@ -8,6 +8,7 @@ import { JobRoles } from '../../../models/job-roles';
 interface Job {
   title: string;
   description: string;
+  openDate: string;
 }
 
 @Component({
@@ -30,4 +31,15 @@ export class PublicDashboardComponent implements OnInit {
       })
     );
   }
+
+  daysAgo(openDate: Date | undefined): number {
+    if (!openDate) {
+      return 0; // Handle cases where openDate might be undefined
+    }
+    const postedDate = new Date(openDate);
+    const currentDate = new Date();
+    const timeDiff = currentDate.getTime() - postedDate.getTime();
+    return Math.floor(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
+  }
+  
 }

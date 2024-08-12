@@ -21,7 +21,7 @@ const routes: Routes = [
       { path: 'jobs/:id', component: JobDetailsComponent },
       { path: 'apply', component: ApplyJobComponent },
       { path: 'login', component: AdminLoginComponent },
-      { path: 'recruitment', component: RecruitmentComponent},
+      { path: 'recruitment/:id', component: RecruitmentComponent},
       { path: 'about', component: PublicAboutComponent }
     ],
   },

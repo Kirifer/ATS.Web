@@ -6,6 +6,9 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
 import { JobCandidate } from '../../../models/job-candidate';
+import { DomSanitizer } from '@angular/platform-browser';
+
+import { ApplicationStatus, ApplicationStatusDisplay} from '../../../models/job-candidate';
 
 @Component({
   selector: 'app-admin-job-candidate-existing',
@@ -13,7 +16,10 @@ import { JobCandidate } from '../../../models/job-candidate';
   styleUrl: './admin-job-candidate-existing.component.css'
 })
 export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit{
-  displayedColumns: string[] = ['csequenceNo', 'candidateName', 'jobName', 'applicationStatus', 'actions'];
+
+  ApplicationStatusDisplay = ApplicationStatusDisplay;
+
+  displayedColumns: string[] = ['csequenceNo', 'candidateName', 'jobName', 'applicationStatus', 'interview_date', 'date_applied', 'actions'];
   dataSource = new MatTableDataSource<JobCandidate>();
   selectedJobCandidate: JobCandidate | null = null;
 
@@ -58,6 +64,23 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
   closeEditor() {
     this.selectedJobCandidate = null;
   }
+
+  // Method to get display name for application status
+  getApplicationStatusDisplay(status: ApplicationStatus): string {
+    return ApplicationStatusDisplay[status];
+  }
+
+  getInterviewDate(candidate: any): string | null {
+    if (candidate.applicationStatus === 'InitialInterview') {
+        return candidate.initialInterviewSchedule ? candidate.initialInterviewSchedule.toString() : null;
+    } else if (candidate.applicationStatus === 'TechnicalInterview') {
+        return candidate.technicalInterviewSchedule ? candidate.technicalInterviewSchedule.toString() : null;
+    } else if (candidate.applicationStatus === 'ClientInterview') {
+        return candidate.clientFinalInterviewSchedule ? candidate.clientFinalInterviewSchedule.toString() : null;
+    } else {
+        return null;
+    }
+}
 
   deleteElement(element: JobCandidate) {
     if (confirm(`Are you sure you want to delete ${element.candidateName}?`)) {

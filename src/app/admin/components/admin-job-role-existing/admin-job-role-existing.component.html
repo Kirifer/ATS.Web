@@ -1,16 +1,17 @@
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <main class="candidates_container">
-        <section class="candidates_section">
-            <div class="candidates_header_container">
-                <div class="icon-container">
-                    <i class="fas fa-clipboard-list job-icon"></i>
-                </div>
-                <h1 class="candidates_header">List of Jobs</h1>
+<main class="candidates_container">
+    <section class="candidates_section">
+        <div class="candidates_header_container">
+            <div class="icon-container">
+                <i class="fas fa-clipboard-list job-icon"></i>
             </div>
-        </section>
-    </main>
+            <h1 class="candidates_header">List of Jobs</h1>
+        </div>
+    </section>
+</main>
 
+<div class="table_container">
     <div class="mat-elevation-z8">
         <mat-form-field class="search-form-field" appearance="outline">
             <mat-icon matPrefix>search</mat-icon>
@@ -26,7 +27,7 @@
                 </th>
                 <td mat-cell *matCellDef="let element">{{ element.sequenceNo }}</td>
             </ng-container>
-        
+
             <ng-container matColumnDef="jobName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     <mat-icon class="column-icon">work</mat-icon>
@@ -34,7 +35,7 @@
                 </th>
                 <td mat-cell *matCellDef="let element">{{ element.jobName }}</td>
             </ng-container>
-        
+
             <ng-container matColumnDef="aging">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     <mat-icon class="column-icon">timer</mat-icon>
@@ -42,15 +43,15 @@
                 </th>
                 <td mat-cell *matCellDef="let element">{{ element.aging }}</td>
             </ng-container>
-        
+
             <ng-container matColumnDef="jobStatus">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <th mat-header-cell *matHeaderCellDef>
                     <mat-icon class="column-icon">check_circle</mat-icon>
                     Job Status
                 </th>
                 <td mat-cell *matCellDef="let element">{{ element.jobStatus }}</td>
             </ng-container>
-        
+
             <ng-container matColumnDef="actions" class="actions-column">
                 <th mat-header-cell *matHeaderCellDef>
                     <mat-icon class="column-icon">settings</mat-icon>
@@ -65,18 +66,18 @@
                     </button>
                 </td>
             </ng-container>
-        
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        
+
             <tr class="mat-row no-data-row" *matNoDataRow>
                 <td class="mat-cell no-data-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
             </tr>
         </table>
-        
+
 
         <mat-paginator class="paginator" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>
-
-    <app-admin-job-role-editing *ngIf="selectedJobRole" [jobRole]="selectedJobRole"
-        (close)="closeEditor()"></app-admin-job-role-editing>
+</div>
+<app-admin-job-role-editing *ngIf="selectedJobRole" [jobRole]="selectedJobRole"
+    (close)="closeEditor()"></app-admin-job-role-editing>

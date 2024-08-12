@@ -52,6 +52,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { JobCandidate } from '../../../models/job-candidate';
+import { JobRoles } from '../../../models/job-roles';
+import { Observable, catchError, throwError, map, tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-recruitment',
@@ -61,23 +64,59 @@ import { JobCandidate } from '../../../models/job-candidate';
 export class RecruitmentComponent implements OnInit {
   jobcandidates: JobCandidate[] = [];
   recruitmentForm: FormGroup;
+  jobs$!: Observable<JobRoles>;
+  job?: JobRoles;
 
-  constructor(public fb: FormBuilder, private http: HttpClient) {
+  private getJobAPIUrl = 'https://localhost:7012/jobrole';
+
+  constructor(public fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute) {
     this.recruitmentForm = this.fb.group({
       csequenceNo: [{ value: '', disabled: true }, Validators.required],
       candidateName: ['', Validators.required],
+      jobRoleId: [''],
+      jobName: [''],
+      sourceTool: [''],
+      assignedHr: [''],
+      candidateCv: ['', Validators.required],
       candidateEmail: ['', Validators.required],
       candidateContact: ['', Validators.required],
       askingSalary: ['', Validators.required],
       salaryNegotiable: ['', Validators.required],
       minSalary: ['', Validators.required],
+      maxSalary: [''],
       noticeDuration: ['', Validators.required],
+      dateApplied: [''],
       initialInterviewSchedule: ['', Validators.required],
-      candidateCv: ['', Validators.required],
+      technicalInterviewSchedule: [''],
+      clientFinalInterviewSchedule: [''],
+      backgroundVerification: [''],
+      applicationStatus: [''],
+      finalSalary: [''],
+      allowance: [''],
+      honorarium: [''],
+      jobOffer: [''],
+      candidateContract: [''],
+      remarks: ['']
     });
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.http.get<{ data: JobRoles }>(`${this.getJobAPIUrl  }/${id}`).pipe(
+          tap(response => {
+            console.log('Data received from backend:', response);
+            this.job = response.data; // Assign data to job property
+          }),
+          catchError(error => {
+            console.error('Error fetching job role:', error);
+            return throwError(() => new Error('Error fetching job role'));
+          })
+        ).subscribe();
+      }
+    });
+  }
 
   logValidationErrors(group: FormGroup = this.recruitmentForm): void {
     Object.keys(group.controls).forEach((key: string) => {

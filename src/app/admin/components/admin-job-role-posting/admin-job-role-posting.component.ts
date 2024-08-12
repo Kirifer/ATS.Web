@@ -17,11 +17,10 @@ export class AdminJobRolePostingComponent implements OnInit {
   constructor(public fb: FormBuilder, private http: HttpClient) {
     this.jobForm = this.fb.group({
       jobName: ['', Validators.required],
-      sequenceNo: [{ value: '', disabled: true }, Validators.required],
       clientShortcodes: ['', Validators.required],
       hiringManager: ['', Validators.required],
       salesManager: ['', Validators.required],
-      hiringType: ['', Validators.required],
+      hiringType: ['', Validators.required],  
       jobDescription: ['', Validators.required],
       roleLevel: ['', Validators.required],
       minSalary: ['', Validators.required],
@@ -29,7 +28,8 @@ export class AdminJobRolePostingComponent implements OnInit {
       jobLocation: ['', Validators.required],
       shiftSched: ['', Validators.required],
       jobStatus: ['', Validators.required],
-      closedDate: ['', Validators.required],
+      openDate: [{ value: '', disabled: true }],
+      closedDate: [{ value: '', disabled: true }, Validators.required],
       aging: [{ value: '', disabled: true }, Validators.required] // Disable input in the form
     });
   }
