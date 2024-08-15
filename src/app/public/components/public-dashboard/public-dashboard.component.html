@@ -25,15 +25,15 @@
                         <div class="job-details">
                             <div class="job-roleLevel">
                                 <i class="fa-solid fa-user-circle"></i>
-                                <span class="job-roleLevel-description">{{ job.roleLevel }}</span>
+                                <span class="job-roleLevel-description">{{ getRoleLevelDisplay(job.roleLevel)}} Level</span>
                             </div>
                             <div class="job-location">
                                 <i class="fas fa-location-dot"></i>
-                                <span class="job-location-description">{{ job.jobLocation }}</span>
+                                <span class="job-location-description">{{ getJobLocationDisplay(job.jobLocation)}}</span>
                             </div>
                             <div class="job-setting">
                                 <i class="fa-solid fa-clock"></i>
-                                <span class="job-setting-description">{{ job.shiftSched }}</span>
+                                <span class="job-setting-description">{{ getShiftSchedDisplay(job.shiftSched) }}</span>
                             </div>
                         </div>
                     </mat-card-content>

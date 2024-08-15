@@ -99,15 +99,3 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
     }
   }
 }
-
-// import { Component } from "@angular/core";
-
-// @Component({
-//   selector: 'app-admin-job-candidate-existing',
-//   templateUrl: './admin-job-candidate-existing.component.html',
-//   styleUrls: ['./admin-job-candidate-existing.component.css']
-// })
-
-// export class AdminJobCandidateExistingComponent{
-  
-// }

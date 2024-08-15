@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError, map, tap } from 'rxjs';
 // import { Job } from '../../../models/job';
-import { JobRoles } from '../../../models/job-roles';
+import { JobLocation, JobLocationDisplay, JobRoles, RoleLevel, RoleLevelDisplay, ShiftSchedule, ShiftScheduleDisplay } from '../../../models/job-roles';
 
 interface Job {
   title: string;
@@ -30,6 +30,17 @@ export class PublicDashboardComponent implements OnInit {
         return throwError(() => new Error('Error fetching jobs'));
       })
     );
+  }
+
+  // Method to get display name for role level and job location
+  getRoleLevelDisplay(role: RoleLevel): string {
+    return RoleLevelDisplay[role];
+  }
+  getJobLocationDisplay(location: JobLocation): string {
+    return JobLocationDisplay[location];
+  }
+  getShiftSchedDisplay(shift: ShiftSchedule): string {
+    return ShiftScheduleDisplay[shift];
   }
 
   daysAgo(openDate: Date | undefined): number {

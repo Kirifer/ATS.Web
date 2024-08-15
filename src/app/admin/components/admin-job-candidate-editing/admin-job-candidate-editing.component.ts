@@ -78,7 +78,28 @@ export class AdminJobCandidateEditingComponent implements OnChanges {
 
   onUpdate() {
     if (this.candidateForm.valid && this.jobCandidate) {
-      this.http.put(`https://localhost:7012/jobcandidate/${this.jobCandidate.id}`, this.candidateForm.value).pipe(
+
+      // Get the form value
+      const formData = { ...this.candidateForm.value };
+
+      // Check if fields is an empty string and set it to null
+      if (!formData.jobOffer) {
+        formData.jobOffer = null;
+      }
+      if (!formData.candidateContract) {
+        formData.candidateContract = null;
+      }
+      if (!formData.backgroundVerification) {
+        formData.backgroundVerification = null;
+      }
+      if (!formData.technicalInterviewSchedule) {
+        formData.technicalInterviewSchedule = null;
+      }
+      if (!formData.clientFinalInterviewSchedule) {
+        formData.clientFinalInterviewSchedule = null;
+      }
+
+      this.http.put(`https://localhost:7012/jobcandidate/${this.jobCandidate.id}`, formData).pipe(
         tap(response => {
           console.log('Job candidate updated:', response);
           this.onClose();
@@ -94,44 +115,4 @@ export class AdminJobCandidateEditingComponent implements OnChanges {
   onClose() {
     this.close.emit();
   }
-
-  // fetchAttachments(candidateId: string): void {
-  //   this.http.get<JobCandidateAttachment[]>(`https://localhost:7012/jobcandidate/${candidateId}/attachments`).subscribe({
-  //     next: (attachments) => {
-  //       this.attachments = attachments;
-  //       console.log('Attachments fetched:', attachments);
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching attachments:', error);
-  //     }
-  //   });
-  // }
-
-  // viewAttachment(attachment: JobCandidateAttachment): void {
-  //   if (attachment && attachment.id && this.jobCandidate) {
-  //     const candidateId = this.jobCandidate.id;
-  //     const attachmentId = attachment.id;
-  //     const url = `https://localhost:7012/jobcandidate/${candidateId}/attachments/${attachmentId}`;
-  
-  //     console.log(`Fetching attachment from URL: ${url}`);
-  
-  //     this.http.get(url, { responseType: 'blob' }).subscribe((file: Blob) => {
-  //       const fileURL = window.URL.createObjectURL(file);
-  //       const fileType = file.type;
-  
-  //       if (fileType.startsWith('image/') || fileType === 'application/pdf') {
-  //         window.open(fileURL);
-  //       } else {
-  //         const link = document.createElement('a');
-  //         link.href = fileURL;
-  //         link.download = attachment.fileName;
-  //         link.click();
-  //       }
-  //     }, error => {
-  //       console.error('Error fetching the attachment:', error);
-  //     });
-  //   } else {
-  //     console.error('No attachment found for the candidate.');
-  //   }
-  // }
 }

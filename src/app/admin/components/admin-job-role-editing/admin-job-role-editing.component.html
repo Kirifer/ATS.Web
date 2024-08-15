@@ -36,22 +36,16 @@
                     <div class="select-box">
                         <select formControlName="hiringType" style="background-color: transparent;">
                             <option value="" disabled selected hidden>Type of Hiring</option>
-                            <option>Additional</option>
-                            <option>Replacement</option>
+                            <option *ngFor="let hiring of hiringType" [value]="hiring.value">{{ hiring.display }}
+                            </option>
                         </select>
                     </div>
     
                     <div class="select-box">
                         <select formControlName="roleLevel" style="background-color: transparent;">
                             <option value="" disabled selected hidden>Role Level</option>
-                            <option>Junior</option>
-                            <option>Mid</option>
-                            <option>Senior</option>
-                            <option>Supervisor</option>
-                            <option>Asst. Manager</option>
-                            <option>Manager</option>
-                            <option>Director</option>
-                            <option>Executive</option>
+                            <option *ngFor="let level of roleLevel" [value]="level.value">{{ level.display }}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -60,22 +54,16 @@
                     <div class="select-box">
                         <select formControlName="jobLocation" style="background-color: transparent;">
                             <option value="" disabled selected hidden>Location</option>
-                            <option>Office Based</option>
-                            <option>Work from Home</option>
-                            <option>Hybrid</option>
+                            <option *ngFor="let loc of jobLocation" [value]="loc.value">{{ loc.display }}
+                            </option>
                         </select>
                     </div>
     
                     <div class="select-box">
                         <select formControlName="shiftSched" style="background-color: transparent;">
                             <option value="" disabled selected hidden>Schedule</option>
-                            <option>Morning Shift (6AM to 3PM)</option>
-                            <option>Morning Shift (7AM to 4PM)</option>
-                            <option>Regular Shift (8AM to 5PM)</option>
-                            <option>Regular Shift (9AM to 6PM)</option>
-                            <option>Mid Shift (3PM to 12MN)</option>
-                            <option>Night Shift (9PM to 6AM)</option>
-                            <option>Night Shift (10PM to 7AM)</option>
+                            <option *ngFor="let sched of shiftSched" [value]="sched.value">{{ sched.display }}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -97,20 +85,16 @@
                     <div class="select-box">
                         <select formControlName="hiringManager" style="background-color: transparent;">
                             <option value="" disabled selected hidden>Hiring Manager</option>
-                            <option>Client</option>
-                            <option>Partner</option>
+                            <option *ngFor="let manager of hiringManager" [value]="manager.value">{{ manager.display }}
+                            </option>
                         </select>
                     </div>
     
                     <div class="select-box">
                         <select formControlName="jobStatus" style="background-color: transparent;">
                             <option value="" disabled selected hidden>Status</option>
-                            <option>Sourcing Candidates</option>
-                            <option>For Client Presentation</option>
-                            <option>Client Interview</option>
-                            <option>Filled Position</option>
-                            <option>Cancelled</option>
-                            <option>On Hold</option>
+                            <option *ngFor="let status of jobStatus" [value]="status.value">{{ status.display }}
+                            </option>
                         </select>
                     </div>
                 </div>

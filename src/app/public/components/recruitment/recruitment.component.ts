@@ -1,60 +1,12 @@
-// import { Component } from '@angular/core';
-// import { ChangeDetectionStrategy } from '@angular/core';
-// import { FormBuilder, Validators } from '@angular/forms';
-
-// import { signal } from '@angular/core';
-
-// @Component({
-//   selector: 'app-recruitment',
-//   templateUrl: './recruitment.component.html',
-//   styleUrl: './recruitment.component.css',
-//   changeDetection: ChangeDetectionStrategy.OnPush,
-// })
-// export class RecruitmentComponent {
-//   readonly panelOpenState = signal(false);
-
-//   hide = signal(true);
-//   clickEvent(event: MouseEvent) {
-//     this.hide.set(!this.hide);
-//     event.stopPropagation();
-//   }
-
-//   firstFormGroup = this._formBuilder.group({
-//     firstCtrl: ['', Validators.required],
-//   });
-//   secondFormGroup = this._formBuilder.group({
-//     secondCtrl: ['', Validators.required],
-//   });
-//   thirdFormGroup = this._formBuilder.group({
-//     thirdCtrl: ['', Validators.required],
-//   });
-//   fourthFormGroup = this._formBuilder.group({
-//     fourthCtrl: ['', Validators.required],
-//   });
-
-//   isLinear = false;
-
-//   constructor(private _formBuilder: FormBuilder) { }
-
-//   onChange(event: Event) {
-//     const inputElement = event.target as HTMLInputElement;
-//     if (inputElement.files?.length) {
-//       const file: File = inputElement.files[0];
-//       console.log('Selected file:', file);
-//       // You can process the selected file here (e.g., upload to server, etc.)
-//     }
-//   }
-
-// }
-
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { JobCandidate } from '../../../models/job-candidate';
-import { JobRoles } from '../../../models/job-roles';
+import { JobCandidate, JobCandidateAttachment } from '../../../models/job-candidate';
+import { JobLocation, JobLocationDisplay, JobRoles, RoleLevel, RoleLevelDisplay, ShiftSchedule, ShiftScheduleDisplay } from '../../../models/job-roles';
 import { Observable, catchError, throwError, map, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+
+import { NoticeDuration, NoticeDurationDisplay } from '../../../models/job-candidate';
 
 @Component({
   selector: 'app-recruitment',
@@ -67,35 +19,41 @@ export class RecruitmentComponent implements OnInit {
   jobs$!: Observable<JobRoles>;
   job?: JobRoles;
 
+  attachments: JobCandidateAttachment[] = [];
+
   private getJobAPIUrl = 'https://localhost:7012/jobrole';
+
+  noticeDurations = Object.keys(NoticeDuration).map(key => ({
+    value: NoticeDuration[key as keyof typeof NoticeDuration],
+    display: NoticeDurationDisplay[key as keyof typeof NoticeDurationDisplay]
+  }));
 
   constructor(public fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute) {
     this.recruitmentForm = this.fb.group({
-      csequenceNo: [{ value: '', disabled: true }, Validators.required],
       candidateName: ['', Validators.required],
-      jobRoleId: [''],
-      jobName: [''],
+      jobRoleId: ['', Validators.required],
+      jobName: ['', Validators.required],
       sourceTool: [''],
       assignedHr: [''],
       candidateCv: ['', Validators.required],
       candidateEmail: ['', Validators.required],
       candidateContact: ['', Validators.required],
-      askingSalary: ['', Validators.required],
-      salaryNegotiable: ['', Validators.required],
-      minSalary: ['', Validators.required],
-      maxSalary: [''],
+      askingSalary: [''],
+      salaryNegotiable: [''],
+      minSalary: [''],
+      maxSalary: [null],
       noticeDuration: ['', Validators.required],
       dateApplied: [''],
       initialInterviewSchedule: ['', Validators.required],
-      technicalInterviewSchedule: [''],
-      clientFinalInterviewSchedule: [''],
-      backgroundVerification: [''],
+      technicalInterviewSchedule: [null],
+      clientFinalInterviewSchedule: [null],
+      backgroundVerification: [null],
       applicationStatus: [''],
-      finalSalary: [''],
-      allowance: [''],
+      finalSalary: [null],
+      allowance: [null],
       honorarium: [''],
-      jobOffer: [''],
-      candidateContract: [''],
+      jobOffer: [null],
+      candidateContract: [null],
       remarks: ['']
     });
   }
@@ -104,19 +62,33 @@ export class RecruitmentComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        this.http.get<{ data: JobRoles }>(`${this.getJobAPIUrl  }/${id}`).pipe(
+        this.http.get<{ data: JobRoles }>(`${this.getJobAPIUrl}/${id}`).pipe(
           tap(response => {
             console.log('Data received from backend:', response);
             this.job = response.data; // Assign data to job property
+  
+            // Update form with the received job data
+            this.recruitmentForm.patchValue({
+              jobRoleId: this.job?.sequenceNo || '', // Set sequenceNo from console to candidate.jobRoleId
+              jobName: this.job?.jobName || '', // Set jobName from console to candidate.jobName
+              dateApplied: new Date().toISOString().split('T')[0] // Set current date
+            });
           }),
           catchError(error => {
             console.error('Error fetching job role:', error);
             return throwError(() => new Error('Error fetching job role'));
           })
         ).subscribe();
+      } else {
+        // If no job role ID is provided, set current date here as a fallback
+        this.recruitmentForm.patchValue({
+          dateApplied: new Date().toISOString().split('T')[0] // Set current date
+        });
       }
     });
   }
+  
+  
 
   logValidationErrors(group: FormGroup = this.recruitmentForm): void {
     Object.keys(group.controls).forEach((key: string) => {
@@ -133,7 +105,28 @@ export class RecruitmentComponent implements OnInit {
 
   onSubmitHr(): void {
     if (this.recruitmentForm.valid) {
-      this.http.post('https://localhost:7012/jobcandidate', this.recruitmentForm.value)
+      let formData = this.recruitmentForm.value;
+      formData.attachments = this.attachments;
+
+      // Handle nullable dates
+      formData.jobOffer = this.formatNullableDate(formData.jobOffer);
+      formData.candidateContract = this.formatNullableDate(formData.candidateContract);
+      formData.backgroundVerification = this.formatNullableDate(formData.backgroundVerification);
+      formData.technicalInterviewSchedule = this.formatNullableDate(formData.technicalInterviewSchedule);
+      formData.clientFinalInterviewSchedule = this.formatNullableDate(formData.clientFinalInterviewSchedule);
+
+      // Convert empty strings to null for integer fields
+      formData.maxSalary = this.convertEmptyToNull(formData.maxSalary);
+      formData.finalSalary = this.convertEmptyToNull(formData.finalSalary);
+      formData.allowance = this.convertEmptyToNull(formData.allowance);
+
+      // Handle nullable enums
+      formData.applicationStatus = this.formatEnum(formData.applicationStatus);
+      formData.sourceTool = this.formatEnum(formData.sourceTool);
+      formData.assignedHr = this.formatEnum(formData.assignedHr);
+      formData.applicationStatus = this.formatEnum(formData.applicationStatus);
+
+      this.http.post('https://localhost:7012/jobcandidate', formData)
         .subscribe({
           next: (response) => {
             console.log('Job candidate submitted:', response);
@@ -149,6 +142,63 @@ export class RecruitmentComponent implements OnInit {
       this.logValidationErrors();
     }
   }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const attachment: JobCandidateAttachment = {
+          id: null,
+          fileName: file.name,
+          path: '',
+          size: file.size,
+          extension: file.type,
+          savedFileName: '',
+          createdOn: new Date(),
+          content: e.target.result.split(',')[1] // Base64 encoded string
+        };
+        this.attachments.push(attachment);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Method to get display for role level, job location, and shift sched
+  getRoleLevelDisplay(level: RoleLevel): string {
+    return RoleLevelDisplay[level];
+  }
+
+  getJobLocationDisplay(location: JobLocation): string {
+    return JobLocationDisplay[location];
+  }
+
+  getShiftSchedDisplay(sched: ShiftSchedule): string {
+    return ShiftScheduleDisplay[sched];
+  }
+
+  // Utility method to convert empty values to null - INTEGER
+  convertEmptyToNull(value: any): number | null {
+    return value === '' || value === undefined ? null : value;
+  }
+
+  // Utility method to convert empty values to null - DATE
+  formatNullableDate(date: any): string | null {
+    if (!date) return null;
+    try {
+      const parsedDate = new Date(date);
+      return isNaN(parsedDate.getTime()) ? null : parsedDate.toISOString().split('T')[0];
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return null;
+    }
+  }
+
+    // Utility method to handle enum formatting
+    formatEnum(value: any): string | null {
+      return value === '' ? null : value;
+    }
+
 
   setDefaultDropdownValues(): void {
     this.recruitmentForm.patchValue({

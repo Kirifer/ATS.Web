@@ -5,6 +5,8 @@ import { JobRoles } from '../../../models/job-roles';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
+import { HiringType, HiringTypeDisplay, RoleLevel, RoleLevelDisplay, JobLocation, JobLocationDisplay, ShiftSchedule, ShiftScheduleDisplay, HiringManager, HiringManagerDisplay, JobStatus, JobStatusDisplay } from '../../../models/job-roles';
+
 @Component({
   selector: 'app-admin-job-role-editing',
   templateUrl: './admin-job-role-editing.component.html',
@@ -15,6 +17,36 @@ export class AdminJobRoleEditingComponent implements OnChanges {
   @Output() close = new EventEmitter<void>();
 
   jobForm: FormGroup;
+
+  hiringType = Object.keys(HiringType).map(key => ({
+    value: HiringType[key as keyof typeof HiringType],
+    display: HiringTypeDisplay[key as keyof typeof HiringTypeDisplay]
+  }));
+
+  roleLevel = Object.keys(RoleLevel).map(key => ({
+    value: RoleLevel[key as keyof typeof RoleLevel],
+    display: RoleLevelDisplay[key as keyof typeof RoleLevelDisplay]
+  }));
+
+  jobLocation = Object.keys(JobLocation).map(key => ({
+    value: JobLocation[key as keyof typeof JobLocation],
+    display: JobLocationDisplay[key as keyof typeof JobLocationDisplay]
+  }));
+
+  shiftSched = Object.keys(ShiftSchedule).map(key => ({
+    value: ShiftSchedule[key as keyof typeof ShiftSchedule],
+    display: ShiftScheduleDisplay[key as keyof typeof ShiftScheduleDisplay]
+  }));
+
+  hiringManager = Object.keys(HiringManager).map(key => ({
+    value: HiringManager[key as keyof typeof HiringManager],
+    display: HiringManagerDisplay[key as keyof typeof HiringManagerDisplay]
+  }));
+
+  jobStatus = Object.keys(JobStatus).map(key => ({
+    value: JobStatus[key as keyof typeof JobStatus],
+    display: JobStatusDisplay[key as keyof typeof JobStatusDisplay]
+  }));
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.jobForm = this.fb.group({
@@ -45,7 +77,15 @@ export class AdminJobRoleEditingComponent implements OnChanges {
 
   onUpdate() {
     if (this.jobForm.valid && this.jobRole) {
-      this.http.put(`https://localhost:7012/jobrole/${this.jobRole.id}`, this.jobForm.value).pipe(
+      // Get the form value
+      const formData = { ...this.jobForm.value };
+  
+      // Check if closedDate is an empty string and set it to null
+      if (!formData.closedDate) {
+        formData.closedDate = null;
+      }
+  
+      this.http.put(`https://localhost:7012/jobrole/${this.jobRole.id}`, formData).pipe(
         tap(response => {
           console.log('Job updated:', response);
           this.onClose();
@@ -57,6 +97,7 @@ export class AdminJobRoleEditingComponent implements OnChanges {
       ).subscribe();
     }
   }
+  
 
   onClose() {
     this.close.emit();

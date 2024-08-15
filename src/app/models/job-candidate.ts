@@ -4,8 +4,8 @@ export interface JobCandidate {
     candidateName: string; // Name
     jobRoleId: string; // Job Role Number
     jobName: string; // Job Title (PUBLIC)
-    sourceTool: string; // Sourcing Tool
-    assignedHr: string; // HR In-Charge
+    sourceTool: SourcingTool; // Sourcing Tool
+    assignedHr: HRInCharge; // HR In-Charge
     candidateCv: string; // Updated CV (file path or URL) (PUBLIC)
     candidateEmail: string; // Email Address (PUBLIC)
     candidateContact: string; // Contact Number (PUBLIC)
@@ -13,7 +13,7 @@ export interface JobCandidate {
     salaryNegotiable: string; // Negotiable (Yes/No) (PUBLIC)
     minSalary: number; // Minimum Negotiated Salary (PUBLIC)
     maxSalary: number; // Maximum Negotiated Salary
-    noticeDuration: string; // Availability (notice period) (PUBLIC)
+    noticeDuration: NoticeDuration; // Availability (notice period) (PUBLIC)
 
     dateApplied: Date; // Date Applied
     initialInterviewSchedule: Date; // Initial Interview Schedule (PUBLIC)

@@ -1,37 +1,236 @@
-#chart1 {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    width: 100%;
+/* Container for the entire dashboard */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    margin: 2rem 0;
+}
+
+/* Styling for the sections of the dashboard */
+#reports, #progress {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+}
+
+/* Each report/progress section container */
+.report-section, .progress-section > div {
     background: #fff;
-    padding: 25px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-container{
-    min-height: 100vh;
-    display: flex;
-    padding: 20px;
-    /* background: rgb(130, 106, 251); */
-    margin: 2rem 0;
+/* Headers styling */
+h1 {
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* List styling */
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* General text styling */
+p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Responsive grid for reports and progress sections */
+@media (max-width: 768px) {
+    #reports, #progress {
+        grid-template-columns: 1fr;
+    }
 }
 
 
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 2rem 0;
+}
 
-#dashboard {
+/* Reports Section */
+.reports-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    margin-bottom: 40px;
+}
+
+.report-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Progress Section */
+.progress-section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
 }
 
-.chart {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    width: 100%;
+.progress-card {
     background: #fff;
-    padding: 25px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+#chart-container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+.reports-main {
+    padding: 20px;
+}
+
+.reports-row {
+    display: flex;
+    flex-direction: row; /* Ensure cards are in a row */
+    flex-wrap: wrap; /* Allow wrapping to the next line if needed */
+    justify-content: center;
+}
+
+.reports-background {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.reports-card {
+    display: flex;
+    align-items: center;
+    width: 250px;
+    padding: 10px 10px 10px 50px;
+    margin: 10px 30px;
+    border-radius: 8px;
+    text-align: left;
+    color: #fff;
+    border: 2px solid;
+    min-height: 8rem;
+    position: relative; /* Ensure the ::before element is positioned relative to the card */
+}
+
+.reports-card i {
+    font-size: 28px;
+    position: absolute; /* Position the icon absolutely */
+    left: -30px; /* Adjust the position to overlap the card */
+    z-index: 1; /* Ensure the icon is above the ::before element */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px; /* Match the width of the ::before element */
+    height: 60px; /* Match the height of the ::before element */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add drop shadow */
+}
+
+i::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: -1; /* Ensure the ::before element is behind the icon */
+}
+
+
+.new-applications i::before {
+    background-color: #e57373; /* Saturated color for New Applications */
+}
+
+.qualified i::before {
+    background-color: #7986cb; /* Saturated color for Qualified */
+}
+
+.scheduled i::before {
+    background-color: #f06292; /* Saturated color for Scheduled */
+}
+
+.interviewed i::before {
+    background-color: #ffb74d; /* Saturated color for Interviewed */
+}
+
+.joined i::before {
+    background-color: #81c784; /* Saturated color for Joined */
+}
+
+.reports-stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the left */
+}
+
+.reports-card h6 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    color: #454a52;
+}
+
+.reports-card .report-card-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #191a1b;
+}
+
+.new-applications {
+    background-color: #f9dad9;
+    border-color: #fceeee;
+}
+
+.qualified {
+    background-color: #e2e2f8;
+    border-color: #f5f5ff;
+}
+
+.scheduled {
+    background-color: #f6d9ed;
+    border-color: #fceef7;
+}
+
+.interviewed {
+    background-color: #fdf0cc;
+    border-color: #fff7e6;
+}
+
+.joined {
+    background-color: #d9eed8;
+    border-color: #eefaf0;
 }

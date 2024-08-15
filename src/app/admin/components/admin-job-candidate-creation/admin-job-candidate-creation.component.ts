@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JobCandidate, JobCandidateAttachment} from '../../../models/job-candidate';
+import { JobCandidate, JobCandidateAttachment } from '../../../models/job-candidate';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, tap, throwError } from 'rxjs';
 
@@ -41,37 +41,55 @@ export class AdminJobCandidateCreationComponent implements OnInit {
       candidateName: ['', Validators.required],
       jobRoleId: ['', Validators.required],
       jobName: ['', Validators.required],
-      sourceTool: ['', Validators.required],
-      assignedHr: ['', Validators.required],
+      sourceTool: [''],
+      assignedHr: [''],
       candidateCv: ['', Validators.required],
       candidateEmail: ['', Validators.required],
       candidateContact: ['', Validators.required],
       askingSalary: [''],
       salaryNegotiable: [''],
       minSalary: [''],
-      maxSalary: [''],
+      maxSalary: [null],
       noticeDuration: ['', Validators.required],
-      dateApplied: ['', Validators.required],
+      dateApplied: [''],
       initialInterviewSchedule: ['', Validators.required],
-      technicalInterviewSchedule: ['', Validators.required],
-      clientFinalInterviewSchedule: ['', Validators.required],
-      backgroundVerification: ['', Validators.required],
-      applicationStatus: ['', Validators.required],
-      finalSalary: [''],
-      allowance: [''],
+      technicalInterviewSchedule: [null],
+      clientFinalInterviewSchedule: [null],
+      backgroundVerification: [null],
+      applicationStatus: [''],
+      finalSalary: [null],
+      allowance: [null],
       honorarium: [''],
-      jobOffer: [''],
-      candidateContract: [''],
+      jobOffer: [null],
+      candidateContract: [null],
       remarks: ['']
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit(): void {
     if (this.candidateForm.valid) {
       let formData = this.candidateForm.value;
       formData.attachments = this.attachments;
+
+      // Handle nullable dates
+      formData.jobOffer = this.formatNullableDate(formData.jobOffer);
+      formData.candidateContract = this.formatNullableDate(formData.candidateContract);
+      formData.backgroundVerification = this.formatNullableDate(formData.backgroundVerification);
+      formData.technicalInterviewSchedule = this.formatNullableDate(formData.technicalInterviewSchedule);
+      formData.clientFinalInterviewSchedule = this.formatNullableDate(formData.clientFinalInterviewSchedule);
+
+      // Convert empty strings to null for integer fields
+      formData.maxSalary = this.convertEmptyToNull(formData.maxSalary);
+      formData.finalSalary = this.convertEmptyToNull(formData.finalSalary);
+      formData.allowance = this.convertEmptyToNull(formData.allowance);
+
+      // Handle nullable enums
+      formData.applicationStatus = this.formatEnum(formData.applicationStatus);
+      formData.sourceTool = this.formatEnum(formData.sourceTool);
+      formData.assignedHr = this.formatEnum(formData.assignedHr);
+      formData.applicationStatus = this.formatEnum(formData.applicationStatus);
 
       this.http.post('https://localhost:7012/jobcandidate', formData)
         .subscribe({
@@ -89,6 +107,7 @@ export class AdminJobCandidateCreationComponent implements OnInit {
       this.logValidationErrors();
     }
   }
+
 
   onUpdate(id: string) {
     if (this.candidateForm.valid) {
@@ -159,4 +178,27 @@ export class AdminJobCandidateCreationComponent implements OnInit {
       noticeDuration: ''
     });
   }
+
+  // Utility method to convert empty values to null - INTEGER
+  convertEmptyToNull(value: any): number | null {
+    return value === '' || value === undefined ? null : value;
+  }
+
+  // Utility method to convert empty values to null - DATE
+  formatNullableDate(date: any): string | null {
+    if (!date) return null;
+    try {
+      const parsedDate = new Date(date);
+      return isNaN(parsedDate.getTime()) ? null : parsedDate.toISOString().split('T')[0];
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return null;
+    }
+  }
+
+    // Utility method to handle enum formatting
+    formatEnum(value: any): string | null {
+      return value === '' ? null : value;
+    }
+
 }

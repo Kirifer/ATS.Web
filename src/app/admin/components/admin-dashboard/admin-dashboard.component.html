@@ -1,20 +1,148 @@
-<h1>Dashboard</h1>
-
+<section class="reports-main">
+    <div class="reports-background">
+        <h2>Application Status</h2>
+        <div class="reports-row">
+            <div class="reports-card new-applications">
+                <!-- <i class="fas fa-file-alt"></i> -->
+                <i class="fa-solid fa-file-pen"></i>
+                <div class="reports-stack">
+                    <h6>New Applications</h6>
+                    <p class="report-card-value value">{{ getNewCandidates() }}</p>
+                </div>
+            </div>
+            <div class="reports-card qualified">
+                <!-- <i class="fas fa-check"></i> -->
+                <i class="fa-solid fa-check-to-slot"></i>
+                <div class="reports-stack">
+                    <h6>Qualified</h6>
+                    <p class="report-card-value value">150</p>
+                </div>
+            </div>
+            <div class="reports-card scheduled">
+                <!-- <i class="fas fa-calendar-alt"></i> -->
+                <i class="fa-solid fa-calendar-day"></i>
+                <div class="reports-stack">
+                    <h6>Scheduled</h6>
+                    <p class="report-card-value value">{{ getForInterviewCandidates() }}</p>
+                </div>
+            </div>
+            <div class="reports-card interviewed">
+                <!-- <i class="fas fa-comments"></i> -->
+                <i class="fa-solid fa-clipboard-question"></i>
+                <div class="reports-stack">
+                    <h6>Interviewed</h6>
+                    <p class="report-card-value value">75</p>
+                </div>
+            </div>
+            <div class="reports-card joined">
+                <!-- <i class="fas fa-user"></i> -->
+                <i class="fa-solid fa-user-check"></i>
+                <div class="reports-stack">
+                    <h6>Joined</h6>
+                    <p class="report-card-value value">{{ getNewHires() }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <main class="dashboard-container">
-    <div id="dashboard">
-        <div id="main" style="width: 800px; height: 600px;"></div>
-        <div id="chart1" class="chart"></div>
-        <div id="chart2" class="chart"></div>
-        <div id="chart3" class="chart"></div>
-        <div id="chart4" class="chart"></div>
-        <div id="chart5" class="chart"></div>
-        <div id="chart6" class="chart"></div>
-        <div id="chart7" class="chart"></div>
-        <div id="chart8" class="chart"></div>
-        <div id="chart9" class="chart"></div>
-        <div id="chart10" class="chart"></div>
-        <div id="chart11" class="chart"></div>
-        <div id="chart12" class="chart"></div>
-    </div>
+    <!-- Reports Section -->
+    <section class="reports-section">
+        <div class="report-card">
+            <!-- <h2>Sourcing Tool Analytics</h2> -->
+            <div #sourcingToolChart style="width: 100%; height: 400px;"></div>
+        </div>
+
+        <div class="report-card">
+            <!-- <h2>Sourced by Recruiter</h2> -->
+            <!-- <ul>
+                <li *ngFor="let recruiter of getCandidatesSourcedByHr() | keyvalue">
+                    {{ recruiter.key }}: {{ recruiter.value }}
+                </li>
+            </ul> -->
+            <div #hrChart style="width: 100%; height: 400px;"></div> <!-- Add this line for HR bar chart -->
+        </div>
+
+        <div class="report-card">
+            <!-- <h2>Applicant Funnel</h2> -->
+            <!-- <ul>
+                <li *ngFor="let status of getApplicationStatusCount() | keyvalue">
+                    {{ status.key }}: {{ status.value }}
+                </li>
+            </ul> -->
+            <div #applicantFunnelChart style="width: 600px; height: 400px;"></div>
+        </div>
+
+        <div class="report-card">
+            <h2>Fill Rate</h2>
+            <p>{{ getFillRate() }}%</p>
+        </div>
+
+        <div class="report-card">
+            <h2>Total Number of Candidates per Position</h2>
+            <ul>
+                <li *ngFor="let role of getCandidatesPerPosition() | keyvalue">
+                    {{ role.key }}: {{ role.value }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="report-card">
+            <h2>Active Jobs</h2>
+            <p>{{ getActiveJobsCount() }}</p>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <section class="progress-section">
+        <div class="progress-card">
+            <h2>New Candidates</h2>
+            <p>{{ getNewCandidates() }}</p>
+        </div>
+
+        <div class="progress-card">
+            <h2>For Interview Candidates</h2>
+            <p>{{ getForInterviewCandidates() }}</p>
+        </div>
+
+        <div class="progress-card">
+            <h2>Job Offers</h2>
+            <!-- <ul>
+                <li>Made: {{ getJobOffers().made }}</li>
+                <li>Accepted: {{ getJobOffers().accepted }}</li>
+                <li>Declined: {{ getJobOffers().declined }}</li>
+            </ul> -->
+            <div #jobOffersChart style="width: 600px; height: 400px;"></div>
+        </div>
+
+        <div class="progress-card">
+            <h2>New Hires</h2>
+            <p>{{ getNewHires() }}</p>
+        </div>
+
+        <div class="progress-card">
+            <h2>Time to Fill</h2>
+            <p>{{ getTimeToFill() }} days</p>
+        </div>
+
+        <div class="progress-card">
+            <h2>Interview Planner</h2>
+            <ul>
+                <li *ngFor="let candidate of getInterviewPlanner()">
+                    {{ candidate.candidateName }} - {{ candidate.applicationStatus }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="progress-card">
+            <h2>Job Aging</h2>
+            <ul>
+                <li *ngFor="let role of getAgingCandidates()">
+                    {{ role.jobName }}: {{ role.aging }} days
+                </li>
+            </ul>
+        </div>
+    </section>
+</main>
 <script src="https://fastly.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>

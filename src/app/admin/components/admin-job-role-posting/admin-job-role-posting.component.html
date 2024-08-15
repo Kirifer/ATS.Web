@@ -1,174 +1,5 @@
-<!-- <main class="job-posting">
-<h1 class="job-posting-header">Create Job</h1>
-<section class="job-posting-container">
-    <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
-        <mat-form-field class="job-posting-form-field">
-            <input matInput placeholder="Job Title" formControlName="jobTitle">
-            <mat-error *ngIf="jobForm.get('jobTitle').hasError('required')">
-                Job Title is required
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="job-posting-form-field">
-            <input matInput placeholder="Job Location" formControlName="jobLocation">
-            <mat-error *ngIf="jobForm.get('jobLocation').hasError('required')">
-                Job Location is required
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="job-posting-form-field">
-            <input matInput placeholder="Job Setting" formControlName="jobSetting">
-            <mat-error *ngIf="jobForm.get('jobSetting').hasError('required')">
-                Job Setting is required
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="job-posting-form-field">
-            <textarea matInput placeholder="Job Description" formControlName="jobDescription"></textarea>
-            <mat-error *ngIf="jobForm.get('jobDescription').hasError('required')">
-                Job Description is required
-            </mat-error>
-        </mat-form-field>
-
-        <button mat-raised-button type="submit" class="job-posting-button" [disabled]="jobForm.invalid">Create Job</button>
-    </form>
-</section>
-</main> -->
-<!-- <main class="job-posting">
-    <h1 class="job-posting-header">Create Job</h1>
-    <section class="job-posting-container">
-        <mat-form-field appearance="outline" class="job-posting-form-field">
-            <mat-label>Job Title</mat-label>
-            <input matInput placeholder="Job Title" formControlName="jobTitle">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="job-posting-form-field">
-            <mat-label>Job Description</mat-label>
-            <textarea matInput placeholder="Job Description" formControlName="jobDescription"></textarea>
-            <mat-error>
-                Job Description is required
-            </mat-error>
-        </mat-form-field>
-    </section>
-</main> -->
-
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<!-- <main class="job-posting">
-    <h1 class="job-posting-header">Create Job</h1>
-    <section class="container">
-        <header>Add a New Job Listing</header>
-        <form action="#" class="form">
-            <h2>Job Details</h2>
-            <div class="column">
-                <div class="input-box">
-                    <label>Job Name</label>
-                    <input type="text" placeholder="ex. HR Assistant" required />
-                </div>
-                <div class="input-box">
-                    <label>Client Shortcodes</label>
-                    <input type="text" placeholder="ex. ITS" required />
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Minimum Salary</label>
-                    <input type="number" placeholder="ex. 14000" required />
-                </div>
-                <div class="input-box">
-                    <label>Maximum Salary</label>
-                    <input type="number" placeholder="ex. 17000" required />
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>Type of Hiring</option>
-                        <option>Additional</option>
-                        <option>Replacement</option>
-                    </select>
-                </div>
-
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>Role Level</option>
-                        <option>Junior</option>
-                        <option>Mid</option>
-                        <option>Senior</option>
-                        <option>Supervisor</option>
-                        <option>Asst. Manager</option>
-                        <option>Manager</option>
-                        <option>Director</option>
-                        <option>Executive</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>Location</option>
-                        <option>Office Based</option>
-                        <option>Work from Home</option>
-                        <option>Hybrid</option>
-                    </select>
-                </div>
-
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>Schedule</option>
-                        <option>Morning Shift (6AM to 3PM)</option>
-                        <option>Morning Shift (7AM to 4PM)</option>
-                        <option>Regular Shift (8AM to 5PM)</option>
-                        <option>Regular Shift (9AM to 6PM)</option>
-                        <option>Mid Shift (3PM to 12MN)</option>
-                        <option>Night Shift (9PM to 6AM)</option>
-                        <option>Night Shift (10PM to 7AM)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="input-box">
-                <label>Job Description</label>
-                <input type="text" placeholder="Type here the details about the job you want to upload." required />
-            </div>
-
-            <br>
-            <h2>Other Details</h2>
-
-            <div class="input-box">
-                <label>Sales Manager</label>
-                <input type="text" placeholder="ex. Juana Dela Rosa" required />
-            </div>
-
-            <div class="column">
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>Hiring Manager</option>
-                        <option>Client</option>
-                        <option>Partner</option>
-                    </select>
-                </div>
-
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>Status</option>
-                        <option>Sourcing Candidates</option>
-                        <option>For Client Presentation</option>
-                        <option>Client Interview</option>
-                        <option>Filled Position</option>
-                        <option>Cancelled</option>
-                        <option>On Hold</option>
-                    </select>
-                </div>
-            </div>
-            <button>Submit</button>
-        </form>
-    </section>
-</main> -->
-
 
 <main class="job-posting">
     <div class="icon-container">
@@ -204,48 +35,36 @@
 
             <div class="column">
                 <div class="select-box">
-                    <select formControlName="hiringType" style="background-color: transparent;">
+                    <select formControlName="hiringType" style="background-color: transparent;" required>
                         <option value="" disabled selected hidden>Type of Hiring</option>
-                        <option>Additional</option>
-                        <option>Replacement</option>
+                        <option *ngFor="let hiring of hiringType" [value]="hiring.value">{{ hiring.display }}
+                        </option>
                     </select>
                 </div>
 
                 <div class="select-box">
-                    <select formControlName="roleLevel" style="background-color: transparent;">
+                    <select formControlName="roleLevel" style="background-color: transparent;" required>
                         <option value="" disabled selected hidden>Role Level</option>
-                        <option>Junior</option>
-                        <option>Mid</option>
-                        <option>Senior</option>
-                        <option>Supervisor</option>
-                        <option>Asst. Manager</option>
-                        <option>Manager</option>
-                        <option>Director</option>
-                        <option>Executive</option>
+                        <option *ngFor="let role of roleLevel" [value]="role.value">{{ role.display }}
+                        </option>
                     </select>
                 </div>
             </div>
 
             <div class="column">
                 <div class="select-box">
-                    <select formControlName="jobLocation" style="background-color: transparent;">
+                    <select formControlName="jobLocation" style="background-color: transparent;" required>
                         <option value="" disabled selected hidden>Location</option>
-                        <option>Office Based</option>
-                        <option>Work from Home</option>
-                        <option>Hybrid</option>
+                        <option *ngFor="let loc of jobLocation" [value]="loc.value">{{ loc.display }}
+                        </option>
                     </select>
                 </div>
 
                 <div class="select-box">
-                    <select formControlName="shiftSched" style="background-color: transparent;">
+                    <select formControlName="shiftSched" style="background-color: transparent;" required>
                         <option value="" disabled selected hidden>Schedule</option>
-                        <option>Morning Shift (6AM to 3PM)</option>
-                        <option>Morning Shift (7AM to 4PM)</option>
-                        <option>Regular Shift (8AM to 5PM)</option>
-                        <option>Regular Shift (9AM to 6PM)</option>
-                        <option>Mid Shift (3PM to 12MN)</option>
-                        <option>Night Shift (9PM to 6AM)</option>
-                        <option>Night Shift (10PM to 7AM)</option>
+                        <option *ngFor="let sched of shiftSched" [value]="sched.value">{{ sched.display }}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -265,22 +84,18 @@
 
             <div class="column">
                 <div class="select-box">
-                    <select formControlName="hiringManager" style="background-color: transparent;">
+                    <select formControlName="hiringManager" style="background-color: transparent;" required>
                         <option value="" disabled selected hidden>Hiring Manager</option>
-                        <option>Client</option>
-                        <option>Partner</option>
+                        <option *ngFor="let manager of hiringManager" [value]="manager.value">{{ manager.display }}
+                        </option>
                     </select>
                 </div>
 
                 <div class="select-box">
-                    <select formControlName="jobStatus" style="background-color: transparent;">
+                    <select formControlName="jobStatus" style="background-color: transparent;" required>
                         <option value="" disabled selected hidden>Status</option>
-                        <option>Sourcing Candidates</option>
-                        <option>For Client Presentation</option>
-                        <option>Client Interview</option>
-                        <option>Filled Position</option>
-                        <option>Cancelled</option>
-                        <option>On Hold</option>
+                        <option *ngFor="let status of jobStatus" [value]="status.value">{{ status.display }}
+                        </option>
                     </select>
                 </div>
             </div>

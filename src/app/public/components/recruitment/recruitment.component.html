@@ -12,15 +12,15 @@
                     <div class="job-container">
                         <div class="job-roleLevel">
                             <i class="fa-solid fa-person"></i>
-                            <span class="job-roleLevel-description">{{job.roleLevel}} Level</span>
+                            <span class="job-roleLevel-description">{{ getRoleLevelDisplay(job.roleLevel)}} Level</span>
                         </div>
                         <div class="job-location">
                             <i class="fas fa-location-dot"></i>
-                            <span class="job-location-description">{{job.jobLocation}}</span>
+                            <span class="job-location-description">{{ getJobLocationDisplay(job.jobLocation)}}</span>
                         </div>
                         <div class="job-setting">
                             <i class="fa-solid fa-clock"></i>
-                            <span class="job-setting-description">{{job.shiftSched}}</span>
+                            <span class="job-setting-description" >{{ getShiftSchedDisplay(job.shiftSched) }}</span>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                 <h2 class="formbold-form-heading">Figures</h2>
                 <div class="formbold-mb-3">
                     <select class="formbold-form-input" formControlName="salaryNegotiable">
-                        <option hidden>Is the Salary Negotiable?</option>
+                        <option value="" disabled selected hidden>Is the Salary Negotiable?</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
@@ -91,11 +91,10 @@
                 <div class="formbold-input-flex">
                     <div>
                         <label class="formbold-form-label">Availability</label>
-                        <select class="formbold-form-input" formControlName="noticeDuration">
-                            <option>1 week notice</option>
-                            <option>2 weeks notice</option>
-                            <option>3 weeks notice</option>
-                            <option>4 weeks or more notice</option>
+                        <select class="formbold-form-input" formControlName="noticeDuration" required>
+                            <option value="" disabled selected hidden>Availability</option>
+                            <option *ngFor="let notice of noticeDurations" [value]="notice.value">{{ notice.display }}
+                            </option>
                         </select>
                     </div>
                     <div>

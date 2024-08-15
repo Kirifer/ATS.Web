@@ -1,382 +1,4 @@
-<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<main class="job-posting">
-    <h1 class="job-posting-header">Recruitment</h1>
-    <section class="container">
-        <header>Add a New Candidate</header>
-        <form action="#" class="form">
-
-            <h2>Personal Information</h2>
-            <div class="input-box">
-                <label>Full Name</label>
-                <input type="text" placeholder="ex. Juan C. Dela Cruz" required />
-            </div>
-            <div class="column">
-                <div class="input-box">
-                    <label>Email Address</label>
-                    <input type="email" placeholder="ex. juan.delacruz@outlook.com" required />
-                </div>
-                <div class="input-box">
-                    <label>Contact Number</label>
-                    <input type="text" placeholder="ex. 9123456789" required />
-                </div>
-            </div>
-            <br>
-
-            <h2>Application Details</h2>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Job Role Number</label>
-                    <input type="text" placeholder="ex. JR-0001" required />
-                </div>
-                <div class="input-box">
-                    <label>Job Role</label>
-                    <input type="text" placeholder="ex. HR Assistant" required />
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Job Offer</label>
-                    <input type="date" required />
-                </div>
-                <div class="input-box">
-                    <label>Contract</label>
-                    <input type="date" required />
-                </div>
-
-            </div>
-
-            <div class="column">
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>Sourcing Tools</option>
-                        <option>JobStreet</option>
-                        <option>Referral</option>
-                        <option>LinkedIn</option>
-                        <option>Indeed</option>
-                        <option>Facebook</option>
-                        <option>Jora</option>
-                        <option>Email</option>
-                        <option>OJT</option>
-                        <option>Others</option>
-                    </select>
-                </div>
-
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>HR In-Charge</option>
-                        <option>Others</option>
-                        <option>Jam</option>
-                        <option>Khel</option>
-                        <option>Sherlyn</option>
-                    </select>
-                </div>
-            </div>
-
-            <br>
-            <h2>Agreed Figures</h2>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Asking Gross Salary</label>
-                    <input type="number" placeholder="ex. 18000" required />
-                </div>
-                <div class="input-box">
-                    <label>Honorarium</label>
-                    <input type="text" placeholder="ex. N/A" required />
-                </div>
-            </div>
-
-            <div class="select-box">
-                <select style="background-color: transparent;">
-                    <option hidden>Is the Salary Negotiable?</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                </select>
-            </div>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Minimum Negotiated Salary</label>
-                    <input type="number" placeholder="ex. 15000" required />
-                </div>
-                <div class="input-box">
-                    <label>Maximum Negotiated Salary</label>
-                    <input type="number" placeholder="ex. 18000" required />
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Final Basic Salary</label>
-                    <input type="number" placeholder="ex. 16000" required />
-                </div>
-                <div class="input-box">
-                    <label>Allowances</label>
-                    <input type="number" placeholder="ex. 1500" required />
-                </div>
-            </div>
-
-            <br>
-            <h2>Candidate Status</h2>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Date Applied</label>
-                    <input type="date" required />
-                </div>
-                <div class="input-box">
-                    <label>Background Verification</label>
-                    <input type="date" required />
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Initial Interview Schedule</label>
-                    <input type="date" required />
-                </div>
-                <div class="input-box">
-                    <label>Technical Interview Schedule</label>
-                    <input type="date" required />
-                </div>
-            </div>
-
-            <div class="input-box">
-                <label>Client / Final Interview Schedule</label>
-                <input type="date" required />
-            </div>
-
-            <div class="column">
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>Availability</option>
-                        <option>1 week notice</option>
-                        <option>2 weeks notice</option>
-                        <option>3 weeks notice</option>
-                        <option>4 weeks or more notice</option>
-                    </select>
-                </div>
-                <div class="select-box">
-                    <select style="background-color: transparent;">
-                        <option hidden>Status</option>
-                        <option>Initial Interview</option>
-                        <option>Technical Interview</option>
-                        <option>Client Interview</option>
-                        <option>No Show</option>
-                        <option>Not Shortlisted</option>
-                        <option>Retracted Application</option>
-                        <option>Waiting for Suitable Client</option>
-                        <option>Blacklisted</option>
-                        <option>Sales Advice</option>
-                        <option>Congratulatory Email</option>
-                        <option>Job Offer</option>
-                        <option>Contract Preparation</option>
-                        <option>Onboarded</option>
-                    </select>
-                </div>
-            </div>
-            <button>Submit</button>
-        </form>
-    </section>
-</main> -->
-
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<!-- <main class="job-posting">
-    <h1 class="job-posting-header">Recruitment</h1>
-    <section class="container">
-        <header>Add a New Candidate</header>
-        <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="form">
-
-            <h2>Personal Information</h2>
-            <div class="input-box">
-                <label>Full Name</label>
-                <input type="text" formControlName="candidateName" placeholder="ex. Juan C. Dela Cruz" required />
-            </div>
-            <div class="column">
-                <div class="input-box">
-                    <label>Email Address</label>
-                    <input type="email" formControlName="candidateEmail" placeholder="ex. juan.delacruz@outlook.com" required />
-                </div>
-                <div class="input-box">
-                    <label>Contact Number</label>
-                    <input type="text" formControlName="candidateContact" placeholder="ex. 9123456789" required />
-                </div>
-            </div>
-            <br>
-
-            <h2>Application Details</h2>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Job Role Number</label>
-                    <input type="text" formControlName="jobRoleId" placeholder="ex. JR-0001" required />
-                </div>
-                <div class="input-box">
-                    <label>Job Role</label>
-                    <input type="text" formControlName="jobName" placeholder="ex. HR Assistant" required />
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Job Offer</label>
-                    <input type="date" formControlName="jobOffer" required />
-                </div>
-                <div class="input-box">
-                    <label>Contract</label>
-                    <input type="date" formControlName="candidateContract" required />
-                </div>
-
-            </div>
-
-            <div class="column">
-                <div class="select-box">
-                    <select formControlName="sourceTool" style="background-color: transparent;" required>
-                        <option value="" disabled selected hidden>Sourcing Tools</option>
-                        <option>JobStreet</option>
-                        <option>Referral</option>
-                        <option>LinkedIn</option>
-                        <option>Indeed</option>
-                        <option>Facebook</option>
-                        <option>Jora</option>
-                        <option>Email</option>
-                        <option>OJT</option>
-                        <option>Others</option>
-                    </select>
-                </div>
-
-                <div class="select-box">
-                    <select formControlName="assignedHr" style="background-color: transparent;" required>
-                        <option value="" disabled selected hidden>HR In-Charge</option>
-                        <option>Others</option>
-                        <option>Jam</option>
-                        <option>Khel</option>
-                        <option>Sherlyn</option>
-                    </select>
-                </div>
-            </div>
-
-            <br>
-            <h2>Agreed Figures</h2>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Asking Gross Salary</label>
-                    <input type="number" formControlName="askingSalary" placeholder="ex. 18000"/>
-                </div>
-                <div class="input-box">
-                    <label>Honorarium</label>
-                    <input type="text" formControlName="honorarium" placeholder="ex. N/A" />
-                </div>
-            </div>
-
-            <div class="select-box">
-                <select formControlName="salaryNegotiable" style="background-color: transparent;">
-                    <option value="" disabled selected hidden>Is the Salary Negotiable?</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                </select>
-            </div>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Minimum Negotiated Salary</label>
-                    <input type="number" formControlName="minSalary" placeholder="ex. 15000" />
-                </div>
-                <div class="input-box">
-                    <label>Maximum Negotiated Salary</label>
-                    <input type="number" formControlName="maxSalary" placeholder="ex. 18000" />
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Final Basic Salary</label>
-                    <input type="number" formControlName="finalSalary" placeholder="ex. 16000" />
-                </div>
-                <div class="input-box">
-                    <label>Allowances</label>
-                    <input type="number" formControlName="allowance" placeholder="ex. 1500" />
-                </div>
-            </div>
-
-            <br>
-            <h2>Candidate Status</h2>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Date Applied</label>
-                    <input type="date" formControlName="dateApplied" required />
-                </div>
-                <div class="input-box">
-                    <label>Background Verification</label>
-                    <input type="date" formControlName="backgroundVerification" required />
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="input-box">
-                    <label>Initial Interview Schedule</label>
-                    <input type="date" formControlName="initialInterviewSchedule" required />
-                </div>
-                <div class="input-box">
-                    <label>Technical Interview Schedule</label>
-                    <input type="date" formControlName="technicalInterviewSchedule" required />
-                </div>
-            </div>
-
-            <div class="input-box">
-                <label>Client / Final Interview Schedule</label>
-                <input type="date" formControlName="clientFinalInterviewSchedule" required />
-            </div>
-
-            <div class="column">
-                <div class="select-box">
-                    <select formControlName="noticeDuration" style="background-color: transparent;">
-                        <option value="" disabled selected hidden>Availability</option>
-                        <option>1 week notice</option>
-                        <option>2 weeks notice</option>
-                        <option>3 weeks notice</option>
-                        <option>4 weeks or more notice</option>
-                    </select>
-                </div>
-                <div class="select-box">
-                    <select formControlName="applicationStatus" style="background-color: transparent;">
-                        <option value="" disabled selected hidden>Status</option>
-                        <option>Initial Interview</option>
-                        <option>Technical Interview</option>
-                        <option>Client Interview</option>
-                        <option>No Show</option>
-                        <option>Not Shortlisted</option>
-                        <option>Retracted Application</option>
-                        <option>Waiting for Suitable Client</option>
-                        <option>Blacklisted</option>
-                        <option>Sales Advice</option>
-                        <option>Congratulatory Email</option>
-                        <option>Job Offer</option>
-                        <option>Contract Preparation</option>
-                        <option>Onboarded</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="input-box">
-                <label>Remarks</label>
-                <input type="text" formControlName="remarks" placeholder="ex. Onboarded" />
-            </div>
-
-            <div class="column">
-                <label for="upload" class="formbold-form-label">
-                    Upload CV / Resume
-                </label>
-                <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file" formControlName="candidateCv" />
-            </div>
-            <button type="submit">Submit</button>
-        </form>
-    </section>
-</main> -->
 
 <main class="job-posting">
     <div class="icon-container">
@@ -432,7 +54,7 @@
             <div class="column">
                 <!-- Sourcing Tools Dropdown -->
                 <div class="select-box">
-                    <select formControlName="sourceTool" style="background-color: transparent;" required>
+                    <select formControlName="sourceTool" style="background-color: transparent;">
                         <option value="" disabled selected hidden>Sourcing Tools</option>
                         <option *ngFor="let tool of sourcingTools" [value]="tool.value">{{ tool.display }}</option>
                     </select>
@@ -440,7 +62,7 @@
 
                 <!-- HR In-Charge Dropdown -->
                 <div class="select-box">
-                    <select formControlName="assignedHr" style="background-color: transparent;" required>
+                    <select formControlName="assignedHr" style="background-color: transparent;">
                         <option value="" disabled selected hidden>HR In-Charge</option>
                         <option *ngFor="let hr of hrInCharges" [value]="hr.value">{{ hr.display }}</option>
                     </select>
@@ -502,7 +124,7 @@
                 </div>
                 <div class="input-box">
                     <label>Background Verification</label>
-                    <input type="date" formControlName="backgroundVerification" required />
+                    <input type="date" formControlName="backgroundVerification" />
                 </div>
             </div>
 
@@ -513,13 +135,13 @@
                 </div>
                 <div class="input-box">
                     <label>Technical Interview Schedule</label>
-                    <input type="date" formControlName="technicalInterviewSchedule" required />
+                    <input type="date" formControlName="technicalInterviewSchedule" />
                 </div>
             </div>
 
             <div class="input-box">
                 <label>Client / Final Interview Schedule</label>
-                <input type="date" formControlName="clientFinalInterviewSchedule" required />
+                <input type="date" formControlName="clientFinalInterviewSchedule" />
             </div>
 
             <div class="column">
@@ -532,7 +154,7 @@
                 </div>
 
                 <div class="select-box">
-                    <select formControlName="applicationStatus" style="background-color: transparent;" required>
+                    <select formControlName="applicationStatus" style="background-color: transparent;">
                         <option value="" disabled selected hidden>Status</option>
                         <option *ngFor="let status of applicationStatuses" [value]="status.value">{{ status.display }}
                         </option>

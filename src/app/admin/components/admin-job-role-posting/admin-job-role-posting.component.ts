@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, tap, throwError, map } from 'rxjs';
-import { JobRoles } from '../../../models/job-roles';
+import { HiringManager, HiringManagerDisplay, HiringType, HiringTypeDisplay, JobLocation, JobLocationDisplay, JobRoles, JobStatus, JobStatusDisplay, RoleLevel, RoleLevelDisplay, ShiftSchedule, ShiftScheduleDisplay } from '../../../models/job-roles';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -10,9 +10,38 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrl: './admin-job-role-posting.component.css'
 })
 export class AdminJobRolePostingComponent implements OnInit {
-  // jobroles$!: Observable<JobRoles[]>;
   jobroles: JobRoles[] = [];
   jobForm: FormGroup;
+
+  hiringType = Object.keys(HiringType).map(key => ({
+    value: HiringType[key as keyof typeof HiringType],
+    display: HiringTypeDisplay[key as keyof typeof HiringTypeDisplay]
+  }));
+
+  roleLevel = Object.keys(RoleLevel).map(key => ({
+    value: RoleLevel[key as keyof typeof RoleLevel],
+    display: RoleLevelDisplay[key as keyof typeof RoleLevelDisplay]
+  }));
+
+  jobLocation = Object.keys(JobLocation).map(key => ({
+    value: JobLocation[key as keyof typeof JobLocation],
+    display: JobLocationDisplay[key as keyof typeof JobLocationDisplay]
+  }));
+
+  shiftSched = Object.keys(ShiftSchedule).map(key => ({
+    value: ShiftSchedule[key as keyof typeof ShiftSchedule],
+    display: ShiftScheduleDisplay[key as keyof typeof ShiftScheduleDisplay]
+  }));
+
+  hiringManager = Object.keys(HiringManager).map(key => ({
+    value: HiringManager[key as keyof typeof HiringManager],
+    display: HiringManagerDisplay[key as keyof typeof HiringManagerDisplay]
+  }));
+
+  jobStatus = Object.keys(JobStatus).map(key => ({
+    value: JobStatus[key as keyof typeof JobStatus],
+    display: JobStatusDisplay[key as keyof typeof JobStatusDisplay]
+  }));
 
   constructor(public fb: FormBuilder, private http: HttpClient) {
     this.jobForm = this.fb.group({
@@ -20,7 +49,7 @@ export class AdminJobRolePostingComponent implements OnInit {
       clientShortcodes: ['', Validators.required],
       hiringManager: ['', Validators.required],
       salesManager: ['', Validators.required],
-      hiringType: ['', Validators.required],  
+      hiringType: ['', Validators.required],
       jobDescription: ['', Validators.required],
       roleLevel: ['', Validators.required],
       minSalary: ['', Validators.required],

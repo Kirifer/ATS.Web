@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
-import { JobRoles } from '../../../models/job-roles';
+import { HiringType, HiringTypeDisplay, JobRoles, JobStatus, JobStatusDisplay, RoleLevel, RoleLevelDisplay } from '../../../models/job-roles';
 
 @Component({
   selector: 'app-admin-job-role-existing',
@@ -59,6 +59,13 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
   closeEditor() {
     this.selectedJobRole = null;
   }
+
+  // Method to get display name for application status
+  getJobStatusDisplay(status: JobStatus): string {
+    return JobStatusDisplay[status];
+  }
+
+
 
   deleteElement(element: JobRoles) {
     if (confirm(`Are you sure you want to delete ${element.jobName}?`)) {
