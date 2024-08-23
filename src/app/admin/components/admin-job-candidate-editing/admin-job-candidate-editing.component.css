@@ -1,5 +1,10 @@
 /* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+form, .container, .form, .input-box, label, input, select, .select-box {
+    font-family: 'Lato', sans-serif;
+}
+
 .icon-container {
     width: 100px; /* Adjusted the width */
     height: 100px; /* Adjusted the height */

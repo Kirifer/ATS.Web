@@ -70,6 +70,31 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
     return ApplicationStatusDisplay[status];
   }
 
+  getApplicationStatusClass(status: ApplicationStatus): string {
+    switch (status) {
+      case ApplicationStatus.InitialInterview:
+      case ApplicationStatus.TechnicalInterview:
+      case ApplicationStatus.ClientInterview:
+        return 'badge badge-primary rounded-pill d-inline';
+      case ApplicationStatus.NoShow:
+      case ApplicationStatus.NotShortlisted:
+      case ApplicationStatus.Blacklisted:
+        return 'badge badge-danger rounded-pill d-inline';
+      case ApplicationStatus.RetractedApplication:
+      case ApplicationStatus.WaitingForSuitableClient:
+        return 'badge badge-warning rounded-pill d-inline';
+      case ApplicationStatus.SalesAdvice:
+      case ApplicationStatus.CongratulatoryEmail:
+      case ApplicationStatus.JobOffer:
+      case ApplicationStatus.ContractPreparation:
+      case ApplicationStatus.Onboarded:
+        return 'badge badge-success rounded-pill d-inline';
+      default:
+        return 'badge badge-secondary rounded-pill d-inline';
+    }
+  }
+  
+
   getInterviewDate(candidate: any): string | null {
     if (candidate.applicationStatus === 'InitialInterview') {
         return candidate.initialInterviewSchedule ? candidate.initialInterviewSchedule.toString() : null;

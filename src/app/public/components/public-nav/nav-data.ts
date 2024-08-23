@@ -3,10 +3,10 @@ export const navbarData = [
         routeLink: '/dashboard',
         label: 'Home'
     },
-    {
-        routeLink: '/jobs',
-        label: 'All Jobs'
-    },
+    // {
+    //     routeLink: '/jobs',
+    //     label: 'All Jobs'
+    // },
     {
         routeLink: '/about',
         label: 'About'

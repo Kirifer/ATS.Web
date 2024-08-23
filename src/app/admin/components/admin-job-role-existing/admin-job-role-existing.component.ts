@@ -65,6 +65,26 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
     return JobStatusDisplay[status];
   }
 
+  getJobStatusClass(status: JobStatus): string {
+    switch (status) {
+      case JobStatus.SourcingCandidates:
+        return 'badge badge-primary rounded-pill d-inline';
+      case JobStatus.ForClientPresentation:
+        return 'badge badge-info rounded-pill d-inline';
+      case JobStatus.ClientInterview:
+        return 'badge badge-warning rounded-pill d-inline';
+      case JobStatus.FilledPosition:
+        return 'badge badge-success rounded-pill d-inline';
+      case JobStatus.Cancelled:
+        return 'badge badge-danger rounded-pill d-inline';
+      case JobStatus.OnHold:
+        return 'badge badge-secondary rounded-pill d-inline';
+      default:
+        return 'badge badge-light rounded-pill d-inline';
+    }
+  }
+  
+
 
 
   deleteElement(element: JobRoles) {

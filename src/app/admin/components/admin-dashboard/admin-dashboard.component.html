@@ -1,3 +1,30 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Date Range Picker -->
+<mat-form-field>
+    <mat-label>Start Date</mat-label>
+    <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate">
+    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #startDatePicker></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>End Date</mat-label>
+    <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate">
+    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #endDatePicker></mat-datepicker>
+</mat-form-field>
+
+<!-- Predefined Time Period Selector -->
+<mat-form-field>
+    <mat-label>Time Period</mat-label>
+    <mat-select [(ngModel)]="selectedPeriod" (selectionChange)="onPeriodChange()">
+        <mat-option *ngFor="let period of timePeriods" [value]="period.value">
+            {{ period.label }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
 <section class="reports-main">
     <div class="reports-background">
         <h2>Application Status</h2>
@@ -15,7 +42,7 @@
                 <i class="fa-solid fa-check-to-slot"></i>
                 <div class="reports-stack">
                     <h6>Qualified</h6>
-                    <p class="report-card-value value">150</p>
+                    <p class="report-card-value value">{{getQualifiedCandidates()}}</p>
                 </div>
             </div>
             <div class="reports-card scheduled">
@@ -31,7 +58,7 @@
                 <i class="fa-solid fa-clipboard-question"></i>
                 <div class="reports-stack">
                     <h6>Interviewed</h6>
-                    <p class="report-card-value value">75</p>
+                    <p class="report-card-value value">{{ getInterviewedCandidates()}}</p>
                 </div>
             </div>
             <div class="reports-card joined">
@@ -51,7 +78,7 @@
     <section class="reports-section">
         <div class="report-card">
             <!-- <h2>Sourcing Tool Analytics</h2> -->
-            <div #sourcingToolChart style="width: 100%; height: 400px;"></div>
+            <div #sourcingToolChart style="width: 400px; height: 400px;"></div>
         </div>
 
         <div class="report-card">
@@ -61,7 +88,7 @@
                     {{ recruiter.key }}: {{ recruiter.value }}
                 </li>
             </ul> -->
-            <div #hrChart style="width: 100%; height: 400px;"></div> <!-- Add this line for HR bar chart -->
+            <div #hrChart style="width: 400px; height: 400px;"></div> <!-- Add this line for HR bar chart -->
         </div>
 
         <div class="report-card">
@@ -74,18 +101,21 @@
             <div #applicantFunnelChart style="width: 600px; height: 400px;"></div>
         </div>
 
-        <div class="report-card">
+        <!-- <div class="report-card">
             <h2>Fill Rate</h2>
             <p>{{ getFillRate() }}%</p>
-        </div>
+        </div> -->
 
         <div class="report-card">
-            <h2>Total Number of Candidates per Position</h2>
-            <ul>
-                <li *ngFor="let role of getCandidatesPerPosition() | keyvalue">
-                    {{ role.key }}: {{ role.value }}
-                </li>
-            </ul>
+            <div>
+                <!-- <h2>Total Number of Candidates per Position</h2> -->
+                <!-- <ul>
+                    <li *ngFor="let role of getCandidatesPerPosition() | keyvalue">
+                        {{ role.key }}: {{ role.value }}
+                    </li>
+                </ul> -->
+                <div #candidatesChart style="width: 800px; height: 400px;"></div>
+            </div>
         </div>
 
         <div class="report-card">
@@ -97,52 +127,126 @@
     <!-- Progress Section -->
     <section class="progress-section">
         <div class="progress-card">
-            <h2>New Candidates</h2>
-            <p>{{ getNewCandidates() }}</p>
+            <!-- <h2>New Candidates</h2>
+            <p>{{ getNewCandidates() }}</p> -->
+
+            <div #newCandidatesChart style="width: 900px; height: 400px;"></div>
         </div>
 
         <div class="progress-card">
-            <h2>For Interview Candidates</h2>
-            <p>{{ getForInterviewCandidates() }}</p>
+            <!-- <h2>For Interview Candidates</h2>
+            <p>{{ getForInterviewCandidates() }}</p> -->
+            <div #interviewChart style="width: 400px; height: 400px;"></div>
         </div>
 
         <div class="progress-card">
-            <h2>Job Offers</h2>
+            <!-- <h2>Job Offers</h2> -->
             <!-- <ul>
                 <li>Made: {{ getJobOffers().made }}</li>
                 <li>Accepted: {{ getJobOffers().accepted }}</li>
                 <li>Declined: {{ getJobOffers().declined }}</li>
             </ul> -->
-            <div #jobOffersChart style="width: 600px; height: 400px;"></div>
+            <div #jobOffersChart style="width: 400px; height: 400px;"></div>
         </div>
 
         <div class="progress-card">
-            <h2>New Hires</h2>
-            <p>{{ getNewHires() }}</p>
+            <!-- <h2>New Hires</h2>
+            <p>{{ getNewHires() }}</p>  -->
+            <!-- newHiresChart -->
+            <div #newHiresChart style="width: 900px; height: 400px;"></div>
         </div>
 
         <div class="progress-card">
+            <div class="table_container">
+                <div class="mat-elevation-z8">
+                    <!-- Search Form Field -->
+                    <mat-form-field class="search-form-field" appearance="outline">
+                        <mat-icon matPrefix>search</mat-icon>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+                    </mat-form-field>
+
+                    <!-- Table -->
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+                        <!-- Job Name Column -->
+                        <ng-container matColumnDef="jobName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <mat-icon class="column-icon">work</mat-icon>
+                                Job Name
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="ms-3">
+                                    <p class="primary-text">{{ element.jobName }}</p>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <!-- Time to Fill Column -->
+                        <ng-container matColumnDef="timeToFill">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <mat-icon class="column-icon">hourglass_empty</mat-icon>
+                                Time to Fill
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.timeToFill || 'N/A'}}</td>
+                        </ng-container>
+
+                        <!-- Aging Column -->
+                        <ng-container matColumnDef="aging">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <mat-icon class="column-icon">timer</mat-icon>
+                                Aging
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.aging || 'N/A'}}</td>
+                        </ng-container>
+
+                        <!-- Header and Row Definitions -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                        <!-- No Data Row -->
+                        <tr class="mat-row no-data-row" *matNoDataRow>
+                            <td class="mat-cell no-data-cell" colspan="5">No data matching the filter "{{input.value}}"
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Paginator -->
+                    <mat-paginator class="paginator" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- <div class="progress-card">
             <h2>Time to Fill</h2>
-            <p>{{ getTimeToFill() }} days</p>
-        </div>
+            <ul>
+                <li *ngFor="let role of getTimeToFill()">
+                    {{ role.jobName }}: {{ role.timeToFill }}
+                </li>
+            </ul>
+        </div> -->
 
-        <div class="progress-card">
+        <!-- <div class="progress-card">
             <h2>Interview Planner</h2>
             <ul>
                 <li *ngFor="let candidate of getInterviewPlanner()">
                     {{ candidate.candidateName }} - {{ candidate.applicationStatus }}
                 </li>
             </ul>
-        </div>
+        </div> -->
 
-        <div class="progress-card">
+        <!-- <div class="progress-card">
             <h2>Job Aging</h2>
             <ul>
                 <li *ngFor="let role of getAgingCandidates()">
-                    {{ role.jobName }}: {{ role.aging }} days
+                    {{ role.jobName }}: {{ role.aging }}
                 </li>
             </ul>
-        </div>
+        </div> -->
     </section>
+
 </main>
+
+
+
 <script src="https://fastly.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
