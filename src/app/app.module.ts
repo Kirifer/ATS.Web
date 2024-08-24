@@ -10,6 +10,7 @@ import { PublicModule } from './public/public.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service'; // Import CookieService
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule
 
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

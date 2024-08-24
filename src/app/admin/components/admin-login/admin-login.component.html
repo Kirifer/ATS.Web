@@ -24,8 +24,8 @@
 </div> -->
 
 <div class="body">
-<div class="main-container">
-    <div class="container" id="container">
+    <div class="main-container">
+        <!-- <div class="container" id="container">
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-right">
@@ -44,10 +44,56 @@
                 <h1 class="form-header">Hey there, Admin!</h1>
                 <input placeholder="Username" type="text" id="username" name="username" class="form-control" [(ngModel)]="username" required>
                 <input placeholder="Password" type="password" id="password" name="password" class="form-control" [(ngModel)]="password" required>
-                <!-- <a href="#">→ Forget Your Password? ←</a> -->
                 <button type="submit">Sign In</button>
             </form>
         </div>
+    </div> -->
+        <div class="container" #container>
+            <div class="form-container sign-up">
+                <form (ngSubmit)="onSubmitSignUp()" #signUpForm="ngForm">
+                    <h1>Create Account</h1>
+                    <input type="text" placeholder="First Name" [(ngModel)]="signUpFirstName" name="signUpFirstName" required>
+                    <input type="text" placeholder="Last Name" [(ngModel)]="signUpLastName" name="signUpLastName" required>
+                    <input type="email" placeholder="Email" [(ngModel)]="signUpEmail" name="signUpEmail" required>
+                    <input type="text" placeholder="Username" [(ngModel)]="signUpUsername" name="signUpUsername" required>
+                    <input type="password" placeholder="Password" [(ngModel)]="signUpPassword" name="signUpPassword" required>
+                    <button type="submit" [disabled]="!signUpForm.form.valid">Sign Up</button>
+                </form>
+            </div>
+
+            <div class="form-container sign-in">
+                <form (ngSubmit)="onSubmitSignIn()">
+                    <h1>Sign In</h1>
+                    <input type="email" placeholder="Email" [(ngModel)]="username" name="username" required>
+                    <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+                    <a href="#">→ Forget Your Password? ←</a>
+                    <button type="submit">Sign In</button>
+                </form>
+            </div>
+
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <h1>Welcome Back!</h1>
+                        <img class="toggle-logo" src="assets/img/itsquarehub_logo.png" alt="" width="100">
+                        <p>Enter your personal details to use all of the site features</p>
+                        <button class="hidden" (click)="onLoginClick()">Sign In</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <img class="toggle-logo" src="assets/img/itsquarehub_logo.png" alt="" width="100">
+                        <div class="text-container">
+                            <h2 class="toggle-header">IT Squarehub</h2>
+                        </div>
+                        <p class="tagline">Building Quality Service Without Compromise</p>
+                        <p class="description">Embrace quality-driven strategies to transform your operation and achieve
+                            unparalleled success.</p>
+                        <button class="hidden" (click)="onRegisterClick()">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
-</div>
 </div>
