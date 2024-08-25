@@ -25,7 +25,7 @@ export const navbarData = [
         label: 'List of Jobs'
     },
     {
-        routeLink: 'logout',
+        routeLink: '/admin/logout',
         icon: 'fas fa-sign-out-alt',
         label: 'Log Out'
     },

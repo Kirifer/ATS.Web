@@ -64,7 +64,7 @@
             <div class="form-container sign-in">
                 <form (ngSubmit)="onSubmitSignIn()">
                     <h1>Sign In</h1>
-                    <input type="email" placeholder="Email" [(ngModel)]="username" name="username" required>
+                    <input type="text" placeholder="username" [(ngModel)]="username" name="username" required>
                     <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
                     <a href="#">→ Forget Your Password? ←</a>
                     <button type="submit">Sign In</button>

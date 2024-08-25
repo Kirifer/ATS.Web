@@ -1,0 +1,9 @@
+.application-status {
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    p {
+        margin: 5px 0;
+    }
+}

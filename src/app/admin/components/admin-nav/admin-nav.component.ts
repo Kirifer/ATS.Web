@@ -1,6 +1,9 @@
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { Component, Output, EventEmitter, OnInit, HostListener } from '@angular/core';
 import { navbarData } from './nav-data';
+import { AuthService } from '../../../auth/auth.service'; // Import AuthService
+import { Router } from '@angular/router';
+import { User } from '../../../models/user'; // Import User model
 
 interface SideNavToggle {
   screenWidth: number;
@@ -10,7 +13,7 @@ interface SideNavToggle {
 @Component({
   selector: 'app-admin-nav',
   templateUrl: './admin-nav.component.html',
-  styleUrl: './admin-nav.component.css',
+  styleUrls: ['./admin-nav.component.css'],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
@@ -37,6 +40,10 @@ export class AdminNavComponent implements OnInit {
   collapsed = false;
   screenWidth = 0;
   navData = navbarData;
+  isAuthenticated: boolean = false;
+  currentUser: User | null = null; // Store the current user
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -49,6 +56,18 @@ export class AdminNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+    this.authService.isAuthenticated().subscribe(isAuth => {
+      this.isAuthenticated = isAuth;
+      if (isAuth) {
+        this.currentUser = this.authService.getCurrentUser(); // Get user info
+      }
+    });
+
+    this.router.events.subscribe((event: any) => {
+      if (event.url === '/admin/logout') {
+        this.logout();
+      }
+    });
   }
 
   toggleCollapse(): void {
@@ -59,5 +78,10 @@ export class AdminNavComponent implements OnInit {
   closeSidenav(): void {
     this.collapsed = false;
     this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/dashboard']);
   }
 }

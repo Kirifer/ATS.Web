@@ -13,7 +13,15 @@
                 </a>
             </li>
         </ul>
-        <a routerLink="/login" class="action_button">Login</a>
+        <!-- Display logout button and user name if authenticated -->
+        <ng-container *ngIf="isAuthenticated">
+            <span>Hi, {{ currentUser?.firstName }}</span>
+            <button class="action_button" (click)="logout()">Logout</button>
+        </ng-container>
+        <ng-container *ngIf="!isAuthenticated">
+            <a routerLink="/login" class="action_button">Login</a>
+        </ng-container>
+        
         <div class="toogle_btn">
             <i class="fas fa-bars"></i>
         </div>
@@ -24,9 +32,6 @@
                 {{ item.label }}
             </a>
         </li>
-        <li><a routerLink="/login" class="action_button">Login</a></li>
+        <li *ngIf="!isAuthenticated"><a routerLink="/login" class="action_button">Login</a></li>
     </div>
 </header>
-
-
-

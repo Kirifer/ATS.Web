@@ -30,6 +30,7 @@ import { RecruitmentComponent } from './components/recruitment/recruitment.compo
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { PublicAboutComponent } from './components/public-about/public-about.component';
+import { PublicApplicantStatusComponent } from './components/public-applicant-status/public-applicant-status.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { PublicAboutComponent } from './components/public-about/public-about.com
     PublicFooterComponent,
     RecruitmentComponent,
     PublicAboutComponent,
+    PublicApplicantStatusComponent,
   ],
   imports: [
     CommonModule,
