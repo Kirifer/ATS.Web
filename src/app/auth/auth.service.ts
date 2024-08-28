@@ -69,6 +69,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
+import { CookieService } from 'ngx-cookie-service';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -77,13 +79,18 @@ export class AuthService {
   private apiUrl = 'https://localhost:7012';
   private currentUser: User | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private cookieService: CookieService) {}
+
+  private isTokenExpired(token: string): boolean {
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
+  }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
       map(response => {
         if (response.succeeded && response.data && response.data.token) {
-          localStorage.setItem('authToken', response.data.token);
+          this.cookieService.set('authToken', response.data.token, response.data.tokenExpiresIn, '/', '', true, 'Strict');
           this.currentUser = {
             ...response.data,
           };
@@ -105,14 +112,12 @@ export class AuthService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    const token = localStorage.getItem('authToken');
-    console.log('Retrieved token:', token); // Debugging log
-    if (!token) {
+    const token = this.cookieService.get('authToken');
+    if (!token || this.isTokenExpired(token)) {
       return of(false);
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    console.log('Headers:', headers); // Debugging log
     return this.http.get<any>(`${this.apiUrl}/identity`, { headers }).pipe(
       map(response => {
         console.log('Authentication response:', response); // Debugging log
@@ -133,11 +138,11 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('authToken');
+    this.cookieService.delete('authToken');
     this.currentUser = null;
-    const token = localStorage.getItem('authToken');
-    console.log('Token after logout:', token); // Debugging log
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/dashboard']).then(() => {
+      window.location.reload();
+    });
     alert('Successfully logged out'); // Show logout alert
   }
 

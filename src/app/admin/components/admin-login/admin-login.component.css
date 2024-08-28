@@ -132,6 +132,55 @@ body {
     height: 100vh;
 }
 
+@media (max-width: 768px) {
+    .body {
+        padding: 1rem 1.5rem;
+    }
+
+    .body::before, 
+    .body::after {
+        width: 80px;
+        height: 80px;
+    }
+
+    .body::before {
+        left: 50%;
+        top: 100px;
+        filter: blur(60px);
+    }
+
+    .body::after {
+        left: 70%;
+        top: 400px;
+        filter: blur(60px);
+    }
+}
+
+@media (max-width: 480px) {
+    .body {
+        padding: 1rem;
+    }
+
+    .body::before, 
+    .body::after {
+        width: 60px;
+        height: 60px;
+    }
+
+    .body::before {
+        left: 40%;
+        top: 80px;
+        filter: blur(40px);
+    }
+
+    .body::after {
+        left: 60%;
+        top: 300px;
+        filter: blur(40px);
+    }
+}
+
+
 /* .container {
     background-color: #e1eeff;
     border-radius: 30px;
@@ -551,3 +600,88 @@ body {
     padding: 0 2rem;
     text-align: left;
 } 
+
+/* Media Query for tablets and small screens */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        min-height: 400px;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .container h1 {
+        font-size: 1.75rem;
+        line-height: 1.4;
+        padding: 10px 0;
+    }
+
+    .container p {
+        font-size: 13px;
+        line-height: 20px;
+    }
+
+    .container button {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 14px;
+    }
+
+    .form-container {
+        padding: 0;
+    }
+
+    .container input {
+        width: 100%;
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+    .social-icons a {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Media Query for mobile devices */
+@media (max-width: 480px) {
+    .container {
+        min-height: 360px;
+        padding: 15px;
+    }
+
+    .toggle-header {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+    }
+
+    .tagline, .description {
+        font-size: 13px;
+        padding: 0 10px;
+    }
+
+    .container h1 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+        padding: 8px 0;
+    }
+
+    .container p {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .toggle-panel {
+        padding: 0 10px;
+    }
+
+    .container button {
+        padding: 8px 0;
+        font-size: 13px;
+    }
+
+    .social-icons a {
+        width: 30px;
+        height: 30px;
+    }
+}

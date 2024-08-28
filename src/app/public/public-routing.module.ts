@@ -8,7 +8,7 @@ import { ApplyJobComponent } from './components/apply-job/apply-job.component';
 import { RecruitmentComponent } from './components/recruitment/recruitment.component';
 import { PublicAboutComponent } from './components/public-about/public-about.component';
 import { PublicApplicantStatusComponent } from './components/public-applicant-status/public-applicant-status.component';
-import { AuthGuard } from '../auth/auth.guard';
+import { authGuard } from '../auth/auth.guard';
 
 import { AdminLoginComponent } from '../admin/components/admin-login/admin-login.component';
 
@@ -25,7 +25,7 @@ const routes: Routes = [
       { path: 'login', component: AdminLoginComponent },
       { path: 'recruitment/:id', component: RecruitmentComponent},
       { path: 'about', component: PublicAboutComponent },
-      { path: 'applicant-status', component: PublicApplicantStatusComponent, canActivate: [AuthGuard] },
+      { path: 'applicant-status', component: PublicApplicantStatusComponent, canActivate: [authGuard] },
     ],
   },
 ];

@@ -139,6 +139,7 @@ export class AdminJobCandidateCreationComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
+        const base64Content = e.target.result.split(',')[1]; // Base64 encoded string
         const attachment: JobCandidateAttachment = {
           id: null,
           fileName: file.name,
@@ -147,7 +148,7 @@ export class AdminJobCandidateCreationComponent implements OnInit {
           extension: file.type,
           savedFileName: '',
           createdOn: new Date(),
-          content: e.target.result.split(',')[1] // Base64 encoded string
+          content: base64Content
         };
         this.attachments.push(attachment);
       };
@@ -196,9 +197,9 @@ export class AdminJobCandidateCreationComponent implements OnInit {
     }
   }
 
-    // Utility method to handle enum formatting
-    formatEnum(value: any): string | null {
-      return value === '' ? null : value;
-    }
+  // Utility method to handle enum formatting
+  formatEnum(value: any): string | null {
+    return value === '' ? null : value;
+  }
 
 }

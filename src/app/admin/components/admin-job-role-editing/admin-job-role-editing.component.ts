@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { JobRoles } from '../../../models/job-roles';
@@ -63,9 +63,9 @@ export class AdminJobRoleEditingComponent implements OnChanges {
       hiringManager: [''],
       jobStatus: [''],
       closedDate: [''],
-      openDate:[''],
+      openDate: [''],
       daysCovered: [''],
-      aging:['']
+      aging: ['']
     });
   }
 
@@ -79,12 +79,12 @@ export class AdminJobRoleEditingComponent implements OnChanges {
     if (this.jobForm.valid && this.jobRole) {
       // Get the form value
       const formData = { ...this.jobForm.value };
-  
+
       // Check if closedDate is an empty string and set it to null
       if (!formData.closedDate) {
         formData.closedDate = null;
       }
-  
+
       this.http.put(`https://localhost:7012/jobrole/${this.jobRole.id}`, formData).pipe(
         tap(response => {
           console.log('Job updated:', response);
@@ -97,7 +97,12 @@ export class AdminJobRoleEditingComponent implements OnChanges {
       ).subscribe();
     }
   }
-  
+
+  // Listen for the ESC key press
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapePress(event: KeyboardEvent): void {
+    this.onClose();
+  }
 
   onClose() {
     this.close.emit();

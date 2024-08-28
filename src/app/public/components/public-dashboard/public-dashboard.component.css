@@ -234,9 +234,127 @@
 }
 
 @media (max-width: 768px) {
-    .job-listing-box {
-        flex: 1 1 100%; /* Adjust to single column on smaller screens */
-        max-width: none;
+    .home {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 0 5%;
+    }
+
+    .left-home-content {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .left-home-content h1 {
+        font-size: 50px;
+        line-height: 1.2;
+    }
+
+    .left-home-content h3 {
+        font-size: 28px;
+    }
+
+    .left-home-content p {
+        font-size: 14px;
+        margin: 15px 0 30px;
+    }
+
+    .btn-box {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+    }
+
+    .btn-box a {
+        width: 100%;
+        margin-bottom: 10px;
+        height: 45px;
+    }
+
+    .right-home-content {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    .right-home-content img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .job-listing-header {
+        font-size: 40px;
+        text-align: center;
+        padding: 0 0 1.5rem 0;
+    }
+
+    .job-listing {
+        padding: 3rem 0;
+    }
+
+    .job-listing-card {
+        margin: 10px 0;
+        width: 70%;
+    }
+
+    .job-listing-card-title {
+        font-size: 18px;
+    }
+
+    .job-listing-card-content {
+        font-size: 14px;
+    }
+
+    .job-posted-time {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home {
+        padding: 0 3%;
+    }
+
+    .left-home-content h1 {
+        font-size: 40px;
+    }
+
+    .left-home-content h3 {
+        font-size: 24px;
+    }
+
+    .left-home-content p {
+        font-size: 12px;
+        margin: 10px 0 20px;
+    }
+
+    .btn-box {
+        height: auto;
+    }
+
+    .btn-box a {
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .job-listing-header {
+        font-size: 32px;
+    }
+
+    .job-listing {
+        padding: 2rem 0;
+    }
+
+    .job-listing-card-title {
+        font-size: 16px;
+    }
+
+    .job-listing-card-content {
+        font-size: 12px;
+    }
+
+    .job-posted-time {
+        font-size: 8px;
     }
 }
 

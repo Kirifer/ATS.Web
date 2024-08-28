@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { JobCandidate, JobCandidateAttachment } from '../../../models/job-candidate';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -72,9 +72,64 @@ export class AdminJobCandidateEditingComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['jobCandidate'] && this.jobCandidate) {
       this.candidateForm.patchValue(this.jobCandidate);
-      // this.fetchAttachments(this.jobCandidate.id);
+      this.fetchAttachments(this.jobCandidate.id);
     }
   }
+
+
+  fetchAttachments(candidateId: string): void {
+    const url = `https://localhost:7012/jobcandidate/${candidateId}`;
+    console.log(`Fetching job candidate from URL: ${url}`);
+    this.http.get<{ data: JobCandidate, code: number, succeeded: boolean }>(url).pipe(
+      tap(response => {
+        console.log('Job candidate fetched:', response);
+        if (response.succeeded) {
+          this.attachments = response.data.attachments || [];
+          console.log('Attachments extracted:', this.attachments);
+        } else {
+          console.error('Failed to fetch job candidate:', response);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error fetching job candidate:', error.message);
+        console.error('Error status:', error.status);
+        console.error('Error details:', error.error);
+        return throwError(() => new Error('Error fetching job candidate'));
+      })
+    ).subscribe();
+  }
+
+viewAttachment(attachment: JobCandidateAttachment): void {
+    const url = `https://localhost:7012/jobcandidate/${this.jobCandidate?.id}/attachments/${attachment.id}`;
+    console.log(`Viewing attachment from URL: ${url}`);
+    this.http.get(url, { responseType: 'blob' }).subscribe(blob => {
+        // Check if the file is viewable by trying to open it in a new tab
+        const fileUrl = URL.createObjectURL(blob);
+        const fileType = blob.type;
+
+        // List of MIME types that are typically viewable in a browser
+        const viewableTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'text/plain'];
+
+        if (viewableTypes.includes(fileType)) {
+            // Open in a new tab if the file type is viewable
+            window.open(fileUrl);
+        } else {
+            // Download the file if it is not viewable
+            const a = document.createElement('a');
+            a.href = fileUrl;
+            a.target = '_blank';
+            a.download = attachment.fileName;
+            a.click();
+        }
+
+        // Clean up the object URL
+        URL.revokeObjectURL(fileUrl);
+    }, (error: HttpErrorResponse) => {
+        console.error('Error viewing attachment:', error.message);
+    });
+}
+
+
 
   onUpdate() {
     if (this.candidateForm.valid && this.jobCandidate) {
@@ -110,6 +165,12 @@ export class AdminJobCandidateEditingComponent implements OnChanges {
         })
       ).subscribe();
     }
+  }
+
+  // Listen for the ESC key press
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapePress(event: KeyboardEvent): void {
+    this.onClose();
   }
 
   onClose() {

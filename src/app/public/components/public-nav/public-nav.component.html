@@ -13,25 +13,37 @@
                 </a>
             </li>
         </ul>
-        <!-- Display logout button and user name if authenticated -->
+        <!-- Authenticated user actions -->
         <ng-container *ngIf="isAuthenticated">
-            <span>Hi, {{ currentUser?.firstName }}</span>
-            <button class="action_button" (click)="logout()">Logout</button>
+            <div class="user-actions">
+                <span class="greetings">Hi, {{ currentUser?.firstName }}</span>
+                <a class="action_button" (click)="logout()">Logout</a>
+            </div>
         </ng-container>
+        <!-- Display login button if not authenticated -->
         <ng-container *ngIf="!isAuthenticated">
             <a routerLink="/login" class="action_button">Login</a>
         </ng-container>
-        
-        <div class="toogle_btn">
+
+        <div class="toggle_btn">
             <i class="fas fa-bars"></i>
         </div>
+        
     </div>
     <div class="dropdown_menu">
-        <li *ngFor="let item of navbarData">
-            <a class="navlink" [routerLink]="item.routeLink" routerLinkActive="selectedlink">
-                {{ item.label }}
-            </a>
-        </li>
-        <li *ngIf="!isAuthenticated"><a routerLink="/login" class="action_button">Login</a></li>
+        <ul>
+            <li *ngFor="let item of navbarData">
+                <a class="navlink" [routerLink]="item.routeLink" routerLinkActive="selectedlink">
+                    {{ item.label }}
+                </a>
+            </li>
+            <li *ngIf="!isAuthenticated">
+                <a routerLink="/login" class="action_button">Login</a>
+            </li>
+            <span class="greetings" *ngIf="isAuthenticated">Hi, {{ currentUser?.firstName }}</span>
+            <li *ngIf="isAuthenticated">
+                <a class="action_button" (click)="logout()">Logout</a>
+            </li>
+        </ul>
     </div>
 </header>

@@ -64,8 +64,9 @@ export class AdminNavComponent implements OnInit {
     });
 
     this.router.events.subscribe((event: any) => {
-      if (event.url === '/admin/logout') {
+      if (event.url === '/admin/logout' && this.isAuthenticated) {
         this.logout();
+        this.isAuthenticated = false; // Prevent triggering logout multiple times
       }
     });
   }
@@ -82,6 +83,6 @@ export class AdminNavComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/dashboard']);
+    // No need to navigate again, as it's handled inside the AuthService.logout()
   }
 }

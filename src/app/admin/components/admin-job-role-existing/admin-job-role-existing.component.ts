@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
 import { HiringType, HiringTypeDisplay, JobRoles, JobStatus, JobStatusDisplay, RoleLevel, RoleLevelDisplay } from '../../../models/job-roles';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-admin-job-role-existing',
@@ -13,6 +14,9 @@ import { HiringType, HiringTypeDisplay, JobRoles, JobStatus, JobStatusDisplay, R
   templateUrl: './admin-job-role-existing.component.html',
 })
 export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
+  startDate: Date | null = null;
+  endDate: Date | null = null;
+
   displayedColumns: string[] = ['sequenceNo', 'jobName', 'aging', 'jobStatus', 'actions'];
   dataSource = new MatTableDataSource<JobRoles>();
   selectedJobRole: JobRoles | null = null;
@@ -29,7 +33,7 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
         map(response => response.data),
         tap(data => {
           console.log('Data received from backend:', data);
-          this.dataSource.data = data;
+          this.dataSource.data = this.filterByDate(data);
         }),
         catchError(error => {
           console.error('Error fetching jobs:', error);
@@ -85,8 +89,6 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
   }
   
 
-
-
   deleteElement(element: JobRoles) {
     if (confirm(`Are you sure you want to delete ${element.jobName}?`)) {
       this.http.delete(`https://localhost:7012/jobrole/${element.id}`)
@@ -102,5 +104,24 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
           })
         ).subscribe();
     }
+  }
+
+  filterByDate(data: JobRoles[]): JobRoles[] {
+    if (!this.startDate || !this.endDate) {
+      return data;
+    }
+    return data.filter(role => {
+      const openDate = role.openDate ? new Date(role.openDate) : null;
+      return this.startDate && this.endDate && openDate && openDate >= this.startDate && openDate <= this.endDate;
+    });
+  }
+
+  downloadData(dataType: 'JobRoles') {
+    const data = this.dataSource.data; // Get the data from dataSource
+    const filteredData = this.filterByDate(data); // Apply filtering if necessary
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, dataType);
+    XLSX.writeFile(workbook, `${dataType}.xlsx`);
   }
 }

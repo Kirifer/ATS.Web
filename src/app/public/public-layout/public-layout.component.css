@@ -48,3 +48,51 @@
     filter: blur(80px);
     z-index: -1;
 }
+
+@media (max-width: 768px) {
+    .body {
+        padding: 1rem 1.5rem;
+    }
+
+    .body::before, 
+    .body::after {
+        width: 80px;
+        height: 80px;
+    }
+
+    .body::before {
+        left: 50%;
+        top: 100px;
+        filter: blur(60px);
+    }
+
+    .body::after {
+        left: 70%;
+        top: 400px;
+        filter: blur(60px);
+    }
+}
+
+@media (max-width: 480px) {
+    .body {
+        padding: 1rem;
+    }
+
+    .body::before, 
+    .body::after {
+        width: 60px;
+        height: 60px;
+    }
+
+    .body::before {
+        left: 40%;
+        top: 80px;
+        filter: blur(40px);
+    }
+
+    .body::after {
+        left: 60%;
+        top: 300px;
+        filter: blur(40px);
+    }
+}

@@ -1,12 +1,38 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <main class="candidates_container">
     <section class="candidates_section">
         <div class="candidates_header_container">
-            <div class="icon-container">
-                <i class="fas fa-users job-icon"></i>
+            <div class="left-content">
+                <div class="icon-container">
+                    <i class="fas fa-users job-icon"></i>
+                </div>
+                <h1 class="candidates_header">List of Candidates</h1>
             </div>
-            <h1 class="candidates_header">List of Candidates</h1>
+
+            <div class="right-content">
+                <div class="date-picker-container">
+
+                    <mat-form-field class="custom-form-field"  appearance="outline">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate">
+                        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startPicker></mat-datepicker>
+                    </mat-form-field>
+                    
+                    <mat-form-field class="custom-form-field"  appearance="outline">
+                        <mat-label>End Date</mat-label>
+                        <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate">
+                        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endPicker></mat-datepicker>
+                    </mat-form-field>
+                    
+                    <button mat-raised-button color="primary" (click)="downloadData('JobCandidates')">Download</button>
+                </div>
+            </div>
         </div>
     </section>
+
 </main>
 
 <div class="table_container">
@@ -78,7 +104,7 @@
 
             <!-- Date Applied Column -->
             <ng-container matColumnDef="date_applied">
-                <th mat-header-cell *matHeaderCellDef>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     <mat-icon class="column-icon">calendar_today</mat-icon>
                     Date Applied
                 </th>

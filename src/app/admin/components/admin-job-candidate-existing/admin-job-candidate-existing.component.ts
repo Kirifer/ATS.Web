@@ -6,16 +6,18 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
 import { JobCandidate } from '../../../models/job-candidate';
-import { DomSanitizer } from '@angular/platform-browser';
+import * as XLSX from 'xlsx';
 
-import { ApplicationStatus, ApplicationStatusDisplay} from '../../../models/job-candidate';
+import { ApplicationStatus, ApplicationStatusDisplay } from '../../../models/job-candidate';
 
 @Component({
   selector: 'app-admin-job-candidate-existing',
   templateUrl: './admin-job-candidate-existing.component.html',
   styleUrl: './admin-job-candidate-existing.component.css'
 })
-export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit{
+export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit {
+  startDate: Date | null = null;
+  endDate: Date | null = null;
 
   ApplicationStatusDisplay = ApplicationStatusDisplay;
 
@@ -26,23 +28,24 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) { }
 
-  jobcandidate$: Observable<JobCandidate[]>= of([]);
+  jobcandidate$: Observable<JobCandidate[]> = of([]);
   ngOnInit() {
     this.http.get<{ data: JobCandidate[] }>('https://localhost:7012/jobcandidate')
       .pipe(
         map(response => response.data),
         tap(data => {
           console.log('Data received from backend:', data);
-          this.dataSource.data = data;
+          this.dataSource.data = this.filterByDate(data);
         }),
         catchError(error => {
-          console.error('Error fetching jobs:', error);
+          console.error('Error fetching candidates:', error);
           return throwError(error);
         })
       ).subscribe();
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -93,19 +96,19 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
         return 'badge badge-secondary rounded-pill d-inline';
     }
   }
-  
+
 
   getInterviewDate(candidate: any): string | null {
     if (candidate.applicationStatus === 'InitialInterview') {
-        return candidate.initialInterviewSchedule ? candidate.initialInterviewSchedule.toString() : null;
+      return candidate.initialInterviewSchedule ? candidate.initialInterviewSchedule.toString() : null;
     } else if (candidate.applicationStatus === 'TechnicalInterview') {
-        return candidate.technicalInterviewSchedule ? candidate.technicalInterviewSchedule.toString() : null;
+      return candidate.technicalInterviewSchedule ? candidate.technicalInterviewSchedule.toString() : null;
     } else if (candidate.applicationStatus === 'ClientInterview') {
-        return candidate.clientFinalInterviewSchedule ? candidate.clientFinalInterviewSchedule.toString() : null;
+      return candidate.clientFinalInterviewSchedule ? candidate.clientFinalInterviewSchedule.toString() : null;
     } else {
-        return null;
+      return null;
     }
-}
+  }
 
   deleteElement(element: JobCandidate) {
     if (confirm(`Are you sure you want to delete ${element.candidateName}?`)) {
@@ -122,5 +125,24 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
           })
         ).subscribe();
     }
+  }
+
+  filterByDate(data: JobCandidate[]): JobCandidate[] {
+    if (!this.startDate || !this.endDate) {
+      return data;
+    }
+    return data.filter(candidate => {
+      const dateApplied = new Date(candidate.dateApplied);
+      return this.startDate && this.endDate && dateApplied >= this.startDate && dateApplied <= this.endDate;
+    });
+  }
+
+  downloadData(dataType: 'JobCandidates') {
+    const data = this.dataSource.data; // Get the data from dataSource
+    const filteredData = this.filterByDate(data); // Apply filtering if necessary
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, dataType);
+    XLSX.writeFile(workbook, `${dataType}.xlsx`);
   }
 }

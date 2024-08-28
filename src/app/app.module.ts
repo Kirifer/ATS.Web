@@ -11,7 +11,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service'; // Import CookieService
-import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +25,7 @@ import { AuthGuard } from './auth/auth.guard';
     FormsModule
 
   ],
-  providers: [CookieService, AuthGuard],
+  providers: [CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

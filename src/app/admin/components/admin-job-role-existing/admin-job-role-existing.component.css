@@ -7,11 +7,17 @@
 .candidates_header_container {
     display: flex;
     align-items: center;
+    justify-content: space-between; /* Distribute space between left and right content */
     margin-bottom: 20px;
     width: 90%;
-    /* Match the table's container width */
     margin-left: auto;
     margin-right: auto;
+}
+
+/* Left content (Icon and Header) */
+.left-content {
+    display: flex;
+    align-items: center;
 }
 
 /* Header style */
@@ -20,7 +26,7 @@
     font-weight: bold;
     color: #004ba3;
     margin: 0;
-    padding: 0 10px;
+    padding-left: 10px; /* Add some space between the icon and header */
 }
 
 /* Icon container */
@@ -30,6 +36,86 @@
     justify-content: center;
 }
 
+/* Right content (Date Picker and Button) */
+.right-content {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Add space between date pickers and button */
+}
+
+/* Date picker container */
+.date-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between date pickers */
+}
+
+.custom-form-field {
+    width: 170px; /* Adjust the width as needed */
+    height: auto; /* Adjust the height as needed */
+    margin-right: 15px; /* Add some space between form fields */
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+::ng-deep .mat-mdc-form-field-bottom-align::before {
+    content: none;
+    display: none;
+}
+
+
+/* Button styling */
+button[mat-raised-button] {
+    height: 56px;
+    padding: 0 20px;
+    width: 20%;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #844ddc;
+    font-weight: 500;
+}
+
+button[mat-raised-button]:hover {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    transform: scale(1.05);
+    background-color: #d2a517;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .candidates_header_container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .right-content {
+        width: 100%; /* Make sure the right content takes full width */
+        justify-content: center; /* Center align the date picker and button */
+        margin-top: 15px; /* Add some space above the right content */
+    }
+
+    .date-picker-container {
+        flex-direction: column; /* Stack date picker and button vertically */
+        gap: 10px; /* Space between stacked items */
+    }
+
+    .custom-form-field {
+        width: 100%; /* Full width for date pickers on smaller screens */
+        margin-right: 0; /* Remove right margin for stacked layout */
+    }
+
+    button[mat-raised-button] {
+        width: 100%; /* Full width for button on smaller screens */
+    }
+}
+    
 /* Job icon style */
 .job-icon {
     font-size: 3rem;

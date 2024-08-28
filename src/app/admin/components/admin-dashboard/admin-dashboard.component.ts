@@ -11,29 +11,15 @@
 
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ApplicationStatus, JobCandidate } from '../../../models/job-candidate';
+import { ApplicationStatus, ApplicationStatusDisplay, HRInChargeDisplay, JobCandidate, SourcingToolDisplay } from '../../../models/job-candidate';
 import { JobRoles } from '../../../models/job-roles';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import * as echarts from 'echarts';
-
+import * as XLSX from 'xlsx';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
-import {
-  ApplicationStatusDisplay,
-  SourcingToolDisplay,
-  HRInChargeDisplay,
-} from '../../../models/job-candidate';
-import {
-  HiringManagerDisplay,
-  HiringTypeDisplay,
-  JobLocationDisplay,
-  JobStatusDisplay,
-  RoleLevelDisplay,
-  ShiftScheduleDisplay,
-} from '../../../models/job-roles';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -49,31 +35,25 @@ export class AdminDashboardComponent implements OnInit {
   @ViewChild('newCandidatesChart') newCandidatesChartElement!: ElementRef;
   @ViewChild('interviewChart') forInterviewChartElement!: ElementRef;
   @ViewChild('newHiresChart') newHiresChartElement!: ElementRef;
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   jobcandidates: JobCandidate[] = [];
   jobroles: JobRoles[] = [];
   sourcingToolAnalytics: { [key: string]: number } = {};
-  fillRatePercentage: number = 0;
   applicationStatusCount: { [key: string]: number } = {};
   candidatesSourcedByHr: { [key: string]: number } = {};
   candidatesPerPosition: { [key: string]: number } = {};
-  activeJobsCount: number = 0;
-  newCandidatesCount: number = 0;
-  forInterviewCandidatesCount: number = 0;
-  jobOffers: { made: number; accepted: number; declined: number } = {
-    made: 0,
-    accepted: 0,
-    declined: 0,
-  };
-  newHiresCount: number = 0;
+  jobOffers: { made: number; accepted: number; declined: number } = { made: 0, accepted: 0, declined: 0 };
+  fillRatePercentage = 0;
+  activeJobsCount = 0;
+  newCandidatesCount = 0;
+  forInterviewCandidatesCount = 0;
+  newHiresCount = 0;
   avgTimeToFill: { jobName: string; timeToFill: number | undefined }[] = [];
   agingCandidates: { jobName: string; aging: string | undefined }[] = [];
-
   displayedColumns: string[] = ['jobName', 'timeToFill', 'aging'];
-  dataSource = new MatTableDataSource<any>([]); // Initialize dataSource as MatTableDataSource
+  dataSource = new MatTableDataSource<any>([]);
 
   timePeriods = [
     { value: 'last7days', label: 'Last 7 Days' },
@@ -85,26 +65,33 @@ export class AdminDashboardComponent implements OnInit {
     { value: 'last1year', label: 'Last 1 Year' },
   ];
 
-  selectedPeriod: string = 'last7days';
+  selectedPeriod = 'last7days';
   startDate: Date | null = null;
   endDate: Date | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.setDefaultDateRange(); // Set default date range for last 7 days
+    this.setDefaultDateRange();
     this.fetchCandidates();
     this.fetchJobRoles();
   }
 
   setDefaultDateRange() {
     const now = new Date();
-    this.endDate = new Date(now); // End date is always the current date
-    this.startDate = new Date(now.setDate(now.getDate() - 7)); // Start date is 7 days ago
-    this.selectedPeriod = 'last7days'; // Set the default period
+    this.endDate = new Date(now);
+    this.startDate = new Date();
+    this.startDate.setDate(now.getDate() - 7); // Ensure startDate is 7 days ago
   }
+  
 
   ngAfterViewInit() {
+    this.initializeCharts();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  initializeCharts() {
     this.renderSourcingToolChart();
     this.renderSourcingHRChart();
     this.renderApplicantFunnelChart();
@@ -113,157 +100,163 @@ export class AdminDashboardComponent implements OnInit {
     this.renderNewCandidatesChart();
     this.renderForInterviewCandidatesChart();
     this.renderNewHiresLineChart();
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   fetchCandidates() {
     this.http
-      .get<{ data: JobCandidate[]; code: number; succeeded: boolean }>(
-        'https://localhost:7012/jobcandidate'
-      )
+      .get<{ data: JobCandidate[] }>('https://localhost:7012/jobcandidate')
       .pipe(
-        map((response) => response.data),
-        tap((data) => {
-          // console.log('Data received from backend:', data);
-          this.jobcandidates = this.filterCandidates(data);
-          this.sourcingToolAnalytics = this.getSourcingToolAnalytics();
-          this.applicationStatusCount = this.getApplicationStatusCount();
-          this.candidatesSourcedByHr = this.getCandidatesSourcedByHr();
-          this.candidatesPerPosition = this.getCandidatesPerPosition();
-          this.newCandidatesCount = this.getNewCandidates();
-          this.forInterviewCandidatesCount = this.getForInterviewCandidates();
-          this.jobOffers = this.getJobOffers();
-          this.newHiresCount = this.getNewHires();
-
-          this.renderSourcingToolChart();
-          this.renderSourcingHRChart();
-          this.renderApplicantFunnelChart();
-          this.renderCandidatesPerPositionChart();
-          this.renderNewCandidatesChart();
-          this.renderNewHiresLineChart();
-          this.renderJobOffersChart();
-          this.renderForInterviewCandidatesChart();
+        map(response => response.data),
+        tap(data => {
+          this.jobcandidates = this.filterByDate(data);
+          this.updateCandidateAnalytics();
+          this.initializeCharts();
         }),
-        catchError((error) => {
+        catchError(error => {
           console.error('Error fetching candidates:', error);
           return throwError(error);
         })
       )
-      .subscribe(() => this.combineData()); // Call combineData here
+      .subscribe(() => this.combineData());
   }
 
   fetchJobRoles() {
     this.http
-      .get<{ data: JobRoles[]; code: number; succeeded: boolean }>(
-        'https://localhost:7012/jobrole'
-      )
+      .get<{ data: JobRoles[] }>('https://localhost:7012/jobrole')
       .pipe(
-        map((response) => response.data),
-        tap((data) => {
-          // console.log('Data received from backend:', data);
-          this.jobroles = this.filterJobRoles(data);
-          this.fillRatePercentage = this.getFillRate();
-          this.activeJobsCount = this.getActiveJobsCount();
-          this.avgTimeToFill = this.getTimeToFill();
-          this.agingCandidates = this.getAgingCandidates();
+        map(response => response.data),
+        tap(data => {
+          this.jobroles = this.filterByDate(data);
+          this.updateJobRoleAnalytics();
         }),
-        catchError((error) => {
+        catchError(error => {
           console.error('Error fetching job roles:', error);
           return throwError(error);
         })
       )
-      .subscribe(() => this.combineData()); // Call combineData here
+      .subscribe(() => this.combineData());
   }
 
-  filterCandidates(candidates: JobCandidate[]): JobCandidate[] {
-    let filtered = candidates;
-
-    if (this.startDate && this.endDate) {
-      filtered = filtered.filter((candidate) => {
-        const appliedDate = new Date(candidate.dateApplied);
-        return appliedDate >= this.startDate! && appliedDate <= this.endDate!;
-      });
+  filterByDate(data: any[]): any[] {
+    if (!this.startDate || !this.endDate) {
+      return data;
     }
-
-    return filtered;
+    return data.filter(item => {
+      const date = new Date(item.dateApplied || item.openDate);
+      return this.startDate && this.endDate && date >= this.startDate && date <= this.endDate;
+    });
   }
 
-  filterJobRoles(roles: JobRoles[]): JobRoles[] {
-    let filtered = roles;
-
-    if (this.startDate && this.endDate) {
-      filtered = filtered.filter((role) => {
-        const openDate = role.openDate ? new Date(role.openDate) : null;
-        return (
-          openDate !== null &&
-          openDate >= this.startDate! &&
-          openDate <= this.endDate!
-        );
-      });
-    }
-
-    return filtered;
+  updateCandidateAnalytics() {
+    this.sourcingToolAnalytics = this.getSourcingToolAnalytics();
+    this.applicationStatusCount = this.getApplicationStatusCount();
+    this.candidatesSourcedByHr = this.getCandidatesSourcedByHr();
+    this.candidatesPerPosition = this.getCandidatesPerPosition();
+    this.newCandidatesCount = this.getNewCandidates();
+    this.forInterviewCandidatesCount = this.getForInterviewCandidates();
+    this.jobOffers = this.getJobOffers();
+    this.newHiresCount = this.getNewHires();
   }
 
-  // Modify onPeriodChange to use the selected period
+  updateJobRoleAnalytics() {
+    this.fillRatePercentage = this.getFillRate();
+    this.activeJobsCount = this.getActiveJobsCount();
+    this.avgTimeToFill = this.getTimeToFill();
+    this.agingCandidates = this.getAgingCandidates();
+  }
+
   onPeriodChange() {
     const now = new Date();
-
-    if (this.selectedPeriod === 'last7days') {
-      this.startDate = new Date(now.setDate(now.getDate() - 7));
-    } else if (this.selectedPeriod === 'last14days') {
-      this.startDate = new Date(now.setDate(now.getDate() - 14));
-    } else if (this.selectedPeriod === 'last30days') {
-      this.startDate = new Date(now.setDate(now.getDate() - 30));
-    } else if (this.selectedPeriod === 'last60days') {
-      this.startDate = new Date(now.setDate(now.getDate() - 60));
-    } else if (this.selectedPeriod === 'last90days') {
-      this.startDate = new Date(now.setDate(now.getDate() - 90));
-    } else if (this.selectedPeriod === 'last6months') {
-      this.startDate = new Date(now.setMonth(now.getMonth() - 6));
-    } else if (this.selectedPeriod === 'last1year') {
-      this.startDate = new Date(now.setFullYear(now.getFullYear() - 1));
-    }
-
-    this.endDate = new Date(); // End date is always the current date
-    this.fetchCandidates(); // Refresh data with new date range
+    const periods: { [key: string]: number } = {
+      last7days: 7,
+      last14days: 14,
+      last30days: 30,
+      last60days: 60,
+      last90days: 90,
+      last6months: 180,
+      last1year: 365,
+    };
+    const days = periods[this.selectedPeriod] || 7;
+    this.startDate = new Date();
+    this.startDate.setDate(now.getDate() - days);
+    this.endDate = new Date(); // End date is today
+  
+    // Fetch and filter candidates and job roles based on the new date range
+    this.fetchCandidates();
     this.fetchJobRoles();
   }
+  
 
   combineData() {
-    const agingCandidates = this.getAgingCandidates();
-    const timeToFillData = this.getTimeToFill();
-
     const jobMap = new Map<string, any>();
 
-    agingCandidates.forEach((candidate) => {
+    this.agingCandidates.forEach(candidate => {
       jobMap.set(candidate.jobName, { ...candidate });
     });
 
-    timeToFillData.forEach((data) => {
+    this.avgTimeToFill.forEach(data => {
       if (jobMap.has(data.jobName)) {
         jobMap.get(data.jobName).timeToFill = data.timeToFill;
       } else {
-        jobMap.set(data.jobName, {
-          jobName: data.jobName,
-          timeToFill: data.timeToFill,
-        });
+        jobMap.set(data.jobName, { jobName: data.jobName, timeToFill: data.timeToFill });
       }
     });
 
     this.dataSource.data = Array.from(jobMap.values());
   }
 
+  downloadData(dataType: 'JobCandidates' | 'JobRoles') {
+    const data = dataType === 'JobCandidates' ? this.jobcandidates : this.jobroles;
+    const filteredData = this.filterByDate(data);
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, dataType);
+    XLSX.writeFile(workbook, `${dataType}.xlsx`);
+  }
+
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  downloadExcel() {
+    const workbook = XLSX.utils.book_new();
+
+    // REPORTS Sheet
+    const reportsData = [
+      { Title: 'Sourcing Tool Analytics', ...this.getSourcingToolAnalytics() },
+      { Title: 'Applicant Funnel', ...this.getApplicationStatusCount() },
+      { Title: 'Sourced by Recruiter', ...this.getCandidatesSourcedByHr() },
+      { Title: 'Total Number of Candidates per Position', ...this.getCandidatesPerPosition() },
+      { Title: 'Active Jobs', Count: this.getActiveJobsCount() },
+    ];
+
+    const reportsSheet = XLSX.utils.json_to_sheet(reportsData, { skipHeader: true });
+    XLSX.utils.book_append_sheet(workbook, reportsSheet, 'REPORTS');
+
+    // PROGRESS Sheet
+    const progressData = [
+      { Title: 'New Candidates', Count: this.getNewCandidates() },
+      { Title: 'For Interview Candidates', Count: this.getForInterviewCandidates() },
+      { Title: 'Job Offer - Made', Count: this.getJobOffers().made },
+      { Title: 'Job Offer - Accepted', Count: this.getJobOffers().accepted },
+      { Title: 'Job Offer - Declined', Count: this.getJobOffers().declined },
+      { Title: 'New Hires', Count: this.getNewHires() },
+      { Title: 'Time to Fill', ...this.getTimeToFill().reduce((acc, curr) => ({ ...acc, [curr.jobName]: curr.timeToFill }), {}) },
+      { Title: 'Aging', ...this.getAgingCandidates().reduce((acc, curr) => ({ ...acc, [curr.jobName]: curr.aging }), {}) },
+    ];
+
+    const progressSheet = XLSX.utils.json_to_sheet(progressData, { skipHeader: true });
+    XLSX.utils.book_append_sheet(workbook, progressSheet, 'PROGRESS');
+
+    // Save the file
+    XLSX.writeFile(workbook, 'Reports_Progress.xlsx');
+  }
+  // ... (Keep all other methods for rendering charts, analytics, and calculations)
 
   // REPORTS SECTION
 
@@ -272,12 +265,12 @@ export class AdminDashboardComponent implements OnInit {
     const toolCounts: { [key: string]: number } = {};
     this.jobcandidates.forEach((candidate) => {
       const tool = candidate.sourceTool;
-      const displayTool = SourcingToolDisplay[tool];
+      const displayTool = SourcingToolDisplay[tool] || tool; // Default to tool if display mapping not found
       toolCounts[displayTool] = (toolCounts[displayTool] || 0) + 1;
     });
     return toolCounts;
   }
-
+  
   // 2. Fill Rate
   getFillRate(): number {
     const totalJobs = this.jobroles.length;
@@ -286,35 +279,40 @@ export class AdminDashboardComponent implements OnInit {
     ).length;
     return totalJobs > 0 ? (filledJobs / totalJobs) * 100 : 0;
   }
+  
 
   // 3. Applicant Funnel (Application Status)
   getApplicationStatusCount() {
     const statusCounts: { [key: string]: number } = {};
-
-    // Initialize statusCounts with all possible statuses. This is for showing all the statuses including those with 0 values.
-    // Object.values(ApplicationStatusDisplay).forEach(displayStatus => {
-    //   statusCounts[displayStatus] = 0;
-    // });
-
+  
     this.jobcandidates.forEach((candidate) => {
       const status = candidate.applicationStatus;
-      const displayStatus = ApplicationStatusDisplay[status];
+      const displayStatus = ApplicationStatusDisplay[status] || status; // Default to status if display mapping not found
       statusCounts[displayStatus] = (statusCounts[displayStatus] || 0) + 1;
     });
-
+  
+    // Ensure all statuses are represented in the result, even if their count is zero
+    Object.values(ApplicationStatusDisplay).forEach((displayStatus) => {
+      if (!(displayStatus in statusCounts)) {
+        statusCounts[displayStatus] = 0;
+      }
+    });
+  
     return statusCounts;
   }
+  
 
   // 4. Sourced by Recruiter
   getCandidatesSourcedByHr() {
     const hrCounts: { [key: string]: number } = {};
     this.jobcandidates.forEach((candidate) => {
       const hr = candidate.assignedHr;
-      const displayHr = HRInChargeDisplay[hr];
+      const displayHr = HRInChargeDisplay[hr] || hr; // Default to HR if display mapping not found
       hrCounts[displayHr] = (hrCounts[displayHr] || 0) + 1;
     });
     return hrCounts;
   }
+  
 
   // 5. Total Number of Candidates per Position
   getCandidatesPerPosition() {
@@ -332,6 +330,7 @@ export class AdminDashboardComponent implements OnInit {
       ['FilledPosition', 'Cancelled', 'OnHold'].includes(role.jobStatus)
     ).length;
   }
+  
 
   // 7. Qualified
   getQualifiedCandidates(): number {
@@ -344,34 +343,37 @@ export class AdminDashboardComponent implements OnInit {
       ].includes(candidate.applicationStatus)
     ).length;
   }
-
+  
   //8. Interviewed Candidates
   getInterviewedCandidates(): number {
     return this.jobcandidates.filter(
       (candidate) =>
         candidate.applicationStatus === ApplicationStatus.ClientInterview
     ).length;
-  }
+  }  
 
   // PROGRESS SECTION
 
   // 1. New Candidates (should be dynamic)
   getNewCandidates(): number {
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const startDate = this.startDate || new Date(); // Use startDate from a dynamic range if provided
     return this.jobcandidates.filter(
-      (candidate) => new Date(candidate.dateApplied) >= sevenDaysAgo
+      (candidate) => new Date(candidate.dateApplied) >= startDate
     ).length;
   }
+  
 
   // 2. For Interview Candidates
   getForInterviewCandidates(): number {
     return this.jobcandidates.filter((candidate) =>
-      ['InitialInterview', 'TechnicalInterview', 'ClientInterview'].includes(
-        candidate.applicationStatus
-      )
+      [
+        ApplicationStatus.InitialInterview,
+        ApplicationStatus.TechnicalInterview,
+        ApplicationStatus.ClientInterview
+      ].includes(candidate.applicationStatus)
     ).length;
   }
+  
 
   // 3. Job Offer (Made, Accepted, Declined)
   getJobOffers() {
@@ -401,7 +403,7 @@ export class AdminDashboardComponent implements OnInit {
         candidate.applicationStatus === ApplicationStatusDisplay.Onboarded
     ).length;
   }
-
+  
   // 5. Time to Fill (Job Roles)
   // getTimeToFill(): string[] {
   //   return this.jobroles
@@ -418,22 +420,23 @@ export class AdminDashboardComponent implements OnInit {
       .map((job) => {
         const closedDate = job.closedDate ? new Date(job.closedDate) : null;
         const openDate = job.openDate ? new Date(job.openDate) : null;
-
-        if (closedDate && openDate) {
-          const timeToFill =
-            (closedDate.getTime() - openDate.getTime()) / (1000 * 60 * 60 * 24);
+        
+        if (closedDate !== null && openDate !== null && (isNaN(closedDate.getTime()) || isNaN(openDate.getTime()))) {
           return {
             jobName: job.jobName,
-            timeToFill: timeToFill,
-          };
-        } else {
-          return {
-            jobName: job.jobName,
-            timeToFill: undefined, // or 0 or any default value you prefer
+            timeToFill: 0, // Default to 0 if dates are invalid
           };
         }
+  
+        const timeToFill =
+          closedDate && openDate ? (closedDate.getTime() - openDate.getTime()) / (1000 * 60 * 60 * 24) : 0;
+        return {
+          jobName: job.jobName,
+          timeToFill: timeToFill,
+        };
       });
   }
+  
 
   // 6. Interview Planner
   getInterviewPlanner() {
@@ -449,26 +452,24 @@ export class AdminDashboardComponent implements OnInit {
   getAgingCandidates() {
     const currentDate = new Date();
     return this.jobroles.map((role) => {
-      let postedDate: Date;
-      // Check if openDate is defined and valid
-      if (role.openDate) {
-        postedDate = new Date(role.openDate);
-        // Validate the date
-        if (isNaN(postedDate.getTime())) {
-          postedDate = new Date(0); // Fallback to a default date if invalid
-        }
-      } else {
-        postedDate = new Date(0); // Fallback to a default date if openDate is undefined
+      let postedDate = role.openDate ? new Date(role.openDate) : new Date(0);
+  
+      // Validate the date
+      if (isNaN(postedDate.getTime())) {
+        postedDate = new Date(0); // Fallback to a default date if invalid
       }
+  
       // Calculate the number of days since the postedDate
       const timeDiff = currentDate.getTime() - postedDate.getTime();
       const daysAging = Math.floor(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
+  
       return {
         jobName: role.jobName,
         aging: daysAging.toString(), // Convert number to string
       };
     });
   }
+  
 
   //Charts
   renderSourcingToolChart() {
@@ -699,7 +700,8 @@ export class AdminDashboardComponent implements OnInit {
           type: 'funnel',
           top: 50,
           bottom: 20,
-          width: '60%',
+          width: '70%',
+          left: '5%',
           min: 0,
           max: Math.max(...Object.values(filteredFunnelData)),
           minSize: '20%',
