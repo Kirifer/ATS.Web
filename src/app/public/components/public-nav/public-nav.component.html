@@ -6,43 +6,69 @@
                 <div class="logo-text"><a routerLink="/">ITSquarehub</a></div>
             </div>
         </div>
+
+        <!-- Center links for Home and About -->
         <ul class="links">
-            <li *ngFor="let item of navbarData">
+            <li *ngFor="let item of mainNavbarData">
                 <a class="navlink" [routerLink]="item.routeLink" routerLinkActive="selectedlink">
                     {{ item.label }}
                 </a>
             </li>
         </ul>
-        <!-- Authenticated user actions -->
-        <ng-container *ngIf="isAuthenticated">
-            <div class="user-actions">
-                <span class="greetings">Hi, {{ currentUser?.firstName }}</span>
-                <a class="action_button" (click)="logout()">Logout</a>
+
+        <!-- User dropdown when logged in -->
+        <ng-container *ngIf="isLoggedIn">
+            <div class="user-dropdown">
+                <i class="fas fa-user user-icon"></i>
+                <span class="greetings">{{ currentUser?.firstName }}</span>
+                
+                <!-- Only the dropdown-icon (arrow) is clickable -->
+                <span class="dropdown-toggle" (click)="toggleDropdown()">
+                    <i class="fas fa-chevron-down dropdown-icon"></i>
+                </span>
+                
+                <!-- Dropdown will open if isDropdownOpen is true -->
+                <div class="dropdown_loggedin" [class.open]="isDropdownOpen">
+                    <ul>
+                        <li *ngFor="let item of dropdownNavbarData">
+                            <a class="navlink" [routerLink]="item.routeLink" routerLinkActive="selectedlink">
+                                {{ item.label }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </ng-container>
-        <!-- Display login button if not authenticated -->
-        <ng-container *ngIf="!isAuthenticated">
+
+        <!-- Login button for non-logged-in users -->
+        <ng-container *ngIf="!isLoggedIn">
             <a routerLink="/login" class="action_button">Login</a>
         </ng-container>
 
+        <!-- Toggle button for mobile view -->
         <div class="toggle_btn">
             <i class="fas fa-bars"></i>
         </div>
-        
     </div>
+
+    <!-- Dropdown menu for mobile view -->
     <div class="dropdown_menu">
         <ul>
-            <li *ngFor="let item of navbarData">
+            <li *ngIf="isLoggedIn">
+                <span class="greetings">{{ currentUser?.firstName }}</span>
+            </li>
+            <li *ngFor="let item of mainNavbarData">
                 <a class="navlink" [routerLink]="item.routeLink" routerLinkActive="selectedlink">
                     {{ item.label }}
                 </a>
             </li>
-            <li *ngIf="!isAuthenticated">
+            <li *ngIf="!isLoggedIn">
                 <a routerLink="/login" class="action_button">Login</a>
             </li>
-            <span class="greetings" *ngIf="isAuthenticated">Hi, {{ currentUser?.firstName }}</span>
-            <li *ngIf="isAuthenticated">
-                <a class="action_button" (click)="logout()">Logout</a>
+            <li *ngFor="let item of dropdownNavbarData">
+                <a class="navlink" [routerLink]="item.routeLink" routerLinkActive="selectedlink">
+                    {{ item.label }}
+                </a>
             </li>
         </ul>
     </div>

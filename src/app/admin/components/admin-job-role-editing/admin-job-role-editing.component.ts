@@ -72,6 +72,8 @@ export class AdminJobRoleEditingComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['jobRole'] && this.jobRole) {
       this.jobForm.patchValue(this.jobRole);
+      console.log('Job Role:', this.jobRole);
+      console.log('Candidates:', this.jobRole.candidates);
     }
   }
 

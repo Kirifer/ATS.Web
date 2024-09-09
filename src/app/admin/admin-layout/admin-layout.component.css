@@ -22,6 +22,9 @@
     background: #f4f3ef;
     padding: 3rem;
     flex: 1;
+    display: flex;  /* Add this */
+    align-items: center;  /* Center vertically */
+    justify-content: center;  /* Center horizontally */
 }
 
 .body::before {

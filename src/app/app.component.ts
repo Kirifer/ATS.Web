@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { environment } from './../environments/environment';
+import { environment } from '../environments/environment.prod'; 
 
 @Component({
   selector: 'app-root',
@@ -11,5 +11,5 @@ export class AppComponent {
     console.log(environment.production); // Logs false for development environment
   }
 
-  title = 'ITS_FrontEnd';
+  title = 'ITS-ATS';
 }

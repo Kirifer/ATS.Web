@@ -29,6 +29,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { AdminJobRoleEditingComponent } from './components/admin-job-role-editing/admin-job-role-editing.component';
 import { AdminJobCandidateEditingComponent } from './components/admin-job-candidate-editing/admin-job-candidate-editing.component';
+import { UpdateCredentialsComponent } from './components/update-credentials/update-credentials.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AdminJobCandidateEditingComponent } from './components/admin-job-candid
     AdminJobCandidateExistingComponent,
     AdminJobRoleEditingComponent,
     AdminJobCandidateEditingComponent,
+    UpdateCredentialsComponent,
   ],
   imports: [
     CommonModule,

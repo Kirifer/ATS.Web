@@ -7,6 +7,7 @@ import { AdminJobCandidateCreationComponent } from './components/admin-job-candi
 import { AdminJobCandidateExistingComponent } from './components/admin-job-candidate-existing/admin-job-candidate-existing.component';
 import { AdminJobRoleExistingComponent } from './components/admin-job-role-existing/admin-job-role-existing.component';
 import { AdminJobRolePostingComponent } from './components/admin-job-role-posting/admin-job-role-posting.component';
+import { UpdateCredentialsComponent } from './components/update-credentials/update-credentials.component';
 
 const routes: Routes = [
   {
@@ -17,10 +18,11 @@ const routes: Routes = [
       { path: 'admin-job-candidate-creation', component: AdminJobCandidateCreationComponent },
       { path: 'admin-job-candidate-existing', component: AdminJobCandidateExistingComponent },
       { path: 'admin-job-role-existing', component: AdminJobRoleExistingComponent },
-      { path: 'admin-job-role-posting', component: AdminJobRolePostingComponent }
+      { path: 'admin-job-role-posting', component: AdminJobRolePostingComponent },
+      { path: 'update-credentials', component: UpdateCredentialsComponent } // Add login route here
     ]
   },
-  { path: 'login', component: AdminLoginComponent } // Add login route here
+  { path: 'login', component: AdminLoginComponent }, // Add login route here
 ];
 
 @NgModule({

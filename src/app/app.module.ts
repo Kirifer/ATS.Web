@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -10,7 +10,15 @@ import { PublicModule } from './public/public.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service'; // Import CookieService
+import { AuthService } from './auth/auth.service';
+
+
+export function initializeApp(authService: AuthService) {
+  return (): Promise<any> => {
+    return authService.getIdentity().toPromise();
+  };
+}
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +33,15 @@ import { CookieService } from 'ngx-cookie-service'; // Import CookieService
     FormsModule
 
   ],
-  providers: [CookieService],
+  providers: [
+    AuthService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AuthService],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

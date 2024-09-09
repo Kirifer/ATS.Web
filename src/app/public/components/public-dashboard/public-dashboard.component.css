@@ -15,7 +15,6 @@
 
 /* Blue: #004ba3 Sky Blue: #00b8d4 Purple: #844ddc Orange: #d2a517 */
 
-/*Esto es del apartado de abajo, vendria a ser el cuerpo o contenido de inicio*/
 /* Home Section Styling */
 .home {
     height: 90vh;
@@ -262,12 +261,10 @@
 
     .btn-box {
         flex-direction: column;
-        width: 100%;
         height: auto;
     }
 
     .btn-box a {
-        width: 100%;
         margin-bottom: 10px;
         height: 45px;
     }

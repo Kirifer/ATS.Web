@@ -8,7 +8,7 @@ import { Observable, throwError, of } from 'rxjs';
 import { JobCandidate } from '../../../models/job-candidate';
 import * as XLSX from 'xlsx';
 
-import { ApplicationStatus, ApplicationStatusDisplay } from '../../../models/job-candidate';
+import { ApplicationStatus, ApplicationStatusDisplay, SourcingToolDisplay, HRInChargeDisplay, NoticeDurationDisplay } from '../../../models/job-candidate';
 
 @Component({
   selector: 'app-admin-job-candidate-existing',
@@ -140,7 +140,39 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
   downloadData(dataType: 'JobCandidates') {
     const data = this.dataSource.data; // Get the data from dataSource
     const filteredData = this.filterByDate(data); // Apply filtering if necessary
-    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+
+    // Map your data to the desired column names
+    const mappedData = filteredData.map((item: JobCandidate) => ({
+      'Job Candidate Number': item.csequenceNo,
+      'Name': item.candidateName,
+      'Job Role Number': item.jobRoleId,
+      'Job Role': item.jobName,
+      'Sourcing Tools': SourcingToolDisplay[item.sourceTool],
+      'HR In-Charge': HRInChargeDisplay[item.assignedHr],
+      'Updated CV': item.candidateCv,
+      'Email Address': item.candidateEmail,
+      'Contact Number': item.candidateContact,
+      'Asking Gross Salary': item.askingSalary,
+      'Negotiable': item.salaryNegotiable,
+      'Minimum Negotiated Salary': item.minSalary,
+      'Maximum Negotiated Salary': item.maxSalary,
+      'Availability': NoticeDurationDisplay[item.noticeDuration],
+      'Date Applied': item.dateApplied,
+      'Initial Interview Schedule': item.initialInterviewSchedule,
+      'Technical Interview Schedule': item.technicalInterviewSchedule,
+      'Client/Final Interview Schedule': item.clientFinalInterviewSchedule,
+      'Background Verification': item.backgroundVerification,
+      'Status': ApplicationStatusDisplay[item.applicationStatus],
+      'Final Basic Salary': item.finalSalary,
+      'Allowances': item.allowance,
+      'Honorarium': item.honorarium,
+      'Job Offer': item.jobOffer,
+      'Job Contract': item.candidateContract,
+      'Remarks': item.remarks,
+      // Add other fields as needed
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(mappedData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, dataType);
     XLSX.writeFile(workbook, `${dataType}.xlsx`);

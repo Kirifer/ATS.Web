@@ -98,37 +98,23 @@ export class AdminJobCandidateEditingComponent implements OnChanges {
       })
     ).subscribe();
   }
-
-viewAttachment(attachment: JobCandidateAttachment): void {
+  
+  viewAttachment(attachment: JobCandidateAttachment): void {
     const url = `https://localhost:7012/jobcandidate/${this.jobCandidate?.id}/attachments/${attachment.id}`;
     console.log(`Viewing attachment from URL: ${url}`);
     this.http.get(url, { responseType: 'blob' }).subscribe(blob => {
-        // Check if the file is viewable by trying to open it in a new tab
-        const fileUrl = URL.createObjectURL(blob);
-        const fileType = blob.type;
-
-        // List of MIME types that are typically viewable in a browser
-        const viewableTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'text/plain'];
-
-        if (viewableTypes.includes(fileType)) {
-            // Open in a new tab if the file type is viewable
-            window.open(fileUrl);
-        } else {
-            // Download the file if it is not viewable
-            const a = document.createElement('a');
-            a.href = fileUrl;
-            a.target = '_blank';
-            a.download = attachment.fileName;
-            a.click();
-        }
-
-        // Clean up the object URL
-        URL.revokeObjectURL(fileUrl);
+        console.log('Downloaded blob size:', blob.size);  // Add this line to log the size
+        const a = document.createElement('a');
+        const objectUrl = URL.createObjectURL(blob);
+        a.href = objectUrl;
+        a.target = '_blank';
+        a.download = attachment.fileName;
+        a.click();
+        URL.revokeObjectURL(objectUrl);
     }, (error: HttpErrorResponse) => {
         console.error('Error viewing attachment:', error.message);
     });
 }
-
 
 
   onUpdate() {

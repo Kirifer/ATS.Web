@@ -25,6 +25,11 @@ export const navbarData = [
         label: 'List of Jobs'
     },
     {
+        routeLink: '/admin/update-credentials', //update
+        icon: 'fa-solid fa-gear',
+        label: 'Settings'
+    },
+    {
         routeLink: '/admin/logout',
         icon: 'fas fa-sign-out-alt',
         label: 'Log Out'

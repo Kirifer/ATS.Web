@@ -105,7 +105,7 @@ export class RecruitmentComponent implements OnInit {
 
   onSubmitHr(): void {
     if (this.recruitmentForm.valid) {
-      let formData = this.recruitmentForm.value;
+      let formData = this.recruitmentForm.value;  
       formData.attachments = this.attachments;
 
       // Handle nullable dates

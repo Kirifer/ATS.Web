@@ -23,31 +23,11 @@
     </div>
 </div> -->
 
+<link rel="stylesheet" href="../../../public/public-layout/public-layout.component.css">
 <div class="body">
     <div class="main-container">
-        <!-- <div class="container" id="container">
-        <div class="toggle-container">
-            <div class="toggle">
-                <div class="toggle-panel toggle-right">
-                    <img class="toggle-logo" src="assets/img/itsquarehub_logo.png" alt="" width="100">
-                    <div class="text-container">
-                        <h2 class="toggle-header">IT Squarehub</h2>
-                        <p class="toggle-subtext">Applicant Tracking System</p>
-                    </div>
-                    <p class="tagline">Building Quality Service Without Compromise</p>
-                    <p class="description">Embrace quality-driven strategies to transform your operation and achieve unparalleled success.</p>
-                </div>
-            </div>
-        </div>
-        <div class="form-container sign-in">
-            <form (ngSubmit)="onSubmit()">
-                <h1 class="form-header">Hey there, Admin!</h1>
-                <input placeholder="Username" type="text" id="username" name="username" class="form-control" [(ngModel)]="username" required>
-                <input placeholder="Password" type="password" id="password" name="password" class="form-control" [(ngModel)]="password" required>
-                <button type="submit">Sign In</button>
-            </form>
-        </div>
-    </div> -->
+        <div class="blob-1"></div>
+        <div class="blob-2"></div>
         <div class="container" #container>
             <div class="form-container sign-up">
                 <form (ngSubmit)="onSubmitSignUp()" #signUpForm="ngForm">
@@ -66,7 +46,7 @@
                     <h1>Sign In</h1>
                     <input type="text" placeholder="username" [(ngModel)]="username" name="username" required>
                     <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
-                    <a href="#">→ Forget Your Password? ←</a>
+                    <!-- <a href="#">→ Forgot Your Password? ←</a> -->
                     <button type="submit">Sign In</button>
                 </form>
             </div>

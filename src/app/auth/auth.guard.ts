@@ -15,7 +15,7 @@
 //     route: ActivatedRouteSnapshot,
 //     state: RouterStateSnapshot
 //   ): Observable<boolean> {
-//     return this.authService.isAuthenticated().pipe(
+//     return this.authService.getIdentity().pipe(
 //       map(isAuth => {
 //         if (isAuth) {
 //           return true;
@@ -60,6 +60,44 @@
 //   }
 // }
 
+// import { CanActivateFn } from '@angular/router';
+// import { AuthService } from './auth.service';
+// import { inject } from '@angular/core';
+// import { map } from 'rxjs/operators';
+// import { Router } from '@angular/router';
+
+// export const authGuard: CanActivateFn = () => {
+//   const authService = inject(AuthService);
+//   const router = inject(Router);
+
+//   return authService.isAuthenticated().pipe(
+//     map(isAuthenticated => {
+//       if (!isAuthenticated) {
+//         router.navigate(['/login']);
+//         return false;
+//       }
+//       return true;
+//     })
+//   );
+// };
+
+// import { CanActivateFn } from '@angular/router';
+// import { inject } from '@angular/core';
+// import { AuthService } from './auth.service';
+// import { Router } from '@angular/router';
+
+// export const authGuard: CanActivateFn = () => {
+//   const authService = inject(AuthService);
+//   const router = inject(Router);
+
+//   const getIdentity = !!authService.getIdentity();
+//   if (!getIdentity) {
+//     router.navigate(['/login']);
+//   }
+
+//   return getIdentity;
+// };
+
 import { CanActivateFn } from '@angular/router';
 import { AuthService } from './auth.service';
 import { inject } from '@angular/core';
@@ -70,9 +108,9 @@ export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  return authService.isAuthenticated().pipe(
-    map(isAuthenticated => {
-      if (!isAuthenticated) {
+  return authService.getIdentity().pipe(
+    map(getIdentity => {
+      if (!getIdentity) {
         router.navigate(['/login']);
         return false;
       }

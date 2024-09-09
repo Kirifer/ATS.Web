@@ -1,22 +1,32 @@
 export const navbarData = [
     {
         routeLink: '/dashboard',
-        label: 'Home'
+        label: 'Home',
+        visibleWhenLoggedIn: false,
+        showInDropdown: false
     },
-    // {
-    //     routeLink: '/jobs',
-    //     label: 'All Jobs'
-    // },
+    {
+        routeLink: '/applicant-status',
+        label: 'Status',
+        visibleWhenLoggedIn: true,
+        showInDropdown: false
+    },
     {
         routeLink: '/about',
-        label: 'About'
+        label: 'About',
+        visibleWhenLoggedIn: false,
+        showInDropdown: false
     },
-    // {
-    //     routeLink: '/services',
-    //     label: 'Services'
-    // },
-    // {
-    //     routeLink: '/contact',
-    //     label: 'Contact'
-    // }
+    {
+        routeLink: '/update-credentials',
+        label: 'Settings',
+        visibleWhenLoggedIn: true,
+        showInDropdown: true
+    },
+    {
+        routeLink: '/public/logout',
+        label: 'Logout',
+        visibleWhenLoggedIn: true,
+        showInDropdown: true
+    }
 ];

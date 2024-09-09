@@ -12,4 +12,8 @@ export class PublicLayoutComponent {
   get isAdminLogin(): boolean {
     return this.router.url === '/login';
   }
+
+  get isUpdateCredentials(): boolean {
+    return this.router.url === '/update-credential';
+  }
 }

@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
-import { HiringType, HiringTypeDisplay, JobRoles, JobStatus, JobStatusDisplay, RoleLevel, RoleLevelDisplay } from '../../../models/job-roles';
+import { JobRoles, HiringTypeDisplay, JobStatus, JobStatusDisplay, RoleLevelDisplay, HiringManagerDisplay, JobLocationDisplay, ShiftScheduleDisplay } from '../../../models/job-roles';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -24,7 +24,7 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   jobroles$: Observable<JobRoles[]> = of([]);
   ngOnInit() {
@@ -34,6 +34,11 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
         tap(data => {
           console.log('Data received from backend:', data);
           this.dataSource.data = this.filterByDate(data);
+  
+          // Log each JobRole and its Candidates to the console
+          data.forEach(role => {
+            console.log(`Job Role: ${role.sequenceNo}, Candidates:`, role.candidates);
+          });
         }),
         catchError(error => {
           console.error('Error fetching jobs:', error);
@@ -41,6 +46,7 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
         })
       ).subscribe();
   }
+  
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -87,7 +93,7 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
         return 'badge badge-light rounded-pill d-inline';
     }
   }
-  
+
 
   deleteElement(element: JobRoles) {
     if (confirm(`Are you sure you want to delete ${element.jobName}?`)) {
@@ -119,7 +125,31 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
   downloadData(dataType: 'JobRoles') {
     const data = this.dataSource.data; // Get the data from dataSource
     const filteredData = this.filterByDate(data); // Apply filtering if necessary
-    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+
+    // Map your data to the desired column names
+    const mappedData = filteredData.map((item: JobRoles) => ({
+      'Job Role No.': item.sequenceNo,
+      'Role': item.jobName,
+      'Client Shortcodes': item.clientShortcodes,
+      'Sales Manager': item.salesManager,
+      'Hiring Manager': HiringManagerDisplay[item.hiringManager],
+      'Type of Hiring': HiringTypeDisplay[item.hiringType],
+      'Job Description': item.jobDescription,
+      'Role Level': RoleLevelDisplay[item.roleLevel],
+      'Minimum Salary': item.minSalary,
+      'Maximum Salary': item.maxSalary,
+      'Location': JobLocationDisplay[item.jobLocation],
+      'Schedule': ShiftScheduleDisplay[item.shiftSched],
+      'Status': JobStatusDisplay[item.jobStatus],
+      'Date Requested': item.openDate,
+      'Closed Date': item.closedDate,
+      'Days Covered': item.daysCovered,
+      'Aging': item.aging,
+      // Include the csequenceNo from JobCandidate
+      'Job Candidate No.': item.candidates?.map(candidate => candidate.csequenceNo).join(', ') || ''
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(mappedData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, dataType);
     XLSX.writeFile(workbook, `${dataType}.xlsx`);

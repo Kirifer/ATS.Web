@@ -1,22 +1,24 @@
+import { JobCandidate } from "./job-candidate";
 export interface JobRoles {
-    id: any;
-    sequenceNo: string;
-    jobName: string;
-    clientShortcodes: string;
-    minSalary: number;
-    maxSalary: number;
-    hiringType: HiringType;
-    roleLevel: RoleLevel;
-    jobLocation: JobLocation;
-    shiftSched: ShiftSchedule;
-    jobDescription: string;
-    salesManager: string;
-    hiringManager: HiringManager;
-    jobStatus: JobStatus;
-    openDate?: Date;
-    closedDate?: Date;
-    aging?: string;
-    daysCovered?: number;
+    id: any; //UUID
+    sequenceNo: string; //Job Role No.
+    jobName: string; // Job Title
+    clientShortcodes: string; // Client Shortcodes
+    minSalary: number; // Minimum Salary
+    maxSalary: number; // Maximum Salary
+    hiringType: HiringType; //Type of Hiring
+    roleLevel: RoleLevel; // Role Level
+    jobLocation: JobLocation; //Location
+    shiftSched: ShiftSchedule; //Schedule
+    jobDescription: string; // Job Description
+    salesManager: string; //Sales Manager
+    hiringManager: HiringManager; //Hiring Manager
+    jobStatus: JobStatus; //Status
+    openDate?: Date; // Date Requested
+    closedDate?: Date; //Closed Date
+    aging?: string; //Days Covered
+    daysCovered?: number; //Aging
+    candidates?: JobCandidate[];
 }
 
 export enum HiringType {

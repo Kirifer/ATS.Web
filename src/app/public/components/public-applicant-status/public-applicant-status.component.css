@@ -1,9 +1,7 @@
-.application-status {
-    h2 {
-        margin-bottom: 20px;
-    }
-
-    p {
-        margin: 5px 0;
-    }
+body {
+    font-family: "Lato", sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
 }
+

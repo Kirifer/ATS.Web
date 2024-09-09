@@ -1,9 +1,9 @@
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { Component, Output, EventEmitter, OnInit, HostListener } from '@angular/core';
 import { navbarData } from './nav-data';
-import { AuthService } from '../../../auth/auth.service'; // Import AuthService
-import { Router } from '@angular/router';
-import { User } from '../../../models/user'; // Import User model
+import { AuthService } from '../../../auth/auth.service'; 
+import { Router, NavigationEnd } from '@angular/router';
+import { User } from '../../../models/user';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -40,8 +40,7 @@ export class AdminNavComponent implements OnInit {
   collapsed = false;
   screenWidth = 0;
   navData = navbarData;
-  isAuthenticated: boolean = false;
-  currentUser: User | null = null; // Store the current user
+  currentUser: User | null = null; 
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -56,17 +55,18 @@ export class AdminNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
-    this.authService.isAuthenticated().subscribe(isAuth => {
-      this.isAuthenticated = isAuth;
-      if (isAuth) {
-        this.currentUser = this.authService.getCurrentUser(); // Get user info
+
+    this.authService.getIdentity().subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        this.currentUser = this.authService.getCurrentUser();
+      } else {
+        this.router.navigate(['/login']);
       }
     });
 
-    this.router.events.subscribe((event: any) => {
-      if (event.url === '/admin/logout' && this.isAuthenticated) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd && event.url === '/admin/logout' && this.currentUser) {
         this.logout();
-        this.isAuthenticated = false; // Prevent triggering logout multiple times
       }
     });
   }
@@ -82,7 +82,14 @@ export class AdminNavComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.logout();
-    // No need to navigate again, as it's handled inside the AuthService.logout()
+    this.authService.logout().subscribe({
+      next: () => {
+        this.currentUser = null;
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error) => {
+        console.error('Error during logout:', error);
+      }
+    });
   }
 }

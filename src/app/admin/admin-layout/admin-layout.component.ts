@@ -10,6 +10,7 @@ interface SideNavToggle {
   templateUrl: './admin-layout.component.html',
   styleUrls: ['./admin-layout.component.css']
 })
+
 export class AdminLayoutComponent {
   isSideNavCollapsed = false;
   screenWidth = 0;

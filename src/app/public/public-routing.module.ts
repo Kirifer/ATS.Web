@@ -11,6 +11,7 @@ import { PublicApplicantStatusComponent } from './components/public-applicant-st
 import { authGuard } from '../auth/auth.guard';
 
 import { AdminLoginComponent } from '../admin/components/admin-login/admin-login.component';
+import { UpdateCredentialsComponent } from '../admin/components/update-credentials/update-credentials.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'recruitment/:id', component: RecruitmentComponent},
       { path: 'about', component: PublicAboutComponent },
       { path: 'applicant-status', component: PublicApplicantStatusComponent, canActivate: [authGuard] },
+      { path: 'update-credentials', component: UpdateCredentialsComponent, canActivate: [authGuard]}
     ],
   },
 ];

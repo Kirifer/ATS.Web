@@ -4,11 +4,12 @@
             <div class="row" *ngIf="!isAdminLogin">
                 <app-public-nav></app-public-nav>
             </div>
+            <div class="blob-1"></div>
+            <div class="blob-2"></div>
             <router-outlet></router-outlet>
+            <div class="row" *ngIf="!isAdminLogin">
+                <app-public-footer></app-public-footer>
+            </div>
         </div>
     </div>
-    <div class="row" *ngIf="!isAdminLogin">
-        <app-public-footer></app-public-footer>
-    </div>
 </div>
-
