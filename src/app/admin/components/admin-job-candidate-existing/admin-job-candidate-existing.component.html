@@ -104,7 +104,7 @@
 
             <!-- Date Applied Column -->
             <ng-container matColumnDef="date_applied">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <th mat-header-cell *matHeaderCellDef>
                     <mat-icon class="column-icon">calendar_today</mat-icon>
                     Date Applied
                 </th>
@@ -132,7 +132,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             <tr class="mat-row no-data-row" *matNoDataRow>
-                <td class="mat-cell no-data-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+                <td class="mat-cell no-data-cell" colspan="7">No data matching the filter "{{input.value}}"</td>
             </tr>
         </table>
 

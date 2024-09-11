@@ -19,7 +19,7 @@
                     <mat-form-field class="custom-form-field" appearance="outline">
                         <mat-label>Start Date</mat-label>
                         <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate"
-                            (dateChange)="onPeriodChange()" />
+                            (dateChange)="onCustomDateChange()" />
                         <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
                         <mat-datepicker #startDatePicker></mat-datepicker>
                     </mat-form-field>
@@ -27,7 +27,7 @@
                     <mat-form-field class="custom-form-field" appearance="outline">
                         <mat-label>End Date</mat-label>
                         <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate"
-                            (dateChange)="onPeriodChange()" />
+                            (dateChange)="onCustomDateChange()" />
                         <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
                         <mat-datepicker #endDatePicker></mat-datepicker>
                     </mat-form-field>
@@ -41,15 +41,11 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-<!-- 
-                    <button mat-raised-button color="primary" (click)="downloadData('JobCandidates')">
-                        Download Reports
-                    </button>
-                    <button mat-raised-button color="accent" (click)="downloadData('JobRoles')">
-                        Download Progress
-                    </button> -->
+
+                    <!-- Buttons for Exporting Data -->
                     <button mat-raised-button color="primary" (click)="downloadExcel()">Export to Excel</button>
                 </div>
+
             </div>
         </div>
     </section>
@@ -243,7 +239,7 @@
 
                         <!-- No Data Row -->
                         <tr class="mat-row no-data-row" *matNoDataRow>
-                            <td class="mat-cell no-data-cell" colspan="5">
+                            <td class="mat-cell no-data-cell" colspan="3">
                                 No data matching the filter "{{ input.value }}"
                             </td>
                         </tr>

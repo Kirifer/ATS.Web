@@ -20,6 +20,7 @@ import * as XLSX from 'xlsx';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -104,7 +105,7 @@ export class AdminDashboardComponent implements OnInit {
 
   fetchCandidates() {
     this.http
-      .get<{ data: JobCandidate[] }>('https://localhost:7012/jobcandidate')
+      .get<{ data: JobCandidate[] }>(environment.jobcandidateUrl)
       .pipe(
         map(response => response.data),
         tap(data => {
@@ -122,7 +123,7 @@ export class AdminDashboardComponent implements OnInit {
 
   fetchJobRoles() {
     this.http
-      .get<{ data: JobRoles[] }>('https://localhost:7012/jobrole')
+      .get<{ data: JobRoles[] }>(environment.jobroleUrl)
       .pipe(
         map(response => response.data),
         tap(data => {
@@ -138,13 +139,13 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   filterByDate(data: any[]): any[] {
-    if (!this.startDate || !this.endDate) {
-      return data;
+    if (this.startDate && this.endDate) {
+      return data.filter(item => {
+        const date = new Date(item.dateApplied || item.openDate);
+        return this.startDate !== null && this.endDate !== null && date >= this.startDate && date <= this.endDate;
+      });
     }
-    return data.filter(item => {
-      const date = new Date(item.dateApplied || item.openDate);
-      return this.startDate && this.endDate && date >= this.startDate && date <= this.endDate;
-    });
+    return data;
   }
 
   updateCandidateAnalytics() {
@@ -180,10 +181,18 @@ export class AdminDashboardComponent implements OnInit {
     this.startDate = new Date();
     this.startDate.setDate(now.getDate() - days);
     this.endDate = new Date(); // End date is today
-  
+
     // Fetch and filter candidates and job roles based on the new date range
     this.fetchCandidates();
     this.fetchJobRoles();
+  }
+
+  onCustomDateChange() {
+    // Ensure startDate and endDate are valid
+    if (this.startDate && this.endDate && this.startDate <= this.endDate) {
+      this.fetchCandidates();
+      this.fetchJobRoles();
+    }
   }
   
 

@@ -33,16 +33,16 @@
                 </div>
     
                 <div class="column">
-                    <div class="select-box">
-                        <select formControlName="hiringType" style="background-color: transparent;">
+                    <div class="input-box">
+                        <select formControlName="hiringType" >
                             <option value="" disabled selected hidden>Type of Hiring</option>
                             <option *ngFor="let hiring of hiringType" [value]="hiring.value">{{ hiring.display }}
                             </option>
                         </select>
                     </div>
     
-                    <div class="select-box">
-                        <select formControlName="roleLevel" style="background-color: transparent;">
+                    <div class="input-box">
+                        <select formControlName="roleLevel" >
                             <option value="" disabled selected hidden>Role Level</option>
                             <option *ngFor="let level of roleLevel" [value]="level.value">{{ level.display }}
                             </option>
@@ -51,16 +51,16 @@
                 </div>
     
                 <div class="column">
-                    <div class="select-box">
-                        <select formControlName="jobLocation" style="background-color: transparent;">
+                    <div class="input-box">
+                        <select formControlName="jobLocation" >
                             <option value="" disabled selected hidden>Location</option>
                             <option *ngFor="let loc of jobLocation" [value]="loc.value">{{ loc.display }}
                             </option>
                         </select>
                     </div>
     
-                    <div class="select-box">
-                        <select formControlName="shiftSched" style="background-color: transparent;">
+                    <div class="input-box">
+                        <select formControlName="shiftSched" >
                             <option value="" disabled selected hidden>Schedule</option>
                             <option *ngFor="let sched of shiftSched" [value]="sched.value">{{ sched.display }}
                             </option>
@@ -82,16 +82,16 @@
                 </div>
     
                 <div class="column">
-                    <div class="select-box">
-                        <select formControlName="hiringManager" style="background-color: transparent;">
+                    <div class="input-box">
+                        <select formControlName="hiringManager" >
                             <option value="" disabled selected hidden>Hiring Manager</option>
                             <option *ngFor="let manager of hiringManager" [value]="manager.value">{{ manager.display }}
                             </option>
                         </select>
                     </div>
     
-                    <div class="select-box">
-                        <select formControlName="jobStatus" style="background-color: transparent;">
+                    <div class="input-box">
+                        <select formControlName="jobStatus" >
                             <option value="" disabled selected hidden>Status</option>
                             <option *ngFor="let status of jobStatus" [value]="status.value">{{ status.display }}
                             </option>

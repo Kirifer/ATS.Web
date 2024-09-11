@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, tap, throwError, map } from 'rxjs';
 import { HiringManager, HiringManagerDisplay, HiringType, HiringTypeDisplay, JobLocation, JobLocationDisplay, JobRoles, JobStatus, JobStatusDisplay, RoleLevel, RoleLevelDisplay, ShiftSchedule, ShiftScheduleDisplay } from '../../../models/job-roles';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-admin-job-role-posting',
@@ -12,6 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AdminJobRolePostingComponent implements OnInit {
   jobroles: JobRoles[] = [];
   jobForm: FormGroup;
+  isJobFormSubmitted: boolean = false;
 
   hiringType = Object.keys(HiringType).map(key => ({
     value: HiringType[key as keyof typeof HiringType],
@@ -88,23 +91,51 @@ export class AdminJobRolePostingComponent implements OnInit {
   }
 
   onSubmit(): void {
+    // Set the flag to true when submit is triggered    
+    this.isJobFormSubmitted = true;
+
     if (this.jobForm.valid) {
-      this.http.post('https://localhost:7012/jobrole', this.jobForm.value)
-        .subscribe({
-          next: (response) => {
-            console.log('Job submitted:', response);
-            this.jobForm.reset();
-            this.setDefaultDropdownValues();
-          },
-          error: (error) => {
-            console.error('Error creating job:', error);
-          }
-        });
+      Swal.fire({
+        title: "Submit a new Job Role?",
+        text: "Are you sure of the details you provided? Double check if you missed some information.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, I am sure!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.http.post(environment.jobroleUrl, this.jobForm.value)
+            .subscribe({
+              next: (response) => {
+                console.log('Job submitted:', response);
+                this.jobForm.reset();
+                this.setDefaultDropdownValues();
+  
+                Swal.fire({
+                  title: "Submitted",
+                  text: "Your job role was successfully submitted!",
+                  icon: "success"
+                });
+              },
+              error: (error) => {
+                console.error('Error creating job:', error);
+                Swal.fire({
+                  title: "Submission Failed",
+                  text: "There was an error submitting this job role. Please try again.",
+                  icon: "error"
+                });
+              }
+            });
+        } else {
+          console.log('Submission canceled');
+        }
+      });
     } else {
       console.log('Form is invalid');
       this.logValidationErrors();
     }
-  }
+  }  
 
   setDefaultDropdownValues(): void {
     this.jobForm.patchValue({
@@ -120,7 +151,7 @@ export class AdminJobRolePostingComponent implements OnInit {
 
   onUpdate(id: string) {
     if (this.jobForm.valid) {
-      this.http.put(`https://localhost:7012/candidates/${id}`, this.jobForm.value).pipe(
+      this.http.put(`${environment.apiUrl}/${id}`, this.jobForm.value).pipe(
         tap(response => console.log('Job updated:', response)),
         catchError(error => {
           console.error('Error updating job:', error);
@@ -131,7 +162,7 @@ export class AdminJobRolePostingComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    this.http.delete(`https://localhost:7012/candidates/${id}`).pipe(
+    this.http.delete(`${environment.apiUrl}/${id}`).pipe(
       tap(response => console.log('Job deleted:', response)),
       catchError(error => {
         console.error('Error deleting job:', error);

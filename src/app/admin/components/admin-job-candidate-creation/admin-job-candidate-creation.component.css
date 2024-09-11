@@ -1,170 +1,129 @@
-form, .container, .form, .input-box, label, input, select, .select-box {
-    font-family: 'Lato', sans-serif;
+.icon-container,
+body {
+    align-items: center;
+    display: flex
+}
+
+.container,
+.form,
+.input-box,
+form,
+input,
+label,
+select {
+    font-family: Lato, sans-serif
 }
 
 .icon-container {
-    width: 200px; /* Adjust the width as needed */
-    height: 100px; /* Adjust the height as needed */
-    display: flex;
-    align-items: center;
+    width: 200px;
+    height: 100px;
     justify-content: center;
-    margin: 0 auto 10px; /* Center the container and add some margin */
+    margin: 0 auto 10px
 }
 
 .job-icon {
-    font-size: 10rem; /* Adjust the size as needed */
-    background: linear-gradient(-135deg, #00275B 5%, #844ddc); /* Gradient color */
-    -webkit-background-clip: text; /* Clip background to text */
-    -webkit-text-fill-color: transparent; /* Make text fill color transparent */
+    font-size: 10rem;
+    background: linear-gradient(-135deg, #00275b 5%, #844ddc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     padding: 10px;
     margin-top: 2rem;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Shadow */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, .3)
 }
 
-.create-header{
+.create-header {
     font-size: 2rem;
     font-weight: 500;
-    margin-top: 2rem;
+    margin-top: 2rem
 }
 
 .job-posting {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 2rem
 }
 
 .job-posting-header {
-    /*Box model stuff*/
-    padding: 2rem 0 0 0;
-    /*Typography stuff*/
+    padding: 2rem 0 0;
     font-size: 40px;
     text-align: center;
-    text-transform: uppercase;
+    text-transform: uppercase
 }
 
 .job-posting-subheader {
     font-size: 18px;
     text-align: center;
-    padding: 0 0 1rem 0;
-    font-weight: 400;
+    padding: 0 0 1rem;
+    font-weight: 400
 }
 
 body {
     min-height: 100vh;
-    display: flex;
-    align-items: center;
     justify-content: center;
     padding: 20px;
-    background: rgb(130, 106, 251);
+    background: #826afb
 }
 
 .container {
     position: relative;
-    max-width: 700px;
+    max-width: 800px;
     width: 100%;
     background: #fff;
     padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1)
 }
 
 .container header {
     font-size: 1.5rem;
     color: #333;
     font-weight: 500;
-    text-align: center;
+    text-align: center
 }
 
 .container .form {
-    margin-top: 30px;
+    margin-top: 30px
 }
 
 .form .input-box {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 20px
 }
 
 .input-box label {
-    color: #333;
+    color: #333
 }
 
-.form :where(.input-box input, .input-box select, .select-box) {
+.form :where(.input-box input, .input-box select) {
     position: relative;
     height: 50px;
     width: 100%;
-    outline: none;
+    outline: 0;
     font-size: 1rem;
-    color: #707070;
     margin-top: 8px;
     border: 1px solid #ddd;
     border-radius: 6px;
     padding: 0 15px;
 }
 
-.form :where(.input-box input, .input-box select, .select-box, select):focus,
+.form :where(.input-box input, .input-box select,):focus,
 .styled-textarea:focus {
     border-color: #66afe9;
-    outline: none;
-    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+    outline: 0;
+    box-shadow: 0 0 8px rgba(102, 175, 233, .6)
 }
 
 .input-box input:focus,
 .input-box select:focus {
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .1)
 }
 
 .form .column {
     display: flex;
-    column-gap: 15px;
-}
-
-.form .gender-box {
-    margin-top: 20px;
-}
-
-.gender-box h3 {
-    color: #333;
-    font-size: 1rem;
-    font-weight: 400;
-    margin-bottom: 8px;
-}
-
-.form :where(.gender-option, .gender) {
-    display: flex;
-    align-items: center;
-    column-gap: 50px;
-    flex-wrap: wrap;
-}
-
-.form .gender {
-    column-gap: 5px;
-}
-
-.gender input {
-    accent-color: rgb(130, 106, 251);
-}
-
-.form :where(.gender input, .gender label) {
-    cursor: pointer;
-}
-
-.gender label {
-    color: #707070;
-}
-
-.address :where(input, .select-box) {
-    margin-top: 15px;
-}
-
-.select-box select {
-    height: 100%;
-    width: 100%;
-    outline: none;
-    border: none;
-    color: #707070;
-    font-size: 1rem;
+    column-gap: 15px
 }
 
 .form button {
@@ -176,73 +135,63 @@ body {
     border: none;
     font-weight: 500;
     background-color: #844ddc;
-    color: white;
+    color: #fff;
     cursor: pointer;
-    margin-top: 25px;
+    margin-top: 25px
 }
 
-
-.form button:hover {
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+.form button:hover,
+.formbold-form-file:hover:before {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .05);
     transform: scale(1.05);
     background-color: #d2a517;
-    color: white;
+    color: #fff
 }
 
 .formbold-form-file {
     padding: 12px;
     font-size: 14px;
     line-height: 24px;
-    color: rgba(83, 99, 135, 0.5);
-    border: none; /* Remove any default borders */
+    color: rgba(83, 99, 135, .5);
+    border: none
 }
 
 .formbold-form-file::-webkit-file-upload-button {
-    display: none;
+    display: none
 }
 
 .formbold-form-file:before {
     content: 'Upload';
     display: inline-block;
     background: #844ddc;
-    border: 0.5px solid #E7E7E7;
+    border: .5px solid #e7e7e7;
     border-radius: 3px;
     padding: 3px 12px;
-    outline: none;
+    outline: 0;
     white-space: nowrap;
     -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     cursor: pointer;
-    color: #ffffff;
+    color: #fff;
     font-weight: 500;
     font-size: 14px;
     line-height: 24px;
     margin-right: 10px;
-    margin-top: 8px;
-}
-
-.formbold-form-file:hover:before {
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
-    transform: scale(1.05);
-    background-color: #d2a517;
-    color: white;
+    margin-top: 8px
 }
 
 .formbold-form-label {
-    color: #ffffff;
+    color: #fff;
     font-size: 14px;
     line-height: 24px;
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 10px
 }
 
-
-/*Responsive*/
-@media screen and (max-width: 500px) {
+@media screen and (max-width:500px) {
     .form .column {
-        flex-wrap: wrap;
-    }
-
-    .form :where(.gender-option, .gender) {
-        row-gap: 15px;
+        flex-wrap: wrap
     }
 }

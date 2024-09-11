@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { JobCandidate, JobCandidateAttachment } from '../../../models/job-candidate';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 import { ApplicationStatus, ApplicationStatusDisplay, SourcingTool, SourcingToolDisplay, HRInCharge, HRInChargeDisplay, NoticeDuration, NoticeDurationDisplay } from '../../../models/job-candidate';
 
@@ -78,7 +79,7 @@ export class AdminJobCandidateEditingComponent implements OnChanges {
 
 
   fetchAttachments(candidateId: string): void {
-    const url = `https://localhost:7012/jobcandidate/${candidateId}`;
+    const url = `${environment.jobcandidateUrl}/${candidateId}`;  // Use environment variable
     console.log(`Fetching job candidate from URL: ${url}`);
     this.http.get<{ data: JobCandidate, code: number, succeeded: boolean }>(url).pipe(
       tap(response => {
@@ -100,7 +101,7 @@ export class AdminJobCandidateEditingComponent implements OnChanges {
   }
   
   viewAttachment(attachment: JobCandidateAttachment): void {
-    const url = `https://localhost:7012/jobcandidate/${this.jobCandidate?.id}/attachments/${attachment.id}`;
+    const url = `${environment.jobcandidateUrl}/${this.jobCandidate?.id}/attachments/${attachment.id}`;  // Use environment variable
     console.log(`Viewing attachment from URL: ${url}`);
     this.http.get(url, { responseType: 'blob' }).subscribe(blob => {
         console.log('Downloaded blob size:', blob.size);  // Add this line to log the size
@@ -140,7 +141,7 @@ export class AdminJobCandidateEditingComponent implements OnChanges {
         formData.clientFinalInterviewSchedule = null;
       }
 
-      this.http.put(`https://localhost:7012/jobcandidate/${this.jobCandidate.id}`, formData).pipe(
+      this.http.put(`${environment.jobcandidateUrl}/${this.jobCandidate.id}`, formData).pipe(
         tap(response => {
           console.log('Job candidate updated:', response);
           this.onClose();

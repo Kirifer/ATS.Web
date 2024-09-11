@@ -100,8 +100,11 @@ a {
 }
 
 .logo-text a:hover {
-    -webkit-background-clip: text
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
+
 
 a.navlink {
     font-size: 1.25rem;
@@ -124,6 +127,9 @@ a.navlink {
 
 .navlink.selectedlink {
     -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
     font-weight: 700
 }
 
@@ -288,6 +294,4 @@ a.navlink {
     }
 }
 
-@media (max-width: 480px) {
-    
-}
+@media (max-width: 480px) {}

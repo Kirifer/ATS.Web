@@ -1,4 +1,13 @@
+const apiUrl = 'https://localhost:7012';  // Fixed apiUrl declaration
+
 export const environment = {
-    production: true,
-    apiUrl: 'https://your-production-api-url/api' // Adjust the URL as necessary
+    production: false,
+    apiUrl: apiUrl,           // Added apiUrl here to reuse across the environment
+    loginUrl: `${apiUrl}/login`,
+    logoutUrl: `${apiUrl}/logout`,
+    identityUrl: `${apiUrl}/identity`,
+    registerUrl: `${apiUrl}/register`,
+    updateUserUrl: `${apiUrl}/users`,
+    jobcandidateUrl: `${apiUrl}/jobcandidate`,
+    jobroleUrl: `${apiUrl}/jobrole`,
 };

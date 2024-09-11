@@ -1,7 +1,7 @@
 /* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
-form, .container, .form, .input-box, label, input, select, .select-box {
+form, .container, .form, .input-box, label, input {
     font-family: 'Lato', sans-serif;
 }
 
@@ -22,6 +22,7 @@ form, .container, .form, .input-box, label, input, select, .select-box {
     padding: 0; /* Removed padding */
     margin-top: 1rem; /* Adjusted the top margin */
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Shadow */
+    background-clip: text;
 }
 
 .create-header {
@@ -67,13 +68,17 @@ form, .container, .form, .input-box, label, input, select, .select-box {
 .modal-content {
     position: relative;
     max-width: 850px;
-    background-color: #fefefe;
     margin: 5% auto;
     padding: 20px;
-    border: 1px solid #888;
     width: 60%;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+
+/* From https://css.glass */
+background: rgba(255, 255, 255, 0.3);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(6.2px);
+-webkit-backdrop-filter: blur(6.2px);
+border: 1px solid rgba(255, 255, 255, 0.39);
 }
 
 .close {
@@ -144,73 +149,33 @@ body {
     color: #333;
 }
 
-.form :where(.input-box input, .select-box) {
+.form :where(.input-box input, .input-box select) {
     position: relative;
     height: 50px;
     width: 100%;
-    outline: none;
+    outline: 0;
     font-size: 1rem;
-    color: #707070;
     margin-top: 8px;
     border: 1px solid #ddd;
     border-radius: 6px;
     padding: 0 15px;
 }
 
-.input-box input:focus {
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+.form :where(.input-box input, .input-box select,):focus,
+.styled-textarea:focus {
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: 0 0 8px rgba(102, 175, 233, .6)
+}
+
+.input-box input:focus,
+.input-box select:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .1)
 }
 
 .form .column {
     display: flex;
     column-gap: 15px;
-}
-
-.form .gender-box {
-    margin-top: 20px;
-}
-
-.gender-box h3 {
-    color: #333;
-    font-size: 1rem;
-    font-weight: 400;
-    margin-bottom: 8px;
-}
-
-.form :where(.gender-option, .gender) {
-    display: flex;
-    align-items: center;
-    column-gap: 50px;
-    flex-wrap: wrap;
-}
-
-.form .gender {
-    column-gap: 5px;
-}
-
-.gender input {
-    accent-color: rgb(130, 106, 251);
-}
-
-.form :where(.gender input, .gender label) {
-    cursor: pointer;
-}
-
-.gender label {
-    color: #707070;
-}
-
-.address :where(input, .select-box) {
-    margin-top: 15px;
-}
-
-.select-box select {
-    height: 100%;
-    width: 100%;
-    outline: none;
-    border: none;
-    color: #707070;
-    font-size: 1rem;
 }
 
 .form button {
@@ -257,6 +222,7 @@ body {
     outline: none;
     white-space: nowrap;
     -webkit-user-select: none;
+    user-select: none;
     cursor: pointer;
     color: #ffffff;
     font-weight: 500;
@@ -287,8 +253,5 @@ body {
     .form .column {
         flex-wrap: wrap;
     }
-
-    .form :where(.gender-option, .gender) {
-        row-gap: 15px;
-    }
 }
+

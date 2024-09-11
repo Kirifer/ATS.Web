@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { JobRoles } from '../../../models/job-roles';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 import { HiringType, HiringTypeDisplay, RoleLevel, RoleLevelDisplay, JobLocation, JobLocationDisplay, ShiftSchedule, ShiftScheduleDisplay, HiringManager, HiringManagerDisplay, JobStatus, JobStatusDisplay } from '../../../models/job-roles';
 
@@ -87,7 +88,7 @@ export class AdminJobRoleEditingComponent implements OnChanges {
         formData.closedDate = null;
       }
 
-      this.http.put(`https://localhost:7012/jobrole/${this.jobRole.id}`, formData).pipe(
+      this.http.put(`${environment.jobroleUrl}/${this.jobRole.id}`, formData).pipe(
         tap(response => {
           console.log('Job updated:', response);
           this.onClose();

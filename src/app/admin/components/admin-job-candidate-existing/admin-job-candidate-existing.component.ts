@@ -7,6 +7,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
 import { JobCandidate } from '../../../models/job-candidate';
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
+import { environment } from '../../../../environments/environment';
 
 import { ApplicationStatus, ApplicationStatusDisplay, SourcingToolDisplay, HRInChargeDisplay, NoticeDurationDisplay } from '../../../models/job-candidate';
 
@@ -32,7 +34,7 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
 
   jobcandidate$: Observable<JobCandidate[]> = of([]);
   ngOnInit() {
-    this.http.get<{ data: JobCandidate[] }>('https://localhost:7012/jobcandidate')
+    this.http.get<{ data: JobCandidate[] }>(environment.jobcandidateUrl)
       .pipe(
         map(response => response.data),
         tap(data => {
@@ -111,20 +113,59 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
   }
 
   deleteElement(element: JobCandidate) {
-    if (confirm(`Are you sure you want to delete ${element.candidateName}?`)) {
-      this.http.delete(`https://localhost:7012/jobcandidate/${element.id}`)
-        .pipe(
-          tap(() => {
-            console.log('Element deleted:', element);
-            // Remove the deleted element from the data source
-            this.dataSource.data = this.dataSource.data.filter(e => e !== element);
-          }),
-          catchError(error => {
-            console.error('Error deleting element:', error);
-            return throwError(error);
-          })
-        ).subscribe();
-    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "#3085d6",
+        cancelButton: "#d33"
+      },
+      buttonsStyling: true
+    });
+
+    swalWithBootstrapButtons.fire({
+      title: "Are you sure?",
+      text: `You are about to delete a candidate record. You won't be able to revert this!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete(`${environment.jobcandidateUrl}/${element.id}`)
+          .pipe(
+            tap(() => {
+              console.log('Element deleted:', element);
+              // Remove the deleted element from the data source
+              this.dataSource.data = this.dataSource.data.filter(e => e !== element);
+            }),
+            catchError(error => {
+              console.error('Error deleting element:', error);
+              return throwError(error);
+            })
+          ).subscribe({
+            next: () => {
+              swalWithBootstrapButtons.fire({
+                title: "Deleted!",
+                text: "Your selected candidate record has been deleted.",
+                icon: "success"
+              });
+            },
+            error: (error) => {
+              swalWithBootstrapButtons.fire({
+                title: "Error!",
+                text: "There was an error deleting the candidate record. Please try again.",
+                icon: "error"
+              });
+            }
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          text: "The candidate record was not deleted.",
+          icon: "info"
+        });
+      }
+    });
   }
 
   filterByDate(data: JobCandidate[]): JobCandidate[] {

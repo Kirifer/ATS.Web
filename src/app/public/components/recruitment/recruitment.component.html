@@ -47,6 +47,13 @@
                         <input type="text" name="firstname" id="firstname" placeholder="Full Name"
                             class="formbold-form-input" formControlName="candidateName" />
                     </div>
+                    <div style="color: red;"
+                        *ngIf="recruitmentForm.controls['candidateName'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['candidateName'].touched || recruitmentForm.controls['candidateName'].dirty)">
+                        <span *ngIf="recruitmentForm.controls['candidateName'].errors?.['required']"><i
+                                class="fa fa-warning"></i> This field is required.</span>
+                    </div>
+
+
                     <div class="formbold-input-flex">
                         <div>
                             <label for="post" class="formbold-form-label">
@@ -54,6 +61,11 @@
                             </label>
                             <input type="text" name="post" id="post" placeholder="ex. juan.delacruz@outlook.com"
                                 class="formbold-form-input" formControlName="candidateEmail" />
+                            <div style="color: red;"
+                                *ngIf="recruitmentForm.controls['candidateEmail'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['candidateEmail'].touched || recruitmentForm.controls['candidateEmail'].dirty)">
+                                <span *ngIf="recruitmentForm.controls['candidateEmail'].errors?.['required']"><i
+                                        class="fa fa-warning"></i> This field is required.</span>
+                            </div>
                         </div>
                         <div>
                             <label for="city" class="formbold-form-label">
@@ -61,29 +73,50 @@
                             </label>
                             <input type="text" name="city" id="city" placeholder="ex. 9123456789"
                                 class="formbold-form-input" formControlName="candidateContact" />
+                            <div style="color: red;"
+                                *ngIf="recruitmentForm.controls['candidateContact'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['candidateContact'].touched || recruitmentForm.controls['candidateContact'].dirty)">
+                                <span *ngIf="recruitmentForm.controls['candidateContact'].errors?.['required']"><i
+                                        class="fa fa-warning"></i> This field is required.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <h2 class="formbold-form-heading">Figures</h2>
-                <div class="formbold-mb-3">
-                    <select class="formbold-form-input" formControlName="salaryNegotiable">
-                        <option value="" disabled selected hidden>Is the Salary Negotiable?</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
 
                 <div class="formbold-input-flex">
                     <div>
                         <label class="formbold-form-label">Minimum Negotiated Salary</label>
                         <input class="formbold-form-input" type="number" placeholder="ex. 15000" required
                             formControlName="minSalary" />
+                        <div style="color: red;"
+                            *ngIf="recruitmentForm.controls['minSalary'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['minSalary'].touched || recruitmentForm.controls['minSalary'].dirty)">
+                            <span *ngIf="recruitmentForm.controls['minSalary'].errors?.['required']"><i
+                                    class="fa fa-warning"></i> This field is required.</span>
+                        </div>
                     </div>
                     <div>
                         <label class="formbold-form-label">Expected Gross Salary</label>
                         <input class="formbold-form-input" type="number" placeholder="ex. 18000" required
                             formControlName="askingSalary" />
+                        <div style="color: red;"
+                            *ngIf="recruitmentForm.controls['askingSalary'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['askingSalary'].touched || recruitmentForm.controls['askingSalary'].dirty)">
+                            <span *ngIf="recruitmentForm.controls['askingSalary'].errors?.['required']"><i
+                                    class="fa fa-warning"></i> This field is required.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formbold-mb-3">
+                    <select class="formbold-form-input" formControlName="salaryNegotiable">
+                        <option value="" disabled selected hidden>Is the Salary Negotiable?</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                    <div style="color: red;"
+                        *ngIf="recruitmentForm.controls['salaryNegotiable'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['salaryNegotiable'].touched || recruitmentForm.controls['salaryNegotiable'].dirty)">
+                        <span *ngIf="recruitmentForm.controls['salaryNegotiable'].errors?.['required']"><i
+                                class="fa fa-warning"></i> This field is required.</span>
                     </div>
                 </div>
 
@@ -96,6 +129,11 @@
                             <option *ngFor="let notice of noticeDurations" [value]="notice.value">{{ notice.display }}
                             </option>
                         </select>
+                        <div style="color: red;"
+                            *ngIf="recruitmentForm.controls['noticeDuration'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['noticeDuration'].touched || recruitmentForm.controls['noticeDuration'].dirty)">
+                            <span *ngIf="recruitmentForm.controls['noticeDuration'].errors?.['required']"><i
+                                    class="fa fa-warning"></i> This field is required.</span>
+                        </div>
                     </div>
                     <div>
                         <label for="dob" class="formbold-form-label">
@@ -103,6 +141,11 @@
                         </label>
                         <input type="date" name="dob" id="dob" class="formbold-form-input"
                             formControlName="initialInterviewSchedule" />
+                        <div style="color: red;"
+                            *ngIf="recruitmentForm.controls['initialInterviewSchedule'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['initialInterviewSchedule'].touched || recruitmentForm.controls['initialInterviewSchedule'].dirty)">
+                            <span *ngIf="recruitmentForm.controls['initialInterviewSchedule'].errors?.['required']"><i
+                                    class="fa fa-warning"></i> This field is required.</span>
+                        </div>
                     </div>
                 </div>
                 <div class="formbold-mb-3">
@@ -111,6 +154,11 @@
                     </label>
                     <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file"
                         formControlName="candidateCv" />
+                    <div style="color: red;"
+                        *ngIf="recruitmentForm.controls['candidateCv'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['candidateCv'].touched || recruitmentForm.controls['candidateCv'].dirty)">
+                        <span *ngIf="recruitmentForm.controls['candidateCv'].errors?.['required']"><i
+                                class="fa fa-warning"></i> This field is required.</span>
+                    </div>
                 </div>
                 <button class="formbold-btn">Apply Now</button>
             </form>

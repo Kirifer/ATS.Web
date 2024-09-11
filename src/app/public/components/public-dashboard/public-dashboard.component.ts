@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError, map, tap } from 'rxjs';
 // import { Job } from '../../../models/job';
 import { JobLocation, JobLocationDisplay, JobRoles, RoleLevel, RoleLevelDisplay, ShiftSchedule, ShiftScheduleDisplay, JobStatus } from '../../../models/job-roles';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-public-dashboard',
@@ -16,7 +17,7 @@ export class PublicDashboardComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.jobs$ = this.http.get<{ data: JobRoles[] }>('https://localhost:7012/jobrole').pipe(
+    this.jobs$ = this.http.get<{ data: JobRoles[] }>(environment.jobroleUrl).pipe(
       map(response => response.data),
       map(jobs => jobs.filter(job => job.jobStatus === JobStatus.SourcingCandidates || job.jobStatus === JobStatus.ForClientPresentation || job.jobStatus === JobStatus.ClientInterview)), // Filter jobs based on status
       tap(data => console.log('Filtered jobs:', data)), // Log the filtered jobs

@@ -189,6 +189,9 @@ select.formbold-form-input {
     outline: 0;
     white-space: nowrap;
     -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     cursor: pointer;
     color: #fff;
     font-weight: 500;

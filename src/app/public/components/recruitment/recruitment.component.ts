@@ -5,6 +5,8 @@ import { JobCandidate, JobCandidateAttachment } from '../../../models/job-candid
 import { JobLocation, JobLocationDisplay, JobRoles, RoleLevel, RoleLevelDisplay, ShiftSchedule, ShiftScheduleDisplay } from '../../../models/job-roles';
 import { Observable, catchError, throwError, map, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../../environments/environment';
+import Swal from 'sweetalert2';
 
 import { NoticeDuration, NoticeDurationDisplay } from '../../../models/job-candidate';
 
@@ -18,10 +20,9 @@ export class RecruitmentComponent implements OnInit {
   recruitmentForm: FormGroup;
   jobs$!: Observable<JobRoles>;
   job?: JobRoles;
+  isRecruitmentFormSubmitted: boolean = false;
 
   attachments: JobCandidateAttachment[] = [];
-
-  private getJobAPIUrl = 'https://localhost:7012/jobrole';
 
   noticeDurations = Object.keys(NoticeDuration).map(key => ({
     value: NoticeDuration[key as keyof typeof NoticeDuration],
@@ -62,7 +63,7 @@ export class RecruitmentComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        this.http.get<{ data: JobRoles }>(`${this.getJobAPIUrl}/${id}`).pipe(
+        this.http.get<{ data: JobRoles }>(`${environment.jobroleUrl}/${id}`).pipe(
           tap(response => {
             console.log('Data received from backend:', response);
             this.job = response.data; // Assign data to job property
@@ -126,22 +127,48 @@ export class RecruitmentComponent implements OnInit {
       formData.assignedHr = this.formatEnum(formData.assignedHr);
       formData.applicationStatus = this.formatEnum(formData.applicationStatus);
 
-      this.http.post('https://localhost:7012/jobcandidate', formData)
-        .subscribe({
-          next: (response) => {
-            console.log('Job candidate submitted:', response);
-            this.recruitmentForm.reset();
-            this.setDefaultDropdownValues();
-          },
-          error: (error) => {
-            console.error('Error creating candidate:', error);
-          }
-        });
+      Swal.fire({
+        title: "Submit your application?",
+        text: "Are you sure of the details you provided? You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, I am sure!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.http.post(environment.jobcandidateUrl, formData)
+            .subscribe({
+              next: (response) => {
+                console.log('Job candidate submitted:', response);
+                this.recruitmentForm.reset();
+                this.setDefaultDropdownValues();
+                
+                Swal.fire({
+                  title: "Submitted!",
+                  text: "Your application was successfully submitted!",
+                  icon: "success"
+                });
+              },
+              error: (error) => {
+                console.error('Error creating candidate:', error);
+                Swal.fire({
+                  title: "Submission Failed",
+                  text: "There was an error submitting your application. Please try again.",
+                  icon: "error"
+                });
+              }
+            });
+        } else {
+          console.log('Submission canceled');
+        }
+      });
     } else {
       console.log('Form is invalid');
       this.logValidationErrors();
     }
   }
+  
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];

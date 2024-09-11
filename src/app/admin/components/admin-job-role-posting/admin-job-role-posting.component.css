@@ -22,6 +22,7 @@ form, .container, .form, .input-box, label, input, select, .select-box {
     padding: 10px;
     margin-top: 2rem;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Shadow */
+    background-clip: text;
 }
 
 .create-header{
@@ -92,24 +93,28 @@ body {
     color: #333;
 }
 
-.form :where(.input-box input, .input-box select, .select-box) {
+.form :where(.input-box input, .input-box select) {
     position: relative;
     height: 50px;
     width: 100%;
-    outline: none;
+    outline: 0;
     font-size: 1rem;
-    color: #707070;
     margin-top: 8px;
     border: 1px solid #ddd;
     border-radius: 6px;
     padding: 0 15px;
 }
 
-.form :where(.input-box input, .input-box select, .select-box):focus,
+.form :where(.input-box input, .input-box select,):focus,
 .styled-textarea:focus {
     border-color: #66afe9;
-    outline: none;
-    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+    outline: 0;
+    box-shadow: 0 0 8px rgba(102, 175, 233, .6)
+}
+
+.input-box input:focus,
+.input-box select:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .1)
 }
 
 .styled-textarea {

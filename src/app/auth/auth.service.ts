@@ -154,29 +154,28 @@
 
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7012'; // Your API base URL
   private currentUser: User | null = null;
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  // Login method
   login(username: string, password: string): Observable<any> {
     console.debug('Attempting login with username:', username);
-    
     const loginData = { username, password };
-    return this.http.post<any>(`${this.apiUrl}/login`, loginData, { withCredentials: true }).pipe(
+    return this.http.post<any>(environment.loginUrl, loginData, { withCredentials: true }).pipe(
       map(response => {
         console.debug('Login response received:', response);
-        
         if (response.succeeded && response.data && response.data.token) {
           this.currentUser = { ...response.data, id: response.data.userId, token: response.data.token };
           console.log('User logged in successfully:', this.currentUser);
@@ -194,10 +193,10 @@ export class AuthService {
     );
   }
 
+  // Logout method
   logout(): Observable<any> {
     console.debug('Logging out...');
-    
-    return this.http.post<any>(`${this.apiUrl}/logout`, {}, { withCredentials: true }).pipe(
+    return this.http.post<any>(environment.logoutUrl, {}, { withCredentials: true }).pipe(
       tap(() => {
         console.log('Logout successful.');
         this.currentUser = null;
@@ -212,47 +211,44 @@ export class AuthService {
     );
   }
 
+  // Get identity method
   getIdentity(): Observable<boolean> {
-    console.debug('Fetching user identity'); // Debugging log
-  
-    // Check if the user is already logged in by inspecting the current user
+    console.debug('Fetching user identity');
     if (!this.currentUser) {
       console.warn('User is not logged in, skipping identity fetch.');
-      // return of(false); // Return false immediately if not logged in
+      // return of(false);
     }
-  
-    return this.http.get<{ data: User, succeeded: boolean }>(`${this.apiUrl}/identity`, { withCredentials: true }).pipe(
+
+    return this.http.get<{ data: User, succeeded: boolean }>(environment.identityUrl, { withCredentials: true }).pipe(
       map(response => {
-          console.log('Identity response:', response);
-          if (response.succeeded) {
-              this.currentUser = {
-                  ...response.data,
-              };
-              console.log('Current user during identity fetch:', this.currentUser);
-              return true;
-          }
-          return false;
+        console.log('Identity response:', response);
+        if (response.succeeded) {
+          this.currentUser = { ...response.data };
+          console.log('Current user during identity fetch:', this.currentUser);
+          return true;
+        }
+        return false;
       }),
       catchError(error => {
-          if (error.status === 401) {
-              console.warn('Unauthorized access, redirecting to login.');
-          } else {
-              console.error('Error fetching identity:', error);
-          }
-          this.router.navigate(['/dashboard']);
-          return of(false);
+        if (error.status === 401) {
+          console.warn('Unauthorized access, redirecting to login.');
+        } else {
+          console.error('Error fetching identity:', error);
+        }
+        this.router.navigate(['/dashboard']);
+        return of(false);
       })
-  );
-}
+    );
+  }
 
-  // Update Credentials Method
+  // Update credentials method
   updateCredentials(updatedCredentials: { firstName: string, lastName: string, password: string }): Observable<any> {
-    if (!this.currentUser || !this.currentUser.userId) {  // Change to userId
+    if (!this.currentUser || !this.currentUser.userId) {
       console.error('No current user or user ID is missing.');
       return of(null);
     }
 
-    const url = `${this.apiUrl}/users/${this.currentUser.userId}`;  // Change to userId
+    const url = `${environment.updateUserUrl}/${this.currentUser.userId}`;
     return this.http.put<any>(url, updatedCredentials, { withCredentials: true }).pipe(
       tap(response => {
         if (response.succeeded) {
@@ -267,21 +263,22 @@ export class AuthService {
         }
       }),
       catchError(error => {
-        alert('An error occurred while updating your credentials.');
+        console.error('An error occurred while updating your credentials.', error);
         return of(null);
       })
     );
   }
 
+  // Get current user
   getCurrentUser(): User | null {
     console.debug('Retrieving current user:', this.currentUser);
     return this.currentUser;
   }
 
+  // Register new user
   register(user: User): Observable<any> {
     console.debug('Registering new user:', user);
-    
-    return this.http.post<any>(`${this.apiUrl}/register`, user, { withCredentials: true }).pipe(
+    return this.http.post<any>(environment.registerUrl, user, { withCredentials: true }).pipe(
       tap(response => {
         console.log('Registration successful:', response);
       }),

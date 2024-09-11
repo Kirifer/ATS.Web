@@ -7,6 +7,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError, of } from 'rxjs';
 import { JobRoles, HiringTypeDisplay, JobStatus, JobStatusDisplay, RoleLevelDisplay, HiringManagerDisplay, JobLocationDisplay, ShiftScheduleDisplay } from '../../../models/job-roles';
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-admin-job-role-existing',
@@ -28,7 +30,7 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
 
   jobroles$: Observable<JobRoles[]> = of([]);
   ngOnInit() {
-    this.http.get<{ data: JobRoles[] }>('https://localhost:7012/jobrole')
+    this.http.get<{ data: JobRoles[] }>(environment.jobroleUrl)
       .pipe(
         map(response => response.data),
         tap(data => {
@@ -96,20 +98,59 @@ export class AdminJobRoleExistingComponent implements OnInit, AfterViewInit {
 
 
   deleteElement(element: JobRoles) {
-    if (confirm(`Are you sure you want to delete ${element.jobName}?`)) {
-      this.http.delete(`https://localhost:7012/jobrole/${element.id}`)
-        .pipe(
-          tap(() => {
-            console.log('Element deleted:', element);
-            // Remove the deleted element from the data source
-            this.dataSource.data = this.dataSource.data.filter(e => e !== element);
-          }),
-          catchError(error => {
-            console.error('Error deleting element:', error);
-            return throwError(error);
-          })
-        ).subscribe();
-    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "#3085d6",
+        cancelButton: "#d33"
+      },
+      buttonsStyling: true
+    });
+
+    swalWithBootstrapButtons.fire({
+      title: "Are you sure?",
+      text: `You are about to delete a job role. You won't be able to revert this!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete(`${environment.jobroleUrl}/${element.id}`)
+          .pipe(
+            tap(() => {
+              console.log('Element deleted:', element);
+              // Remove the deleted element from the data source
+              this.dataSource.data = this.dataSource.data.filter(e => e !== element);
+            }),
+            catchError(error => {
+              console.error('Error deleting element:', error);
+              return throwError(error);
+            })
+          ).subscribe({
+            next: () => {
+              swalWithBootstrapButtons.fire({
+                title: "Deleted!",
+                text: "Your selected job role has been deleted.",
+                icon: "success"
+              });
+            },
+            error: (error) => {
+              swalWithBootstrapButtons.fire({
+                title: "Error!",
+                text: "There was an error deleting the job role. Please try again.",
+                icon: "error"
+              });
+            }
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          text: "The job role was not deleted.",
+          icon: "info"
+        });
+      }
+    })
   }
 
   filterByDate(data: JobRoles[]): JobRoles[] {
