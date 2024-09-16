@@ -109,7 +109,7 @@ body {
     padding: 0 15px;
 }
 
-.form :where(.input-box input, .input-box select,):focus,
+.form :where(.input-box input, .input-box select):focus,
 .styled-textarea:focus {
     border-color: #66afe9;
     outline: 0;

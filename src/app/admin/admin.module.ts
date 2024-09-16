@@ -31,6 +31,7 @@ import { AdminJobRoleEditingComponent } from './components/admin-job-role-editin
 import { AdminJobCandidateEditingComponent } from './components/admin-job-candidate-editing/admin-job-candidate-editing.component';
 import { UpdateCredentialsComponent } from './components/update-credentials/update-credentials.component';
 
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 @NgModule({
   declarations: [
     AdminDashboardComponent,
@@ -61,7 +62,8 @@ import { UpdateCredentialsComponent } from './components/update-credentials/upda
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    NgxDocViewerModule
   ],
   providers: [provideNativeDateAdapter()],
 })

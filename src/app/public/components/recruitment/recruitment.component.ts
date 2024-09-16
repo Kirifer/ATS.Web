@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { JobCandidate, JobCandidateAttachment } from '../../../models/job-candidate';
 import { JobLocation, JobLocationDisplay, JobRoles, RoleLevel, RoleLevelDisplay, ShiftSchedule, ShiftScheduleDisplay } from '../../../models/job-roles';
 import { Observable, catchError, throwError, map, tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import Swal from 'sweetalert2';
 
@@ -29,7 +29,7 @@ export class RecruitmentComponent implements OnInit {
     display: NoticeDurationDisplay[key as keyof typeof NoticeDurationDisplay]
   }));
 
-  constructor(public fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute) {
+  constructor(public fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
     this.recruitmentForm = this.fb.group({
       candidateName: ['', Validators.required],
       jobRoleId: ['', Validators.required],
@@ -148,6 +148,23 @@ export class RecruitmentComponent implements OnInit {
                   title: "Submitted!",
                   text: "Your application was successfully submitted!",
                   icon: "success"
+                }).then(() => {
+                  Swal.fire({
+                    title: "View Application Status?",
+                    text: "Would you like to create an account to view your application status?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, create an account",
+                    cancelButtonText: "No, return to dashboard"
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      this.router.navigate(['/login']);
+                    } else {
+                      this.router.navigate(['/dashboard']);
+                    }
+                  });
                 });
               },
               error: (error) => {

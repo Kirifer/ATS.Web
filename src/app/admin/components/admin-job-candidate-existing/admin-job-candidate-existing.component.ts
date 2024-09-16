@@ -3,9 +3,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
-import { Observable, throwError, of } from 'rxjs';
-import { JobCandidate } from '../../../models/job-candidate';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, throwError, of, forkJoin } from 'rxjs';
+import { JobCandidate, JobCandidateAttachment } from '../../../models/job-candidate';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 import { environment } from '../../../../environments/environment';
@@ -178,44 +178,82 @@ export class AdminJobCandidateExistingComponent implements OnInit, AfterViewInit
     });
   }
 
+    // Fetch the blob data for the candidate CV
+    fetchCandidateCv(candidate: JobCandidate): Observable<string | null> {
+      const cvPath = candidate.candidateCv; // The file path or URL for the CV
+      if (!cvPath) {
+        return of(null);
+      }
+    
+      return this.http.get(`${environment.jobcandidateUrl}/${candidate.id}/attachments/${cvPath}`, { responseType: 'blob' })
+        .pipe(
+          switchMap(blob => {
+            return new Observable<string>(observer => {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                observer.next(reader.result as string);
+                observer.complete();
+              };
+              reader.onerror = (error) => {
+                observer.error(error);
+              };
+              reader.readAsDataURL(blob); // Convert the blob to base64
+            });
+          }),
+          catchError(error => {
+            console.error(`Error fetching CV for candidate ${candidate.candidateName}:`, error);
+            return of(null);
+          })
+        );
+    }
+    
+
+  // Download the data as an Excel file
   downloadData(dataType: 'JobCandidates') {
     const data = this.dataSource.data; // Get the data from dataSource
     const filteredData = this.filterByDate(data); // Apply filtering if necessary
 
-    // Map your data to the desired column names
-    const mappedData = filteredData.map((item: JobCandidate) => ({
-      'Job Candidate Number': item.csequenceNo,
-      'Name': item.candidateName,
-      'Job Role Number': item.jobRoleId,
-      'Job Role': item.jobName,
-      'Sourcing Tools': SourcingToolDisplay[item.sourceTool],
-      'HR In-Charge': HRInChargeDisplay[item.assignedHr],
-      'Updated CV': item.candidateCv,
-      'Email Address': item.candidateEmail,
-      'Contact Number': item.candidateContact,
-      'Asking Gross Salary': item.askingSalary,
-      'Negotiable': item.salaryNegotiable,
-      'Minimum Negotiated Salary': item.minSalary,
-      'Maximum Negotiated Salary': item.maxSalary,
-      'Availability': NoticeDurationDisplay[item.noticeDuration],
-      'Date Applied': item.dateApplied,
-      'Initial Interview Schedule': item.initialInterviewSchedule,
-      'Technical Interview Schedule': item.technicalInterviewSchedule,
-      'Client/Final Interview Schedule': item.clientFinalInterviewSchedule,
-      'Background Verification': item.backgroundVerification,
-      'Status': ApplicationStatusDisplay[item.applicationStatus],
-      'Final Basic Salary': item.finalSalary,
-      'Allowances': item.allowance,
-      'Honorarium': item.honorarium,
-      'Job Offer': item.jobOffer,
-      'Job Contract': item.candidateContract,
-      'Remarks': item.remarks,
-      // Add other fields as needed
-    }));
+    // Iterate over each candidate to fetch the attachments (e.g., CVs)
+    const fetchAttachmentsTasks = filteredData.map(candidate => this.fetchCandidateCv(candidate));
 
-    const worksheet = XLSX.utils.json_to_sheet(mappedData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, dataType);
-    XLSX.writeFile(workbook, `${dataType}.xlsx`);
+    // Execute all attachment fetch tasks
+    forkJoin(fetchAttachmentsTasks).subscribe(cvs => {
+      // Map the data for Excel export
+      const mappedData = filteredData.map((item: JobCandidate, index: number) => ({
+        'Job Candidate Number': item.csequenceNo,
+        'Name': item.candidateName,
+        'Job Role Number': item.jobRoleId,
+        'Job Role': item.jobName,
+        'Sourcing Tools': SourcingToolDisplay[item.sourceTool],
+        'HR In-Charge': HRInChargeDisplay[item.assignedHr],
+        'Updated CV': cvs[index] ? cvs[index] : item.candidateCv,  // Include the base64 CV or file URL
+        'Email Address': item.candidateEmail,
+        'Contact Number': item.candidateContact,
+        'Asking Gross Salary': item.askingSalary,
+        'Negotiable': item.salaryNegotiable,
+        'Minimum Negotiated Salary': item.minSalary,
+        'Maximum Negotiated Salary': item.maxSalary,
+        'Availability': NoticeDurationDisplay[item.noticeDuration],
+        'Date Applied': item.dateApplied,
+        'Initial Interview Schedule': item.initialInterviewSchedule,
+        'Technical Interview Schedule': item.technicalInterviewSchedule,
+        'Client/Final Interview Schedule': item.clientFinalInterviewSchedule,
+        'Background Verification': item.backgroundVerification,
+        'Status': ApplicationStatusDisplay[item.applicationStatus],
+        'Final Basic Salary': item.finalSalary,
+        'Allowances': item.allowance,
+        'Honorarium': item.honorarium,
+        'Job Offer': item.jobOffer,
+        'Job Contract': item.candidateContract,
+        'Remarks': item.remarks,
+        // Other fields...
+      }));
+
+      // Generate Excel file
+      const worksheet = XLSX.utils.json_to_sheet(mappedData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, dataType);
+      XLSX.writeFile(workbook, `${dataType}.xlsx`);
+    });
   }
 }

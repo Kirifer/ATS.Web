@@ -41,14 +41,20 @@
             <div class="column">
                 <div class="input-box">
                     <label>Job Role Number</label>
-                    <input type="text" formControlName="jobRoleId" placeholder="ex. JR-00001" required />
+                    <select formControlName="jobRoleId" style="background-color: transparent;" (change)="onJobRoleChange($event)" required>
+                        <option value="" disabled selected hidden>JR-00001</option>
+                        <option *ngFor="let jobRole of jobRoles" [value]="jobRole.sequenceNo">
+                            {{ jobRole.sequenceNo }}
+                        </option>
+                    </select>
                     <div style="color: red;" *ngIf="candidateForm.controls['jobRoleId'].invalid && (isCandidateFormSubmitted || candidateForm.controls['jobRoleId'].touched || candidateForm.controls['jobRoleId'].dirty)">
                         <span *ngIf="candidateForm.controls['jobRoleId'].errors?.['required']"><i class="fa fa-warning"></i> This field is required.</span>
                     </div>
                 </div>
+
                 <div class="input-box">
                     <label>Job Role</label>
-                    <input type="text" formControlName="jobName" placeholder="ex. HR Assistant" required />
+                    <input type="text" formControlName="jobName" placeholder="ex. HR Assistant" readonly />
                     <div style="color: red;" *ngIf="candidateForm.controls['jobName'].invalid && (isCandidateFormSubmitted || candidateForm.controls['jobName'].touched || candidateForm.controls['jobName'].dirty)">
                         <span *ngIf="candidateForm.controls['jobName'].errors?.['required']"><i class="fa fa-warning"></i> This field is required.</span>
                     </div>

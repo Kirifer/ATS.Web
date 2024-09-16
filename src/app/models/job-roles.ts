@@ -18,7 +18,7 @@ export interface JobRoles {
     closedDate?: Date; //Closed Date
     aging?: string; //Days Covered
     daysCovered?: number; //Aging
-    candidates?: JobCandidate[];
+    candidates: JobCandidate[];
 }
 
 export enum HiringType {

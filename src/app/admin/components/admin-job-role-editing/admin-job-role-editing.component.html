@@ -20,7 +20,7 @@
                         <input type="text" formControlName="clientShortcodes" placeholder="ex. ITS" required />
                     </div>
                 </div>
-    
+
                 <div class="column">
                     <div class="input-box">
                         <label>Minimum Salary</label>
@@ -31,98 +31,114 @@
                         <input type="number" formControlName="maxSalary" placeholder="ex. 17000" required />
                     </div>
                 </div>
-    
+
                 <div class="column">
                     <div class="input-box">
-                        <select formControlName="hiringType" >
+                        <select formControlName="hiringType">
                             <option value="" disabled selected hidden>Type of Hiring</option>
                             <option *ngFor="let hiring of hiringType" [value]="hiring.value">{{ hiring.display }}
                             </option>
                         </select>
                     </div>
-    
+
                     <div class="input-box">
-                        <select formControlName="roleLevel" >
+                        <select formControlName="roleLevel">
                             <option value="" disabled selected hidden>Role Level</option>
                             <option *ngFor="let level of roleLevel" [value]="level.value">{{ level.display }}
                             </option>
                         </select>
                     </div>
                 </div>
-    
+
                 <div class="column">
                     <div class="input-box">
-                        <select formControlName="jobLocation" >
+                        <select formControlName="jobLocation">
                             <option value="" disabled selected hidden>Location</option>
                             <option *ngFor="let loc of jobLocation" [value]="loc.value">{{ loc.display }}
                             </option>
                         </select>
                     </div>
-    
+
                     <div class="input-box">
-                        <select formControlName="shiftSched" >
+                        <select formControlName="shiftSched">
                             <option value="" disabled selected hidden>Schedule</option>
                             <option *ngFor="let sched of shiftSched" [value]="sched.value">{{ sched.display }}
                             </option>
                         </select>
                     </div>
                 </div>
-    
+
                 <div class="input-box">
                     <label>Job Description</label>
-                    <textarea class="styled-textarea" formControlName="jobDescription" placeholder="Type here the details about the job you want to upload." required></textarea>
+                    <textarea class="styled-textarea" formControlName="jobDescription"
+                        placeholder="Type here the details about the job you want to upload." required></textarea>
                 </div>
-    
+
                 <br>
                 <h2>Other Details</h2>
-    
+
                 <div class="input-box">
                     <label>Sales Manager</label>
                     <input type="text" formControlName="salesManager" placeholder="ex. Juana Dela Rosa" required />
                 </div>
-    
+
                 <div class="column">
                     <div class="input-box">
-                        <select formControlName="hiringManager" >
+                        <select formControlName="hiringManager">
                             <option value="" disabled selected hidden>Hiring Manager</option>
                             <option *ngFor="let manager of hiringManager" [value]="manager.value">{{ manager.display }}
                             </option>
                         </select>
                     </div>
-    
+
                     <div class="input-box">
-                        <select formControlName="jobStatus" >
+                        <select formControlName="jobStatus">
                             <option value="" disabled selected hidden>Status</option>
                             <option *ngFor="let status of jobStatus" [value]="status.value">{{ status.display }}
                             </option>
                         </select>
                     </div>
                 </div>
-    
+
                 <div class="column">
                     <div class="input-box">
                         <label>Open Date</label>
-                        <input type="date" formControlName="openDate" readonly/>
+                        <input type="date" formControlName="openDate" readonly />
                     </div>
-        
+
                     <div class="input-box">
                         <label>Closed Date</label>
-                        <input type="date" formControlName="closedDate"/>
+                        <input type="date" formControlName="closedDate" />
                     </div>
                 </div>
 
                 <div class="column">
                     <div class="input-box">
                         <label>Days Covered</label>
-                        <input type="text" formControlName="daysCovered" readonly/>
+                        <input type="text" formControlName="daysCovered" readonly />
                     </div>
 
                     <div class="input-box">
                         <label>Aging</label>
-                        <input type="text" formControlName="aging" readonly/>
+                        <input type="text" formControlName="aging" readonly />
                     </div>
                 </div>
 
+                <br>
+                <h2>Candidates</h2>
+                <div class="candidates-list" *ngIf="jobRole?.candidates">
+                    <ul class="candidate-ul">
+                        <li *ngFor="let candidate of jobRole?.candidates" class="candidate-li">
+                            <div class="candidate-info">
+                                <span class="candidate-id">{{ candidate.csequenceNo }}</span>
+                                <span class="candidate-name">{{ candidate.candidateName }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div *ngIf="!jobRole?.candidates || jobRole?.candidates?.length === 0" class="no-candidates">
+                    <p>No candidates assigned to this job role.</p>
+                </div>
 
 
                 <button type="submit">Update</button>

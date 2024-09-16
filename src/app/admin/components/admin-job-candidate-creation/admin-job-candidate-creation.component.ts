@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JobCandidate, JobCandidateAttachment } from '../../../models/job-candidate';
+import { JobRoles } from '../../../models/job-roles';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, map, tap, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from '../../../../environments/environment';  // Import environment
 
@@ -15,6 +16,7 @@ import { ApplicationStatus, ApplicationStatusDisplay, SourcingTool, SourcingTool
 })
 export class AdminJobCandidateCreationComponent implements OnInit {
   jobcandidates: JobCandidate[] = [];
+  jobRoles: JobRoles[] = [];
   candidateForm: FormGroup;
   attachments: JobCandidateAttachment[] = [];
   isCandidateFormSubmitted: boolean = false;
@@ -69,7 +71,39 @@ export class AdminJobCandidateCreationComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit(): void {
+    this.http.get<{ data: JobRoles[] }>('https://localhost:7012/jobrole')
+      .pipe(
+        map(response => response.data),
+        tap(data => {
+          console.log('Data received from backend:', data);
+  
+          // Store the fetched job roles
+          this.jobRoles = data;
+        }),
+        catchError(error => {
+          console.error('Error fetching jobs:', error);
+          return throwError(error);
+        })
+      ).subscribe();
+  }
+  
+  onJobRoleChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedJobRoleId = selectElement.value;
+    const selectedJobRole = this.jobRoles.find(role => role.sequenceNo === selectedJobRoleId);
+  
+    if (selectedJobRole) {
+      this.candidateForm.patchValue({
+        jobName: selectedJobRole.jobName // Update jobName field
+      });
+    } else {
+      this.candidateForm.patchValue({
+        jobName: '' // Ensure jobName is reset if no role is selected
+      });
+    }
+  }  
+
 
   onSubmit(): void {
     // Set the flag to true when submit is triggered    

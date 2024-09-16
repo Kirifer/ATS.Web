@@ -1,54 +1,74 @@
 /* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
-form, .container, .form, .input-box, label, input {
+form,
+.container,
+.form,
+.input-box,
+label,
+input {
     font-family: 'Lato', sans-serif;
 }
 
 .icon-container {
-    width: 100px; /* Adjusted the width */
-    height: 100px; /* Adjusted the height */
+    width: 100px;
+    /* Adjusted the width */
+    height: 100px;
+    /* Adjusted the height */
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 10px; /* Center the container and add some margin */
+    margin: 0 auto 10px;
+    /* Center the container and add some margin */
 }
 
 .job-icon {
-    font-size: 5rem; /* Adjusted the size */
-    background: linear-gradient(-135deg, #00275B 5%, #844ddc); /* Gradient color */
-    -webkit-background-clip: text; /* Clip background to text */
-    -webkit-text-fill-color: transparent; /* Make text fill color transparent */
-    padding: 0; /* Removed padding */
-    margin-top: 1rem; /* Adjusted the top margin */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Shadow */
+    font-size: 5rem;
+    /* Adjusted the size */
+    background: linear-gradient(-135deg, #00275B 5%, #844ddc);
+    /* Gradient color */
+    -webkit-background-clip: text;
+    /* Clip background to text */
+    -webkit-text-fill-color: transparent;
+    /* Make text fill color transparent */
+    padding: 0;
+    /* Removed padding */
+    margin-top: 1rem;
+    /* Adjusted the top margin */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    /* Shadow */
     background-clip: text;
 }
 
 .create-header {
     font-size: 2rem;
     font-weight: 500;
-    margin-top: 1rem; /* Adjusted the top margin */
+    margin-top: 1rem;
+    /* Adjusted the top margin */
 }
 
 .job-posting {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem; /* Adjusted padding */
+    padding: 1rem;
+    /* Adjusted padding */
 }
 
 .job-editing-header {
-    font-size: 2rem; /* Adjusted font size */
+    font-size: 2rem;
+    /* Adjusted font size */
     text-align: center;
     text-transform: uppercase;
     padding-bottom: 1rem;
 }
 
 .job-editing-subheader {
-    font-size: 1rem; /* Adjusted font size */
+    font-size: 1rem;
+    /* Adjusted font size */
     text-align: center;
-    padding: 0 0 0.5rem 0; /* Adjusted padding */
+    padding: 0 0 0.5rem 0;
+    /* Adjusted padding */
     font-weight: 400;
 }
 
@@ -72,13 +92,13 @@ form, .container, .form, .input-box, label, input {
     padding: 20px;
     width: 60%;
 
-/* From https://css.glass */
-background: rgba(255, 255, 255, 0.3);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(6.2px);
--webkit-backdrop-filter: blur(6.2px);
-border: 1px solid rgba(255, 255, 255, 0.39);
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6.2px);
+    -webkit-backdrop-filter: blur(6.2px);
+    border: 1px solid rgba(255, 255, 255, 0.39);
 }
 
 .close {
@@ -161,7 +181,7 @@ body {
     padding: 0 15px;
 }
 
-.form :where(.input-box input, .input-box select,):focus,
+.form :where(.input-box input, .input-box select):focus,
 .styled-textarea:focus {
     border-color: #66afe9;
     outline: 0;
@@ -192,6 +212,10 @@ body {
     margin-top: 25px;
 }
 
+.file-name {
+    font-size: 14px;
+    color: #333;
+}
 
 .form button:hover {
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
@@ -205,7 +229,8 @@ body {
     font-size: 14px;
     line-height: 24px;
     color: rgba(83, 99, 135, 0.5);
-    border: none; /* Remove any default borders */
+    border: none;
+    /* Remove any default borders */
 }
 
 .formbold-form-file::-webkit-file-upload-button {
@@ -255,3 +280,20 @@ body {
     }
 }
 
+.pdf-viewer-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.pdf-viewer-modal button {
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
