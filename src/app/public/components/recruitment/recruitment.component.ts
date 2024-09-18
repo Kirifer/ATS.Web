@@ -3,12 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { JobCandidate, JobCandidateAttachment } from '../../../models/job-candidate';
 import { JobLocation, JobLocationDisplay, JobRoles, RoleLevel, RoleLevelDisplay, ShiftSchedule, ShiftScheduleDisplay } from '../../../models/job-roles';
-import { Observable, catchError, throwError, map, tap } from 'rxjs';
+import { Observable, catchError, throwError, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';  // New import
 import { environment } from '../../../../environments/environment';
 import Swal from 'sweetalert2';
-
 import { NoticeDuration, NoticeDurationDisplay } from '../../../models/job-candidate';
+
 
 @Component({
   selector: 'app-recruitment',
@@ -29,7 +30,7 @@ export class RecruitmentComponent implements OnInit {
     display: NoticeDurationDisplay[key as keyof typeof NoticeDurationDisplay]
   }));
 
-  constructor(public fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+  constructor(public fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute, private router: Router, private sanitizer: DomSanitizer) {
     this.recruitmentForm = this.fb.group({
       candidateName: ['', Validators.required],
       jobRoleId: ['', Validators.required],
@@ -67,7 +68,7 @@ export class RecruitmentComponent implements OnInit {
           tap(response => {
             console.log('Data received from backend:', response);
             this.job = response.data; // Assign data to job property
-  
+
             // Update form with the received job data
             this.recruitmentForm.patchValue({
               jobRoleId: this.job?.sequenceNo || '', // Set sequenceNo from console to candidate.jobRoleId
@@ -88,8 +89,14 @@ export class RecruitmentComponent implements OnInit {
       }
     });
   }
-  
-  
+
+  sanitizeJobDescription(description: string): SafeHtml {
+    // Replace newlines with <br> and preserve spacing
+    const sanitizedDescription = description.replace(/\n/g, '<br>').replace(/\s\s+/g, ' &nbsp;');
+    return this.sanitizer.bypassSecurityTrustHtml(sanitizedDescription);
+  }
+
+
 
   logValidationErrors(group: FormGroup = this.recruitmentForm): void {
     Object.keys(group.controls).forEach((key: string) => {
@@ -106,7 +113,7 @@ export class RecruitmentComponent implements OnInit {
 
   onSubmitHr(): void {
     if (this.recruitmentForm.valid) {
-      let formData = this.recruitmentForm.value;  
+      let formData = this.recruitmentForm.value;
       formData.attachments = this.attachments;
 
       // Handle nullable dates
@@ -143,7 +150,7 @@ export class RecruitmentComponent implements OnInit {
                 console.log('Job candidate submitted:', response);
                 this.recruitmentForm.reset();
                 this.setDefaultDropdownValues();
-                
+
                 Swal.fire({
                   title: "Submitted!",
                   text: "Your application was successfully submitted!",
@@ -185,7 +192,7 @@ export class RecruitmentComponent implements OnInit {
       this.logValidationErrors();
     }
   }
-  
+
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -201,6 +208,8 @@ export class RecruitmentComponent implements OnInit {
           savedFileName: '',
           createdOn: new Date(),
           content: e.target.result.split(',')[1] // Base64 encoded string
+          ,
+          mimeType: ''
         };
         this.attachments.push(attachment);
       };
@@ -238,10 +247,10 @@ export class RecruitmentComponent implements OnInit {
     }
   }
 
-    // Utility method to handle enum formatting
-    formatEnum(value: any): string | null {
-      return value === '' ? null : value;
-    }
+  // Utility method to handle enum formatting
+  formatEnum(value: any): string | null {
+    return value === '' ? null : value;
+  }
 
 
   setDefaultDropdownValues(): void {

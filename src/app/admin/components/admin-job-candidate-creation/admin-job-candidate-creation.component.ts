@@ -72,7 +72,7 @@ export class AdminJobCandidateCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<{ data: JobRoles[] }>('https://localhost:7012/jobrole')
+    this.http.get<{ data: JobRoles[] }>(environment.jobroleUrl)
       .pipe(
         map(response => response.data),
         tap(data => {
@@ -211,7 +211,6 @@ export class AdminJobCandidateCreationComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        const base64Content = e.target.result.split(',')[1]; // Base64 encoded string
         const attachment: JobCandidateAttachment = {
           id: null,
           fileName: file.name,
@@ -220,7 +219,9 @@ export class AdminJobCandidateCreationComponent implements OnInit {
           extension: file.type,
           savedFileName: '',
           createdOn: new Date(),
-          content: base64Content
+          content: e.target.result.split(',')[1] // Base64 encoded string
+          ,
+          mimeType: ''
         };
         this.attachments.push(attachment);
       };

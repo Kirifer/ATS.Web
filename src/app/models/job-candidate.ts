@@ -41,7 +41,9 @@ export interface JobCandidateAttachment {
     savedFileName: string;
     createdOn: Date;
     content: string; // Base64 Encoded string
+    mimeType: string; // Correctly define mimeType as a string
 }
+
 
 
 export enum ApplicationStatus {

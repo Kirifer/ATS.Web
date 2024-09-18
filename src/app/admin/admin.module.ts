@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgxEditorModule } from 'ngx-editor';
 
 // Components
 import { AdminRoutingModule } from './admin-routing.module';
@@ -63,8 +64,10 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    NgxDocViewerModule
+    NgxDocViewerModule,
+    NgxEditorModule
   ],
   providers: [provideNativeDateAdapter()],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AdminModule { }

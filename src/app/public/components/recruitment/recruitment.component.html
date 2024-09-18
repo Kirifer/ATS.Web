@@ -26,9 +26,8 @@
                 </div>
             </div>
 
-            <div class="job-description">
-                <p>{{job.jobDescription}}</p>
-            </div>
+            <div class="job-description-content" [innerHTML]="sanitizeJobDescription(job.jobDescription)"></div>
+
         </div>
     </div>
 
@@ -152,7 +151,7 @@
                     <label for="upload" class="formbold-form-label">
                         Upload CV / Resume
                     </label>
-                    <input type="file" name="upload" id="upload" class="formbold-form-input formbold-form-file"
+                    <input type="file" (change)="onFileSelected($event)" name="upload" id="upload" class="formbold-form-input formbold-form-file"
                         formControlName="candidateCv" />
                     <div style="color: red;"
                         *ngIf="recruitmentForm.controls['candidateCv'].invalid && (isRecruitmentFormSubmitted || recruitmentForm.controls['candidateCv'].touched || recruitmentForm.controls['candidateCv'].dirty)">

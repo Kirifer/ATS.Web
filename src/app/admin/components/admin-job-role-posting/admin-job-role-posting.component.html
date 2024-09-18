@@ -1,6 +1,5 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-
 <main class="job-posting">
     <div class="icon-container">
         <i class="fas fa-briefcase job-icon"></i>
@@ -8,7 +7,6 @@
     <h1 class="job-posting-header">Create Job</h1>
     <h3 class="job-posting-subheader">Fill in the details to post a new job opportunity</h3>
     <section class="container">
-        <!-- <header class="create-header">Add a New Job Listing</header> -->
         <form [formGroup]="jobForm" (ngSubmit)="onSubmit()" class="form">
             <h2>Job Details</h2>
             <div class="column">
@@ -47,10 +45,9 @@
 
             <div class="column">
                 <div class="input-box">
-                    <select formControlName="hiringType"  required>
+                    <select formControlName="hiringType" required>
                         <option value="" disabled selected hidden>Type of Hiring</option>
-                        <option *ngFor="let hiring of hiringType" [value]="hiring.value">{{ hiring.display }}
-                        </option>
+                        <option *ngFor="let hiring of hiringType" [value]="hiring.value">{{ hiring.display }}</option>
                     </select>
                     <div style="color: red;" *ngIf="jobForm.controls['hiringType'].invalid && (isJobFormSubmitted || jobForm.controls['hiringType'].touched || jobForm.controls['hiringType'].dirty)">
                         <span *ngIf="jobForm.controls['hiringType'].errors?.['required']"><i class="fa fa-warning"></i> This field is required.</span>
@@ -58,10 +55,9 @@
                 </div>
 
                 <div class="input-box">
-                    <select formControlName="roleLevel"  required>
+                    <select formControlName="roleLevel" required>
                         <option value="" disabled selected hidden>Role Level</option>
-                        <option *ngFor="let role of roleLevel" [value]="role.value">{{ role.display }}
-                        </option>
+                        <option *ngFor="let role of roleLevel" [value]="role.value">{{ role.display }}</option>
                     </select>
                     <div style="color: red;" *ngIf="jobForm.controls['roleLevel'].invalid && (isJobFormSubmitted || jobForm.controls['roleLevel'].touched || jobForm.controls['roleLevel'].dirty)">
                         <span *ngIf="jobForm.controls['roleLevel'].errors?.['required']"><i class="fa fa-warning"></i> This field is required.</span>
@@ -71,10 +67,9 @@
 
             <div class="column">
                 <div class="input-box">
-                    <select formControlName="jobLocation"  required>
+                    <select formControlName="jobLocation" required>
                         <option value="" disabled selected hidden>Location</option>
-                        <option *ngFor="let loc of jobLocation" [value]="loc.value">{{ loc.display }}
-                        </option>
+                        <option *ngFor="let loc of jobLocation" [value]="loc.value">{{ loc.display }}</option>
                     </select>
                     <div style="color: red;" *ngIf="jobForm.controls['jobLocation'].invalid && (isJobFormSubmitted || jobForm.controls['jobLocation'].touched || jobForm.controls['jobLocation'].dirty)">
                         <span *ngIf="jobForm.controls['jobLocation'].errors?.['required']"><i class="fa fa-warning"></i> This field is required.</span>
@@ -82,10 +77,9 @@
                 </div>
 
                 <div class="input-box">
-                    <select formControlName="shiftSched"  required>
+                    <select formControlName="shiftSched" required>
                         <option value="" disabled selected hidden>Schedule</option>
-                        <option *ngFor="let sched of shiftSched" [value]="sched.value">{{ sched.display }}
-                        </option>
+                        <option *ngFor="let sched of shiftSched" [value]="sched.value">{{ sched.display }}</option>
                     </select>
                     <div style="color: red;" *ngIf="jobForm.controls['shiftSched'].invalid && (isJobFormSubmitted || jobForm.controls['shiftSched'].touched || jobForm.controls['shiftSched'].dirty)">
                         <span *ngIf="jobForm.controls['shiftSched'].errors?.['required']"><i class="fa fa-warning"></i> This field is required.</span>
@@ -95,7 +89,8 @@
 
             <div class="input-box">
                 <label>Job Description</label>
-                <textarea class="styled-textarea" formControlName="jobDescription" placeholder="Type here the details about the job you want to upload." required></textarea>
+                <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+                <ngx-editor [formControlName]="'jobDescription'" [editor]="editor" [disabled]="false" [placeholder]="'Type here the details about the job you want to upload.'"></ngx-editor>
                 <div style="color: red;" *ngIf="jobForm.controls['jobDescription'].invalid && (isJobFormSubmitted || jobForm.controls['jobDescription'].touched || jobForm.controls['jobDescription'].dirty)">
                     <span *ngIf="jobForm.controls['jobDescription'].errors?.['required']"><i class="fa fa-warning"></i> This field is required.</span>
                 </div>
@@ -114,10 +109,9 @@
 
             <div class="column">
                 <div class="input-box">
-                    <select formControlName="hiringManager"  required>
+                    <select formControlName="hiringManager" required>
                         <option value="" disabled selected hidden>Hiring Manager</option>
-                        <option *ngFor="let manager of hiringManager" [value]="manager.value">{{ manager.display }}
-                        </option>
+                        <option *ngFor="let manager of hiringManager" [value]="manager.value">{{ manager.display }}</option>
                     </select>
                     <div style="color: red;" *ngIf="jobForm.controls['hiringManager'].invalid && (isJobFormSubmitted || jobForm.controls['hiringManager'].touched || jobForm.controls['hiringManager'].dirty)">
                         <span *ngIf="jobForm.controls['hiringManager'].errors?.['required']"><i class="fa fa-warning"></i> This field is required.</span>
@@ -125,21 +119,15 @@
                 </div>
 
                 <div class="input-box">
-                    <select formControlName="jobStatus"  required>
+                    <select formControlName="jobStatus" required>
                         <option value="" disabled selected hidden>Status</option>
-                        <option *ngFor="let status of jobStatus" [value]="status.value">{{ status.display }}
-                        </option>
+                        <option *ngFor="let status of jobStatus" [value]="status.value">{{ status.display }}</option>
                     </select>
                     <div style="color: red;" *ngIf="jobForm.controls['jobStatus'].invalid && (isJobFormSubmitted || jobForm.controls['jobStatus'].touched || jobForm.controls['jobStatus'].dirty)">
                         <span *ngIf="jobForm.controls['jobStatus'].errors?.['required']"><i class="fa fa-warning"></i> This field is required.</span>
                     </div>
                 </div>
             </div>
-
-            <!-- <div class="input-box">
-                <label>Closed Date</label>
-                <input type="date" formControlName="closedDate" required/>
-            </div> -->
 
             <button type="submit">Submit</button>
         </form>

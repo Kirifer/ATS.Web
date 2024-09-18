@@ -97,6 +97,11 @@
                 <div class="input-box">
                     <label>Asking Gross Salary</label>
                     <input type="number" formControlName="askingSalary" placeholder="ex. 18000" />
+                    <div style="color: red;"
+                    *ngIf="candidateForm.controls['askingSalary'].invalid && (isCandidateFormSubmitted || candidateForm.controls['askingSalary'].touched || candidateForm.controls['askingSalary'].dirty)">
+                    <span *ngIf="candidateForm.controls['askingSalary'].errors?.['required']"><i
+                            class="fa fa-warning"></i> This field is required.</span>
+                </div>
                 </div>
                 <div class="input-box">
                     <label>Honorarium</label>
@@ -111,12 +116,22 @@
                     <option>Yes</option>
                     <option>No</option>
                 </select>
+                <div style="color: red;"
+                *ngIf="candidateForm.controls['salaryNegotiable'].invalid && (isCandidateFormSubmitted || candidateForm.controls['salaryNegotiable'].touched || candidateForm.controls['salaryNegotiable'].dirty)">
+                <span *ngIf="candidateForm.controls['salaryNegotiable'].errors?.['required']"><i
+                        class="fa fa-warning"></i> This field is required.</span>
+            </div>
             </div>
 
             <div class="column">
                 <div class="input-box">
                     <label>Minimum Negotiated Salary</label>
-                    <input type="number" formControlName="minSalary" placeholder="ex. 15000" />
+                    <input type="number" formControlName="minSalary" placeholder="ex. 15000" required />
+                    <div style="color: red;"
+                    *ngIf="candidateForm.controls['minSalary'].invalid && (isCandidateFormSubmitted || candidateForm.controls['minSalary'].touched || candidateForm.controls['minSalary'].dirty)">
+                    <span *ngIf="candidateForm.controls['minSalary'].errors?.['required']"><i
+                            class="fa fa-warning"></i> This field is required.</span>
+                </div>
                 </div>
                 <div class="input-box">
                     <label>Maximum Negotiated Salary</label>

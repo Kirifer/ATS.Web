@@ -68,11 +68,21 @@
                     </div>
                 </div>
 
-                <div class="input-box">
+                <!-- <div class="input-box">
                     <label>Job Description</label>
                     <textarea class="styled-textarea" formControlName="jobDescription"
                         placeholder="Type here the details about the job you want to upload." required></textarea>
+                </div> -->
+
+                <div class="input-box">
+                    <label>Job Description</label>
+                    <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+                    <ngx-editor [formControlName]="'jobDescription'" [editor]="editor" [disabled]="false"
+                        [placeholder]="'Type here the details about the job you want to upload.'">
+                    </ngx-editor>
+                    <div class="job-description-content" [innerHTML]="sanitizedJobDescription"></div>
                 </div>
+
 
                 <br>
                 <h2>Other Details</h2>
@@ -128,11 +138,12 @@
                 <h2>Candidates</h2>
                 <div class="candidates-list" *ngIf="jobRole?.candidates">
                     <ul class="candidate-ul">
+                        <!-- <li *ngFor="let candidate of jobRole?.candidates" class="candidate-li"> -->
                         <li *ngFor="let candidate of jobRole?.candidates" class="candidate-li">
-                            <div class="candidate-info">
-                                <span class="candidate-id">{{ candidate.csequenceNo }}</span>
-                                <span class="candidate-name">{{ candidate.candidateName }}</span>
-                            </div>
+                                <div class="candidate-info">
+                                    <span class="candidate-id">{{ candidate.csequenceNo }}</span>
+                                    <span class="candidate-name">{{ candidate.candidateName }}</span>
+                                </div>
                         </li>
                     </ul>
                 </div>

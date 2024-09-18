@@ -1,20 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, tap, throwError, map } from 'rxjs';
 import { HiringManager, HiringManagerDisplay, HiringType, HiringTypeDisplay, JobLocation, JobLocationDisplay, JobRoles, JobStatus, JobStatusDisplay, RoleLevel, RoleLevelDisplay, ShiftSchedule, ShiftScheduleDisplay } from '../../../models/job-roles';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { environment } from '../../../../environments/environment';
+import { Editor, Toolbar } from 'ngx-editor';
+import DOMPurify from 'dompurify';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin-job-role-posting',
   templateUrl: './admin-job-role-posting.component.html',
-  styleUrl: './admin-job-role-posting.component.css'
+  styleUrls: ['./admin-job-role-posting.component.css']
 })
-export class AdminJobRolePostingComponent implements OnInit {
+export class AdminJobRolePostingComponent implements OnInit, OnDestroy {
   jobroles: JobRoles[] = [];
   jobForm: FormGroup;
   isJobFormSubmitted: boolean = false;
+  editor: Editor = new Editor();
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
+  sanitizedJobDescription: SafeHtml | null = null;
 
   hiringType = Object.keys(HiringType).map(key => ({
     value: HiringType[key as keyof typeof HiringType],
@@ -46,7 +61,7 @@ export class AdminJobRolePostingComponent implements OnInit {
     display: JobStatusDisplay[key as keyof typeof JobStatusDisplay]
   }));
 
-  constructor(public fb: FormBuilder, private http: HttpClient) {
+  constructor(public fb: FormBuilder, private http: HttpClient, private sanitizer: DomSanitizer) {
     this.jobForm = this.fb.group({
       jobName: ['', Validators.required],
       clientShortcodes: ['', Validators.required],
@@ -67,14 +82,11 @@ export class AdminJobRolePostingComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.jobroles$ = this.http.get<{ data: JobRoles[] }>('https://localhost:7012/candidates').pipe(
-    //   map(response => response.data),
-    //   tap(data => console.log('Data received from backend:', data)),
-    //   catchError(error => {
-    //     console.error('Error fetching jobs:', error);
-    //     return throwError(() => new Error('Error fetching jobs'));
-    //   })
-    // );
+    this.editor = new Editor();
+  }
+
+  ngOnDestroy() {
+    this.editor.destroy();
   }
 
   logValidationErrors(group: FormGroup = this.jobForm): void {
@@ -93,7 +105,16 @@ export class AdminJobRolePostingComponent implements OnInit {
   onSubmit(): void {
     // Set the flag to true when submit is triggered    
     this.isJobFormSubmitted = true;
-
+    
+    // Sanitize the HTML content
+    const jobDescription = this.jobForm.value.jobDescription;
+    const sanitizedDescription = DOMPurify.sanitize(jobDescription, {
+      ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      ALLOWED_ATTR: ['style', 'color']
+    });
+    
+    this.jobForm.patchValue({ jobDescription: sanitizedDescription });
+  
     if (this.jobForm.valid) {
       Swal.fire({
         title: "Submit a new Job Role?",
@@ -111,7 +132,7 @@ export class AdminJobRolePostingComponent implements OnInit {
                 console.log('Job submitted:', response);
                 this.jobForm.reset();
                 this.setDefaultDropdownValues();
-  
+    
                 Swal.fire({
                   title: "Submitted",
                   text: "Your job role was successfully submitted!",
@@ -135,7 +156,8 @@ export class AdminJobRolePostingComponent implements OnInit {
       console.log('Form is invalid');
       this.logValidationErrors();
     }
-  }  
+  }
+  
 
   setDefaultDropdownValues(): void {
     this.jobForm.patchValue({

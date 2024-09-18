@@ -100,22 +100,60 @@ export class AdminJobCandidateEditingComponent implements OnChanges {
     ).subscribe();
   }
   
-  viewAttachment(attachment: JobCandidateAttachment): void {
-    const url = `${environment.jobcandidateUrl}/${this.jobCandidate?.id}/attachments/${attachment.id}`;  // Use environment variable
-    console.log(`Viewing attachment from URL: ${url}`);
-    this.http.get(url, { responseType: 'blob' }).subscribe(blob => {
-        console.log('Downloaded blob size:', blob.size);  // Add this line to log the size
-        const a = document.createElement('a');
-        const objectUrl = URL.createObjectURL(blob);
-        a.href = objectUrl;
-        a.target = '_blank';
-        a.download = attachment.fileName;
-        a.click();
-        URL.revokeObjectURL(objectUrl);
-    }, (error: HttpErrorResponse) => {
-        console.error('Error viewing attachment:', error.message);
-    });
+// Check if the file is viewable based on its MIME type
+isViewable(attachment: JobCandidateAttachment): boolean {
+  const viewableExtensions = ['.pdf', '.jpeg', '.jpg', '.png', '.gif'];
+  return viewableExtensions.includes(attachment.extension.toLowerCase());
 }
+
+// Method to handle viewing the attachment
+viewAttachment(attachment: JobCandidateAttachment): void {
+  const url = `${environment.jobcandidateUrl}/${this.jobCandidate?.id}/attachments/${attachment.id}`;
+  console.log(`Viewing attachment from URL: ${url}`);
+  
+  this.http.get(url, { responseType: 'blob' }).subscribe(blob => {
+    const mimeType = blob.type;
+    const objectUrl = URL.createObjectURL(blob);
+
+    if (mimeType.startsWith('application/pdf') || mimeType.startsWith('image/')) {
+      // Open viewable files (PDF, images) in a new tab
+      const newTab = window.open();
+      if (newTab) {
+        newTab.location.href = objectUrl;
+      } else {
+        console.error('Failed to open new tab');
+      }
+    } else {
+      console.error('File type is not viewable');
+    }
+
+    // Revoke the object URL to free up memory
+    URL.revokeObjectURL(objectUrl);
+  }, (error: HttpErrorResponse) => {
+    console.error('Error viewing attachment:', error.message);
+  });
+}
+
+// Method to handle downloading the attachment
+downloadAttachment(attachment: JobCandidateAttachment): void {
+  const url = `${environment.jobcandidateUrl}/${this.jobCandidate?.id}/attachments/${attachment.id}`;
+  console.log(`Downloading attachment from URL: ${url}`);
+  
+  this.http.get(url, { responseType: 'blob' }).subscribe(blob => {
+    const objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = objectUrl;
+    a.download = attachment.fileName;
+    a.click();
+
+    // Revoke the object URL to free up memory
+    URL.revokeObjectURL(objectUrl);
+  }, (error: HttpErrorResponse) => {
+    console.error('Error downloading attachment:', error.message);
+  });
+}
+
+  
 
 
   onUpdate() {

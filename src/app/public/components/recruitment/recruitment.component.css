@@ -1,4 +1,8 @@
 
+div.job-description-content {
+    white-space: pre-wrap;
+}
+
 .header_image {
     width: 100%;
     height: auto;
