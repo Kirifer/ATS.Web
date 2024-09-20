@@ -24,9 +24,10 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="job-description-content" [innerHTML]="sanitizeJobDescription(job.jobDescription)"></div>
             </div>
 
-            <div class="job-description-content" [innerHTML]="sanitizeJobDescription(job.jobDescription)"></div>
 
         </div>
     </div>

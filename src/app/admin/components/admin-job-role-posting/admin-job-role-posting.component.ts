@@ -106,19 +106,23 @@ export class AdminJobRolePostingComponent implements OnInit, OnDestroy {
     // Set the flag to true when submit is triggered    
     this.isJobFormSubmitted = true;
     
-    // Sanitize the HTML content
+    // Get job description from the form
     const jobDescription = this.jobForm.value.jobDescription;
+    
+    // Sanitize the description while removing specific styles
     const sanitizedDescription = DOMPurify.sanitize(jobDescription, {
       ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-      ALLOWED_ATTR: ['style', 'color']
+      ALLOWED_ATTR: ['style', 'color'], // Only allow color but exclude background-color
+      FORBID_ATTR: ['background-color'] // Specifically forbid background color
     });
     
+    // Update form with sanitized description
     this.jobForm.patchValue({ jobDescription: sanitizedDescription });
   
     if (this.jobForm.valid) {
       Swal.fire({
         title: "Submit a new Job Role?",
-        text: "Are you sure of the details you provided? Double check if you missed some information.",
+        text: "Are you sure of the details you provided? Double-check if you missed some information.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -126,37 +130,33 @@ export class AdminJobRolePostingComponent implements OnInit, OnDestroy {
         confirmButtonText: "Yes, I am sure!"
       }).then((result) => {
         if (result.isConfirmed) {
-          this.http.post(environment.jobroleUrl, this.jobForm.value)
-            .subscribe({
-              next: (response) => {
-                console.log('Job submitted:', response);
-                this.jobForm.reset();
-                this.setDefaultDropdownValues();
-    
-                Swal.fire({
-                  title: "Submitted",
-                  text: "Your job role was successfully submitted!",
-                  icon: "success"
-                });
-              },
-              error: (error) => {
-                console.error('Error creating job:', error);
-                Swal.fire({
-                  title: "Submission Failed",
-                  text: "There was an error submitting this job role. Please try again.",
-                  icon: "error"
-                });
-              }
-            });
-        } else {
-          console.log('Submission canceled');
+          // Submit the form
+          this.http.post(environment.jobroleUrl, this.jobForm.value).subscribe({
+            next: (response) => {
+              this.jobForm.reset();
+              this.setDefaultDropdownValues();
+              Swal.fire({
+                title: "Submitted",
+                text: "Your job role was successfully submitted!",
+                icon: "success"
+              });
+            },
+            error: (error) => {
+              console.error('Error creating job:', error);
+              Swal.fire({
+                title: "Submission Failed",
+                text: "There was an error submitting this job role. Please try again.",
+                icon: "error"
+              });
+            }
+          });
         }
       });
     } else {
-      console.log('Form is invalid');
       this.logValidationErrors();
     }
   }
+  
   
 
   setDefaultDropdownValues(): void {

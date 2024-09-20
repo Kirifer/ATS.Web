@@ -91,12 +91,11 @@ export class RecruitmentComponent implements OnInit {
   }
 
   sanitizeJobDescription(description: string): SafeHtml {
-    // Replace newlines with <br> and preserve spacing
-    const sanitizedDescription = description.replace(/\n/g, '<br>').replace(/\s\s+/g, ' &nbsp;');
+    // Replace multiple newlines with <br> and ensure spacing is preserved
+    const sanitizedDescription = description.replace(/\n\n+/g, '<br><br>').replace(/\n/g, '<br>').replace(/\s\s+/g, ' &nbsp;');
     return this.sanitizer.bypassSecurityTrustHtml(sanitizedDescription);
   }
-
-
+  
 
   logValidationErrors(group: FormGroup = this.recruitmentForm): void {
     Object.keys(group.controls).forEach((key: string) => {
