@@ -1,4 +1,3 @@
-/* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
 form,
@@ -14,29 +13,21 @@ select,
 
 .icon-container {
     width: 200px;
-    /* Adjust the width as needed */
     height: 100px;
-    /* Adjust the height as needed */
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 10px;
-    /* Center the container and add some margin */
 }
 
 .job-icon {
     font-size: 10rem;
-    /* Adjust the size as needed */
     background: linear-gradient(-135deg, #00275B 5%, #844ddc);
-    /* Gradient color */
     -webkit-background-clip: text;
-    /* Clip background to text */
     -webkit-text-fill-color: transparent;
-    /* Make text fill color transparent */
     padding: 10px;
     margin-top: 2rem;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    /* Shadow */
     background-clip: text;
 }
 
@@ -54,9 +45,7 @@ select,
 }
 
 .job-posting-header {
-    /*Box model stuff*/
     padding: 2rem 0 0 0;
-    /*Typography stuff*/
     font-size: 40px;
     text-align: center;
     text-transform: uppercase;
@@ -133,20 +122,15 @@ body {
 }
 
 .styled-textarea {
-    /*Box model stuff*/
     width: 100%;
     height: 150px;
     margin-top: 8px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    /*Typography stuff*/
     font-size: 14px;
-    /*Miscellaneous*/
     resize: vertical;
-    /* Allows the user to resize the textarea vertically */
     box-sizing: border-box;
-    /* Ensures padding and border are included in the element's total width and height */
 }
 
 .form .column {

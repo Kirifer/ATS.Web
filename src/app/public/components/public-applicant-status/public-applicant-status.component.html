@@ -1,5 +1,107 @@
 <link rel="stylesheet" href="../../../public/public-layout/public-layout.component.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <div class="main-container">
+    <div class="secondary-container">
+        <div *ngIf="jobCandidates && jobCandidates.length > 0; else noCandidate">
+            <h2 class="header">Application Status</h2>
 
+            <!-- Iterate through multiple applications -->
+            <div *ngFor="let candidate of jobCandidates">
+
+                <!-- Candidate Details Section -->
+                <div class="candidate-header">
+                    <div class="icon">
+                        <i class="fas fa-user-circle fa-3x"></i> <!-- Large Blank Profile Icon -->
+                    </div>
+
+                    <!-- 1st Column -->
+                    <div class="candidate-name">
+                        <p class="applicant-name">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</p>
+                        <!-- Display Full Name -->
+                        <p class="applicant-number">{{ candidate.csequenceNo }}</p>
+                    </div>
+
+                    <!-- 2nd Column -->
+                    <div class="candidate-contact">
+                        <p><i class="fas fa-envelope"></i> <!-- Email Icon -->
+                            {{ candidate.candidateEmail }}</p>
+                        <hr class="header">
+                        <p><i class="fas fa-phone"></i> <!-- Phone Icon -->
+                            {{ candidate.candidateContact }}</p>
+                    </div>
+                </div>
+
+                <div class="job-salary-date">
+                    <!-- Job and Salary Details Section -->
+                    <div class="job-salary-section card-like">
+                        <div class="field">
+                            <span class="title">Job Title:</span>
+                            <span class="data">{{ candidate.jobName }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Job Role No.:</span>
+                            <span class="data">{{ candidate.jobRoleId }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Asking Salary:</span>
+                            <span class="data">₱{{ candidate.askingSalary | number: '1.2-2' }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Negotiable:</span>
+                            <span class="data">{{ candidate.salaryNegotiable }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Minimum Salary:</span>
+                            <span class="data">₱{{ candidate.minSalary | number: '1.2-2' }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Remarks:</span>
+                            <span class="data">{{ candidate.remarks }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Dates Section -->
+                    <div class="dates-section card-like">
+                        <div class="field">
+                            <span class="title">Date Applied:</span>
+                            <span class="data">{{ candidate.dateApplied | date }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Initial Interview:</span>
+                            <span class="data">{{ candidate.initialInterviewSchedule | date }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Technical Interview:</span>
+                            <span class="data">{{ candidate.technicalInterviewSchedule | date }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Final Interview:</span>
+                            <span class="data">{{ candidate.clientFinalInterviewSchedule | date }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Background Verification:</span>
+                            <span class="data">{{ candidate.backgroundVerification | date }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Availability:</span>
+                            <span class="data">{{ getNoticeDurationDisplay(candidate.noticeDuration) }}</span>
+                        </div>
+                        <div class="field">
+                            <span class="title">Application Status:</span>
+                            <span class="data">{{ getApplicationStatusDisplay(candidate.applicationStatus) }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr> <!-- Separate different applications visually -->
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noCandidate>
+        <p>No job candidate information available.</p>
+    </ng-template>
 </div>

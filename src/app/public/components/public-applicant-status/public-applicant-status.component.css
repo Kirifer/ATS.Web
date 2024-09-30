@@ -1,7 +1,178 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 body {
     font-family: "Lato", sans-serif;
     color: #fff;
     margin: 0;
     padding: 20px;
+    background-color: #1a1a1a; /* Dark background for contrast */
 }
 
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 48px;
+    gap: 4rem;
+    align-items: center;
+}
+
+.secondary-container {
+    padding: 20px;
+    background-color: rgba(9, 0, 45, 0.8); /* Slightly darker for better contrast */
+    border-radius: 10px;
+    border: 2px solid #fff;
+    max-width: 80%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Added shadow for depth */
+    width: 30%;
+}
+
+.candidate-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+
+.candidate-name,
+.candidate-contact {
+    width: 45%;
+}
+
+.icon {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.applicant-name {
+    font-size: 1.3em;
+    color: #111827;
+    font-weight: bold;
+}
+
+.applicant-number {
+    font-size: 0.9em;
+    color: #111827;
+    font-style: italic;
+}
+
+.header{
+    text-align: center;
+}
+
+/* Styling for field title and data separator */
+
+.title {
+    flex: 1;
+    font-weight: bold;
+    font-style: italic;
+    background-color: #d0ecf7; /* Light blue background like in the image */
+    padding: 8px;
+
+    border-radius: 8px;
+}
+
+.data {
+    flex: 2;
+    padding: 8px;
+    background-color: #ffffff;
+    color: #000;
+}
+
+/* Styling each row */
+.field{
+    /* border: 1px solid #d3d3d3; */
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid lightgray;
+    padding: 10px;
+}
+
+/* Styling for Card-like Sections */
+.card-like {
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.job-salary-details, .dates-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+
+    .field {
+        flex-direction: column; /* Stack title and data vertically */
+        align-items: flex-start; /* Align items to the start */
+    }
+
+    .title {
+        width: 100%; /* Take full width */
+        margin-bottom: 5px; /* Space below title */
+        border-right: none; /* Remove the right border */
+    }
+
+    .data {
+        width: 100%; /* Take full width */
+    }
+
+
+    .candidate-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .candidate-name, .candidate-contact {
+        width: 100%;
+        margin: 10px 0;
+        line-height: 25px;
+    }
+
+    .job-salary-details, .dates-details {
+        display: block;
+    }
+
+    .main-container {
+        padding: 20px;
+    }
+
+    .secondary-container {
+        width: 100%;
+    }
+
+    .icon{
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* Typography */
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #e5e7eb;
+}
+
+p {
+    margin: 0;
+}
+
+hr {
+    margin: 20px 0;
+    border: 1px solid #e5e7eb;
+}
+
+hr.header{
+    margin: 2px 0;
+}

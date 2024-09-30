@@ -1,3 +1,4 @@
+import { JobCandidate } from "./job-candidate";
 export interface User {
     userId: string; // UUID
     username: string;
@@ -11,5 +12,5 @@ export interface User {
     creatorId?: string; // Optional because it might be null
     updatedOn?: Date; // Optional because it might be null
     updaterId?: string; // Optional because it might be null
-    // token?: string;
+    candidates?: JobCandidate[];
 }

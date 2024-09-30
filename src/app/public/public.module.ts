@@ -24,8 +24,6 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { PublicRoutingModule } from './public-routing.module';
 import { PublicDashboardComponent } from './components/public-dashboard/public-dashboard.component';
 import { JobListComponent } from './components/job-list/job-list.component';
-import { JobDetailsComponent } from './components/job-details/job-details.component';
-import { ApplyJobComponent } from './components/apply-job/apply-job.component';
 import { PublicNavComponent } from './components/public-nav/public-nav.component';
 import { PublicLayoutComponent } from './public-layout/public-layout.component';
 import { PublicFooterComponent } from './components/public-footer/public-footer.component';
@@ -39,8 +37,6 @@ import { PublicApplicantStatusComponent } from './components/public-applicant-st
   declarations: [
     PublicDashboardComponent,
     JobListComponent,
-    JobDetailsComponent,
-    ApplyJobComponent,
     PublicNavComponent,
     PublicLayoutComponent,
     PublicFooterComponent,

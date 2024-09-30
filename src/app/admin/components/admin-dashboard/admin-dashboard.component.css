@@ -1,30 +1,26 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-/* Container for the header and icon */
 .ats-header-container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Distribute space between left and right content */
+    justify-content: space-between;
     margin-bottom: 20px;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* Left content (Icon and Header) */
 .left-content {
     display: flex;
     align-items: center;
 }
 
-/* Header style */
 .ats-header {
     font-size: 3rem;
     font-weight: bold;
     color: #000000;
     margin: 0;
-    padding-left: 10px; /* Add some space between the icon and header */
-
+    padding-left: 10px;
     margin: 0 0.5rem 0 0.5rem;
     white-space: nowrap;
     min-width: 150px;
@@ -33,13 +29,11 @@
 
 .logo-subtext {
     font-size: 20px;
-    /* Adjust font size as needed */
     color: #444;
     font-weight: 500;
     font-family: 'Lato', sans-serif;
 }
 
-/* Icon container */
 .logo-container {
     display: flex;
     align-items: center;
@@ -51,7 +45,6 @@
     height: 100px;
 }
 
-/* Job icon style */
 .job-icon {
     font-size: 3rem;
     margin: 0 10px;
@@ -61,24 +54,23 @@
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     background-clip: text;
 }
-/* Right content (Date Picker and Button) */
+
 .right-content {
     display: flex;
     align-items: center;
-    gap: 15px; /* Add space between date pickers and button */
+    gap: 15px;
 }
 
-/* Date picker container */
 .date-picker-container {
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between date pickers */
+    gap: 10px;
 }
 
 .custom-form-field {
-    width: 170px; /* Adjust the width as needed */
-    height: auto; /* Adjust the height as needed */
-    margin-right: 15px; /* Add some space between form fields */
+    width: 170px;
+    height: auto;
+    margin-right: 15px;
 }
 
 ::ng-deep .mat-mdc-form-field-subscript-wrapper {
@@ -90,7 +82,6 @@
     display: none;
 }
 
-/* Button styling */
 button[mat-raised-button] {
     height: 56px;
     padding: 0 20px;
@@ -112,7 +103,6 @@ button[mat-raised-button]:hover {
     color: white;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .ats-header-container {
         flex-direction: column;
@@ -120,23 +110,23 @@ button[mat-raised-button]:hover {
     }
 
     .right-content {
-        width: 100%; /* Make sure the right content takes full width */
-        justify-content: center; /* Center align the date picker and button */
-        margin-top: 15px; /* Add some space above the right content */
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px;
     }
 
     .date-picker-container {
-        flex-direction: column; /* Stack date picker and button vertically */
-        gap: 10px; /* Space between stacked items */
+        flex-direction: column;
+        gap: 10px;
     }
 
     .custom-form-field {
-        width: 100%; /* Full width for date pickers on smaller screens */
-        margin-right: 0; /* Remove right margin for stacked layout */
+        width: 100%;
+        margin-right: 0;
     }
 
     button[mat-raised-button] {
-        width: 100%; /* Full width for button on smaller screens */
+        width: 100%;
     }
 }
     
@@ -368,7 +358,6 @@ i::before {
     justify-content: center;
     align-items: center;
     overflow-x: auto;
-    /* width: 800px;  */
 }
 
 .mat-elevation-z8 {

@@ -1,59 +1,50 @@
-/* Colors */
-/* Blue: #004ba3 Sky Blue: #00b8d4 Purple: #844ddc Orange: #d2a517 */
-/* Global styles */
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-/* Container for the header and icon */
 .candidates_header_container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Distribute space between left and right content */
+    justify-content: space-between;
     margin-bottom: 20px;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* Left content (Icon and Header) */
 .left-content {
     display: flex;
     align-items: center;
 }
 
-/* Header style */
 .candidates_header {
     font-size: 2rem;
     font-weight: bold;
     color: #004ba3;
     margin: 0;
-    padding-left: 10px; /* Add some space between the icon and header */
+    padding-left: 10px;
 }
 
-/* Icon container */
 .icon-container {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Right content (Date Picker and Button) */
 .right-content {
     display: flex;
     align-items: center;
-    gap: 15px; /* Add space between date pickers and button */
+    gap: 15px;
 }
 
-/* Date picker container */
 .date-picker-container {
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between date pickers */
+    gap: 10px;
 }
 
 .custom-form-field {
-    width: 170px; /* Adjust the width as needed */
-    height: auto; /* Adjust the height as needed */
-    margin-right: 15px; /* Add some space between form fields */
+    width: 170px;
+    height: auto;
+    margin-right: 15px;
 }
 
 ::ng-deep .mat-mdc-form-field-subscript-wrapper {
@@ -66,7 +57,6 @@
 }
 
 
-/* Button styling */
 button[mat-raised-button] {
     height: 56px;
     padding: 0 20px;
@@ -88,7 +78,6 @@ button[mat-raised-button]:hover {
     color: white;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .candidates_header_container {
         flex-direction: column;
@@ -96,27 +85,26 @@ button[mat-raised-button]:hover {
     }
 
     .right-content {
-        width: 100%; /* Make sure the right content takes full width */
-        justify-content: center; /* Center align the date picker and button */
-        margin-top: 15px; /* Add some space above the right content */
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px;
     }
 
     .date-picker-container {
-        flex-direction: column; /* Stack date picker and button vertically */
-        gap: 10px; /* Space between stacked items */
+        flex-direction: column;
+        gap: 10px;
     }
 
     .custom-form-field {
-        width: 100%; /* Full width for date pickers on smaller screens */
-        margin-right: 0; /* Remove right margin for stacked layout */
+        width: 100%;
+        margin-right: 0;
     }
 
     button[mat-raised-button] {
-        width: 100%; /* Full width for button on smaller screens */
+        width: 100%;
     }
 }
-    
-/* Job icon style */
+
 .job-icon {
     font-size: 3rem;
     margin: 0 10px;
@@ -135,7 +123,6 @@ button[mat-raised-button]:hover {
     overflow-x: auto;
 }
 
-/* Container for the table with elevation */
 .mat-elevation-z8 {
     padding: 20px;
     border-radius: 8px;
@@ -144,25 +131,20 @@ button[mat-raised-button]:hover {
     width: 90%;
 }
 
-/* Styles for the search form field */
 .search-form-field {
     width: 100%;
     margin-bottom: 20px;
 }
 
-/* Input field styles */
 input[matInput] {
     padding-left: 2px;
 }
 
-/* Icon styles */
 .mat-icon {
     margin-right: 8px;
     color: #757575;
 }
 
-/* Table styles */
-/* Apply Lato font to the whole table */
 table,
 th,
 td,
@@ -180,10 +162,8 @@ table {
 
 tr {
     height: 100px;
-    /* Adjust the height value as needed */
 }
 
-/* Header cell styles */
 .mat-header-cell {
     color: #424242;
     text-align: left;
@@ -197,16 +177,12 @@ tr {
     font-weight: bold;
 }
 
-/* Icon styles within header cells */
-/* .mat-header-cell .mat-icon { transition: color 0.3s; } .mat-header-cell:hover { background-color: #00599e; color: white; } .mat-header-cell:hover .mat-icon { color: white; } */
-/* Cell styles */
 .mat-cell {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
 }
 
-/* Paginator styles */
 .paginator {
     background-color: transparent;
     margin-top: 20px;
@@ -214,13 +190,11 @@ tr {
     justify-content: flex-end;
 }
 
-/* Paginator elements */
 .mat-paginator-page-size,
 .mat-paginator-range-label {
     margin-right: 20px;
 }
 
-/* No data row styles */
 .no-data-row {
     text-align: center;
     font-style: italic;
@@ -237,7 +211,6 @@ tr {
 
 tr:hover { background-color: #f1f1f1; }
 
-/* Column icon styles */
 .column-icon {
     margin-right: 8px;
     color: #004ba3;
@@ -266,99 +239,65 @@ tr:hover { background-color: #f1f1f1; }
 
 .badge-primary {
     color: #004085;
-    /* Dark blue text */
     background-color: #cde5ff;
-    /* Light blue background */
     border-color: #bfdfff;
-    /* Very light blue border */
 }
 
 .badge-info {
     color: #004d73;
-    /* Darker cyan text */
     background-color: #d1ecf1;
-    /* Light cyan background */
     border-color: #bee5eb;
-    /* Very light cyan border */
 }
 
 .badge-warning {
     color: #856404;
-    /* Dark gold text */
     background-color: #fff3cd;
-    /* Pale yellow background */
     border-color: #fffbeb;
-    /* Very light yellow border */
 }
 
 .badge-success {
     color: #0d6832;
-    /* Dark green text */
     background-color: #d9eed8;
-    /* Light green background */
     border-color: #eefaf0;
-    /* Very light green border */
 }
 
 .badge-danger {
     color: #721c24;
-    /* Dark red text */
     background-color: #f8d7da;
-    /* Light red background */
     border-color: #f5c6cb;
-    /* Very light red border */
 }
 
 .badge-secondary {
     color: #383d41;
-    /* Dark gray text */
     background-color: #e2e3e5;
-    /* Light gray background */
     border-color: #d6d8db;
-    /* Very light gray border */
 }
 
 .badge-light {
     color: #212529;
-    /* Dark gray text */
     background-color: #fefefe;
-    /* Very light gray background */
     border-color: #d3d3d3;
-    /* Light gray border */
 }
 
 .primary-text {
     font-size: 1rem;
-    /* Larger font size for primary text */
     font-weight: bold;
-    /* Makes the text bold */
     color: #004ba3;
-    /* Dark blue color for prominence */
     margin: 0;
-    /* Remove default margin */
     padding: 0;
-    /* Remove default padding */
 }
 
 .secondary-text {
     font-size: 0.8rem;
-    /* Slightly smaller font size for secondary text */
     font-weight: normal;
-    /* Normal weight for less emphasis */
     color: #8a8e92;
-    /* Gray color for secondary text */
     margin: 0;
-    /* Remove default margin */
     padding: 0;
-    /* Remove default padding */
     display: block;
-    /* Ensures it appears on its own line */
 }
 
-/* Optional: Add spacing between primary and secondary text */
 .primary-text+.secondary-text {
     margin-top: 0.5em;
-    /* Adds some space between the texts */
 }
 
 .sequence-no-text {

@@ -1,4 +1,3 @@
-/* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
 form,
@@ -12,31 +11,21 @@ input {
 
 .icon-container {
     width: 100px;
-    /* Adjusted the width */
     height: 100px;
-    /* Adjusted the height */
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 10px;
-    /* Center the container and add some margin */
 }
 
 .job-icon {
     font-size: 5rem;
-    /* Adjusted the size */
     background: linear-gradient(-135deg, #00275B 5%, #844ddc);
-    /* Gradient color */
     -webkit-background-clip: text;
-    /* Clip background to text */
     -webkit-text-fill-color: transparent;
-    /* Make text fill color transparent */
     padding: 0;
-    /* Removed padding */
     margin-top: 1rem;
-    /* Adjusted the top margin */
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    /* Shadow */
     background-clip: text;
 }
 
@@ -44,7 +33,6 @@ input {
     font-size: 2rem;
     font-weight: 500;
     margin-top: 1rem;
-    /* Adjusted the top margin */
 }
 
 .job-posting {
@@ -52,12 +40,10 @@ input {
     flex-direction: column;
     align-items: center;
     padding: 1rem;
-    /* Adjusted padding */
 }
 
 .job-editing-header {
     font-size: 2rem;
-    /* Adjusted font size */
     text-align: center;
     text-transform: uppercase;
     padding-bottom: 1rem;
@@ -65,10 +51,8 @@ input {
 
 .job-editing-subheader {
     font-size: 1rem;
-    /* Adjusted font size */
     text-align: center;
     padding: 0 0 0.5rem 0;
-    /* Adjusted padding */
     font-weight: 400;
 }
 
@@ -91,8 +75,6 @@ input {
     margin: 5% auto;
     padding: 20px;
     width: 60%;
-
-    /* From https://css.glass */
     background: rgba(255, 255, 255, 0.3);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -123,9 +105,7 @@ input {
 }
 
 .job-posting-header {
-    /*Box model stuff*/
     padding: 0 0 2rem 0;
-    /*Typography stuff*/
     font-size: 60px;
     text-align: center;
 }
@@ -230,7 +210,6 @@ body {
     line-height: 24px;
     color: rgba(83, 99, 135, 0.5);
     border: none;
-    /* Remove any default borders */
 }
 
 .formbold-form-file::-webkit-file-upload-button {

@@ -1,18 +1,7 @@
-// import { Component} from '@angular/core';
-
-// @Component({
-//   selector: 'app-admin-dashboard',
-//   templateUrl: './admin-dashboard.component.html',
-//   styleUrls: ['./admin-dashboard.component.css']
-// })
-// export class AdminDashboardComponent{
-
-// }
-
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationStatus, ApplicationStatusDisplay, HRInChargeDisplay, JobCandidate, SourcingToolDisplay } from '../../../models/job-candidate';
-import { JobRoles } from '../../../models/job-roles';
+import { JobRoles, JobStatus } from '../../../models/job-roles';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import * as echarts from 'echarts';
@@ -36,6 +25,7 @@ export class AdminDashboardComponent implements OnInit {
   @ViewChild('newCandidatesChart') newCandidatesChartElement!: ElementRef;
   @ViewChild('interviewChart') forInterviewChartElement!: ElementRef;
   @ViewChild('newHiresChart') newHiresChartElement!: ElementRef;
+  @ViewChild('activeJobsChart') activeJobsChart!: ElementRef;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -70,7 +60,7 @@ export class AdminDashboardComponent implements OnInit {
   startDate: Date | null = null;
   endDate: Date | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this.setDefaultDateRange();
@@ -84,7 +74,7 @@ export class AdminDashboardComponent implements OnInit {
     this.startDate = new Date();
     this.startDate.setDate(now.getDate() - 7); // Ensure startDate is 7 days ago
   }
-  
+
 
   ngAfterViewInit() {
     this.initializeCharts();
@@ -101,6 +91,7 @@ export class AdminDashboardComponent implements OnInit {
     this.renderNewCandidatesChart();
     this.renderForInterviewCandidatesChart();
     this.renderNewHiresLineChart();
+    this.renderActiveJobsChart();
   }
 
   fetchCandidates() {
@@ -194,7 +185,7 @@ export class AdminDashboardComponent implements OnInit {
       this.fetchJobRoles();
     }
   }
-  
+
 
   combineData() {
     const jobMap = new Map<string, any>();
@@ -279,7 +270,7 @@ export class AdminDashboardComponent implements OnInit {
     });
     return toolCounts;
   }
-  
+
   // 2. Fill Rate
   getFillRate(): number {
     const totalJobs = this.jobroles.length;
@@ -288,28 +279,28 @@ export class AdminDashboardComponent implements OnInit {
     ).length;
     return totalJobs > 0 ? (filledJobs / totalJobs) * 100 : 0;
   }
-  
+
 
   // 3. Applicant Funnel (Application Status)
   getApplicationStatusCount() {
     const statusCounts: { [key: string]: number } = {};
-  
+
     this.jobcandidates.forEach((candidate) => {
       const status = candidate.applicationStatus;
       const displayStatus = ApplicationStatusDisplay[status] || status; // Default to status if display mapping not found
       statusCounts[displayStatus] = (statusCounts[displayStatus] || 0) + 1;
     });
-  
+
     // Ensure all statuses are represented in the result, even if their count is zero
     Object.values(ApplicationStatusDisplay).forEach((displayStatus) => {
       if (!(displayStatus in statusCounts)) {
         statusCounts[displayStatus] = 0;
       }
     });
-  
+
     return statusCounts;
   }
-  
+
 
   // 4. Sourced by Recruiter
   getCandidatesSourcedByHr() {
@@ -321,7 +312,7 @@ export class AdminDashboardComponent implements OnInit {
     });
     return hrCounts;
   }
-  
+
 
   // 5. Total Number of Candidates per Position
   getCandidatesPerPosition() {
@@ -336,7 +327,11 @@ export class AdminDashboardComponent implements OnInit {
   // 6. Active Jobs
   getActiveJobsCount() {
     return this.jobroles.filter((role) =>
-      ['FilledPosition', 'Cancelled', 'OnHold'].includes(role.jobStatus)
+    [
+      JobStatus.SourcingCandidates,
+      JobStatus.ForClientPresentation,
+      JobStatus.ClientInterview
+    ].includes(role.jobStatus)
     ).length;
   }
   
@@ -352,14 +347,14 @@ export class AdminDashboardComponent implements OnInit {
       ].includes(candidate.applicationStatus)
     ).length;
   }
-  
+
   //8. Interviewed Candidates
   getInterviewedCandidates(): number {
     return this.jobcandidates.filter(
       (candidate) =>
         candidate.applicationStatus === ApplicationStatus.ClientInterview
     ).length;
-  }  
+  }
 
   // PROGRESS SECTION
 
@@ -370,7 +365,7 @@ export class AdminDashboardComponent implements OnInit {
       (candidate) => new Date(candidate.dateApplied) >= startDate
     ).length;
   }
-  
+
 
   // 2. For Interview Candidates
   getForInterviewCandidates(): number {
@@ -382,7 +377,7 @@ export class AdminDashboardComponent implements OnInit {
       ].includes(candidate.applicationStatus)
     ).length;
   }
-  
+
 
   // 3. Job Offer (Made, Accepted, Declined)
   getJobOffers() {
@@ -412,31 +407,22 @@ export class AdminDashboardComponent implements OnInit {
         candidate.applicationStatus === ApplicationStatusDisplay.Onboarded
     ).length;
   }
-  
-  // 5. Time to Fill (Job Roles)
-  // getTimeToFill(): string[] {
-  //   return this.jobroles
-  //     .filter(job => job.closedDate && job.openDate)
-  //     .map(job => {
-  //       const daysToFill = job.closedDate && job.openDate ? (new Date(job.closedDate).getTime() - new Date(job.openDate).getTime()) / (1000 * 60 * 60 * 24) : 0;
-  //       return `${job.jobName}: ${daysToFill} days`;
-  //     });
-  // }
 
+  // 5. Time to Fill (Job Roles)
   getTimeToFill() {
     return this.jobroles
       .filter((job) => job.closedDate && job.openDate) // Ensure both dates are present
       .map((job) => {
         const closedDate = job.closedDate ? new Date(job.closedDate) : null;
         const openDate = job.openDate ? new Date(job.openDate) : null;
-        
+
         if (closedDate !== null && openDate !== null && (isNaN(closedDate.getTime()) || isNaN(openDate.getTime()))) {
           return {
             jobName: job.jobName,
             timeToFill: 0, // Default to 0 if dates are invalid
           };
         }
-  
+
         const timeToFill =
           closedDate && openDate ? (closedDate.getTime() - openDate.getTime()) / (1000 * 60 * 60 * 24) : 0;
         return {
@@ -445,7 +431,7 @@ export class AdminDashboardComponent implements OnInit {
         };
       });
   }
-  
+
 
   // 6. Interview Planner
   getInterviewPlanner() {
@@ -462,23 +448,23 @@ export class AdminDashboardComponent implements OnInit {
     const currentDate = new Date();
     return this.jobroles.map((role) => {
       let postedDate = role.openDate ? new Date(role.openDate) : new Date(0);
-  
+
       // Validate the date
       if (isNaN(postedDate.getTime())) {
         postedDate = new Date(0); // Fallback to a default date if invalid
       }
-  
+
       // Calculate the number of days since the postedDate
       const timeDiff = currentDate.getTime() - postedDate.getTime();
       const daysAging = Math.floor(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days
-  
+
       return {
         jobName: role.jobName,
         aging: daysAging.toString(), // Convert number to string
       };
     });
   }
-  
+
 
   //Charts
   renderSourcingToolChart() {
@@ -1222,4 +1208,91 @@ export class AdminDashboardComponent implements OnInit {
       chart.resize();
     });
   }
+
+  renderActiveJobsChart(): void {
+    const chartElement = this.activeJobsChart.nativeElement;
+    let chart = echarts.getInstanceByDom(chartElement);
+  
+    if (chart) {
+      chart.dispose(); // Dispose of the chart if it exists
+    }
+  
+    chart = echarts.init(chartElement, null, {
+      devicePixelRatio: window.devicePixelRatio, // Ensure chart adjusts for screen resolution
+    });
+  
+    const activeJobsCount = this.getActiveJobsCount();
+  
+    const chartOptions = {
+      title: {
+        text: `${activeJobsCount}`,
+        subtext: 'Active Jobs',
+        left: '49%',
+        top: '30%', // Center vertically
+        textAlign: 'center',
+        textStyle: {
+          fontSize: 70,
+          fontWeight: 'bold',
+        },
+        subtextStyle: {
+          fontSize: 18,
+          color: '#999',
+        },
+      },
+      tooltip: {
+        show: false, // Disable tooltip since it's unnecessary
+      },
+      legend: {
+        show: false, // Hide the legend
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['60%', '70%'], // Make the donut chart
+          center: ['50%', '40%'],
+          data: [
+            {
+              value: activeJobsCount,
+              name: 'Active Jobs',
+              itemStyle: { color: '#81c784' }, // Green color for active jobs
+            },
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+            },
+          },
+          label: {
+            show: false, // Hide labels
+          },
+          labelLine: {
+            show: false, // Hide label lines
+          },
+        },
+      ],
+      graphic: [
+        {
+          type: 'text',
+          bottom: '10%', // Position this based on your needs
+          left: 'center',
+          style: {
+            text: `${activeJobsCount} Active Jobs`,
+            textAlign: 'center',
+            fill: '#333',
+            fontSize: 18,
+          },
+        },
+      ],
+    };
+  
+    chart.setOption(chartOptions);
+  
+    // Re-center the chart on window resize
+    window.addEventListener('resize', () => {
+      chart.resize();
+    });
+  }
+  
 }
